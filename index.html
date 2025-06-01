@@ -34,6 +34,115 @@
             align-items: center;
             gap: 0.5rem;
         }
+        /* Nouveau bouton "À propos" */
+        .btn-about {
+            background: var(--accent);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+        .btn-about:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+        }
+        /* Modal styles */
+        .modal-apropos {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.3);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-apropos.active {
+            display: flex;
+        }
+        .modal-content-apropos {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            padding: 2rem 2.5rem;
+            max-width: 400px;
+            width: 90vw;
+            position: relative;
+            text-align: center;
+            animation: fadeInUp 0.4s;
+        }
+        .modal-content-apropos h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+        .modal-content-apropos p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .modal-apropos .close-modal {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+    </style>
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --primary-dark: #2563EB;
+            --secondary: #10B981;
+            --secondary-dark: #059669;
+            --accent: #F59E0B;
+            --accent-dark: #D97706;
+            --background: #F8FAFC;
+            --surface: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #64748B;
+            --border: #E2E8F0;
+            --border-light: #F1F5F9;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        /* ... (reste du CSS inchangé) ... */
+    </style>
+     <style>
+        /* ... (le CSS reste inchangé, voir les versions précédentes) ... */
+        .country-flag {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 0.5rem;
+            width: 32px;
+            height: 22px;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+            background-size: cover;
+            background-position: 50% 50%;
+            border: 1px solid var(--border);
+        }
+        .form-group-country {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+        }
+        .form-country-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
     </style>
     <style>
         :root {
@@ -517,12 +626,31 @@
                 <i class="fas fa-store"></i>
                 <span>BIENVENUE A VOUS SUR ALLs '' Un marché pour tous''</span>
             </div>
-            <button class="btn btn-primary" id="toggle-form-btn">
-                <i class="fas fa-plus"></i>
-                Publier un article
-            </button>
+            <div style="display: flex; align-items: center;">
+                <button class="btn btn-primary" id="toggle-form-btn">
+                    <i class="fas fa-plus"></i>
+                    Publier un article
+                </button>
+                <a href="apropos.html" class="btn-about" style="text-decoration: none;">
+    <i class="fas fa-info-circle"></i>
+    À propos
+</a>
+                </button>
+            </div>
         </div>
     </header>
+
+    <!-- Modal À propos -->
+    <div class="modal-apropos" id="modal-apropos">
+        <div class="modal-content-apropos">
+            <button class="close-modal" id="close-apropos" aria-label="Fermer">&times;</button>
+            <h3>À propos de Alls</h3>
+            <p>
+                Alls est une plateforme de marché libre permettant à tous de publier et consulter des articles en toute simplicité.<br>
+                Achetez, vendez et échangez facilement, partout et à tout moment !
+            </p>
+        </div>
+    </div>
 
     <main class="main">
         <!-- Form Section -->
@@ -542,7 +670,6 @@
                                 </label>
                                 <input type="text" id="nom" class="form-input" placeholder="Ex: iPhone 14 Pro Max" required />
                             </div>
-                            
                             <div class="form-group-country">
                                 <label class="form-label">
                                     <i class="fas fa-globe"></i>
@@ -552,18 +679,17 @@
                                     <select id="pays" class="form-input" required>
                                         <option value="" data-flag="">-- Choisissez un pays --</option>
                                         <option value="CI" data-flag="https://flagcdn.com/ci.svg" data-indicatif="+225">Côte d'Ivoire</option>
-<option value="SN" data-flag="https://flagcdn.com/sn.svg" data-indicatif="+221">Sénégal</option>
-<option value="BJ" data-flag="https://flagcdn.com/bj.svg" data-indicatif="+229">Bénin</option>
-<option value="TG" data-flag="https://flagcdn.com/tg.svg" data-indicatif="+228">Togo</option>
-<option value="CI" data-flag="https://flagcdn.com/ci.svg" data-indicatif="+225">Côte d'Ivoire</option>
-<option value="CM" data-flag="https://flagcdn.com/cm.svg" data-indicatif="+237">Cameroun</option>
-<option value="FR" data-flag="https://flagcdn.com/fr.svg" data-indicatif="+33">France</option>
-<option value="BF" data-flag="https://flagcdn.com/bf.svg" data-indicatif="+226">Burkina Faso</option>
+                                        <option value="SN" data-flag="https://flagcdn.com/sn.svg" data-indicatif="+221">Sénégal</option>
+                                        <option value="BJ" data-flag="https://flagcdn.com/bj.svg" data-indicatif="+229">Bénin</option>
+                                        <option value="TG" data-flag="https://flagcdn.com/tg.svg" data-indicatif="+228">Togo</option>
+                                        <option value="CI" data-flag="https://flagcdn.com/ci.svg" data-indicatif="+225">Côte d'Ivoire</option>
+                                        <option value="CM" data-flag="https://flagcdn.com/cm.svg" data-indicatif="+237">Cameroun</option>
+                                        <option value="FR" data-flag="https://flagcdn.com/fr.svg" data-indicatif="+33">France</option>
+                                        <option value="BF" data-flag="https://flagcdn.com/bf.svg" data-indicatif="+226">Burkina Faso</option>
                                     </select>
                                     <span id="flag-container"></span>
                                 </div>
                             </div>
-                            
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-money-bill-wave"></i>
@@ -571,7 +697,6 @@
                                 </label>
                                 <input type="number" id="prix" class="form-input" placeholder="Ex: 450000" required />
                             </div>
-                            
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-phone"></i>
@@ -579,7 +704,6 @@
                                 </label>
                                 <input type="text" id="contact" class="form-input" placeholder="Ex: +225XXXXXXXX ou email@example.com" required />
                             </div>
-                            
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-camera"></i>
@@ -589,7 +713,6 @@
                                 <small style="color: var(--text-secondary); font-size: 0.75rem;">Maximum 200Ko (sera automatiquement ajustée si besoin)</small>
                             </div>
                         </div>
-                        
                         <div class="form-actions">
                             <button type="button" class="btn btn-secondary" id="cancel-btn">
                                 <i class="fas fa-times"></i>
