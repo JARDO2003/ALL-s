@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>À propos de ALLS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome pour les icônes -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3B82F6;
+            --primary-dark: #2563EB;
+            --secondary: #10B981;
+            --secondary-dark: #059669;
+            --accent: #F59E0B;
+            --accent-dark: #D97706;
+            --background: #F8FAFC;
+            --surface: #FFFFFF;
+            --text-primary: #1E293B;
+            --text-secondary: #64748B;
+            --border: #E2E8F0;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem 0 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(59,130,246,0.08);
+        }
+        header .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        main {
+            max-width: 700px;
+            margin: 2.5rem auto 0 auto;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            border-radius: 1.2rem;
+            padding: 2.5rem 2.2rem 2rem 2.2rem;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.7rem;
+            font-weight: 700;
+        }
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2.2rem;
+            font-size: 1.15rem;
+        }
+        .apropos-text {
+            font-size: 1.08rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+        .contact {
+            background: var(--background);
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--accent);
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 420px;
+        }
+        .contact i {
+            color: var(--accent-dark);
+            font-size: 1.3rem;
+        }
+        @media (max-width: 600px) {
+            main {
+                padding: 1.2rem 0.8rem;
+            }
+        }
+        a.back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.13s;
+            font-size: 1rem;
+        }
+        a.back-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="icon"><i class="fas fa-store"></i></div>
+        <h1>À propos de ALLS</h1>
+        <div class="subtitle">Le marché ouvert à tous, sans inscription ni frontière</div>
+    </header>
+    <main>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i>Retour à l’accueil</a>
+        <div class="apropos-text">
+            Fondé en 2025 par Monsieur Jardel, ALLS est un site web conçu pour offrir à chacun un espace de mise en relation directe entre vendeurs et acheteurs, sans aucune contrainte d’inscription ni gestion de transaction en ligne. Cette plateforme innovante permet à toute personne, quel que soit son profil ou sa localisation, de publier gratuitement des annonces ou de consulter celles mises en ligne par d’autres utilisateurs.<br><br>
+            L’un des grands avantages d’ALLS réside dans sa simplicité d’utilisation : il n’est nul besoin de créer un compte ou de fournir des informations personnelles pour accéder au service. Chacun peut, en toute liberté, proposer ses articles à la vente ou rechercher des biens selon ses besoins et ses envies. Les échanges se font directement entre particuliers, sans intermédiaire, favorisant ainsi la rapidité et la confiance dans la prise de contact.<br><br>
+            ALLS encourage la liberté d’échange, la transparence et l’accessibilité, permettant à tous de profiter des opportunités du marché sans barrières administratives ni restrictions techniques. Notre site se veut inclusif, convivial et ouvert sur le monde, afin de dynamiser le commerce local aussi bien qu’international.<br><br>
+            Aucune transaction n’est effectuée via la plateforme : acheteurs et vendeurs conviennent eux-mêmes des modalités d’échange ou de paiement, dans le respect mutuel. ALLS s’affirme ainsi comme un outil facilitateur, mettant l’accent sur la mise en relation et la simplicité.<br><br>
+            N’hésitez pas à me contacter pour toute question ou suggestion à l’adresse suivante :
+        </div>
+        <div class="contact">
+            <i class="fas fa-envelope"></i>
+            <span>zinzindohouemarcio@gmail.com</span>
+        </div>
+    </main>
+</body>
+</html>
