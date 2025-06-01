@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,6 +9,32 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <style>
+        /* ... (le CSS reste inchangé, voir les versions précédentes) ... */
+        .country-flag {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 0.5rem;
+            width: 32px;
+            height: 22px;
+            border-radius: 3px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+            background-size: cover;
+            background-position: 50% 50%;
+            border: 1px solid var(--border);
+        }
+        .form-group-country {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: relative;
+        }
+        .form-country-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
     <style>
         :root {
             --primary: #3B82F6;
@@ -486,6 +511,8 @@
     </style>
 </head>
 <body>
+</head>
+<body>
     <header class="header">
         <div class="header-content">
             <div class="logo">
@@ -518,6 +545,25 @@
                                 <input type="text" id="nom" class="form-input" placeholder="Ex: iPhone 14 Pro Max" required />
                             </div>
                             
+                            <div class="form-group-country">
+                                <label class="form-label">
+                                    <i class="fas fa-globe"></i>
+                                    Pays <span class="required">*</span>
+                                </label>
+                                <div class="form-country-row">
+                                    <select id="pays" class="form-input" required>
+                                        <option value="" data-flag="">-- Choisissez un pays --</option>
+                                        <option value="CI" data-flag="https://flagcdn.com/ci.svg">Côte d'Ivoire</option>
+                                        <option value="SN" data-flag="https://flagcdn.com/sn.svg">Sénégal</option>
+                                        <option value="CM" data-flag="https://flagcdn.com/cm.svg">Cameroun</option>
+                                        <option value="BF" data-flag="https://flagcdn.com/bf.svg">Burkina Faso</option>
+                                        <option value="ML" data-flag="https://flagcdn.com/ml.svg">Mali</option>
+                                        <option value="FR" data-flag="https://flagcdn.com/fr.svg">France</option>
+                                    </select>
+                                    <span id="flag-container"></span>
+                                </div>
+                            </div>
+                            
                             <div class="form-group">
                                 <label class="form-label">
                                     <i class="fas fa-money-bill-wave"></i>
@@ -540,7 +586,7 @@
                                     Photo de l'article <span class="required">*</span>
                                 </label>
                                 <input type="file" id="photo" class="form-input" accept="image/*" required />
-                                <small style="color: var(--text-secondary); font-size: 0.75rem;">Maximum 200Ko</small>
+                                <small style="color: var(--text-secondary); font-size: 0.75rem;">Maximum 200Ko (sera automatiquement ajustée si besoin)</small>
                             </div>
                         </div>
                         
@@ -609,10 +655,8 @@
             loading: true
         };
 
-        // Gestionnaire d'affichage du formulaire
-        function toggleForm() {
-            state.formVisible = !state.formVisible;
-            
+        function toggleForm(autoShow = false) {
+            state.formVisible = autoShow ? true : !state.formVisible;
             if (state.formVisible) {
                 elements.formSection.classList.remove('hidden');
                 elements.toggleBtn.innerHTML = '<i class="fas fa-times"></i> Fermer le formulaire';
@@ -626,37 +670,54 @@
         function initFormHandlers() {
             const form = document.getElementById('article-form');
             const cancelBtn = document.getElementById('cancel-btn');
-            
+            const paysSelect = document.getElementById('pays');
+            const flagContainer = document.getElementById('flag-container');
+
             if (form && !form.dataset.initialized) {
                 form.addEventListener('submit', handleFormSubmit);
                 form.dataset.initialized = 'true';
             }
-            
+
             if (cancelBtn) {
-                cancelBtn.onclick = toggleForm;
+                cancelBtn.onclick = () => toggleForm(false);
+            }
+
+            if (paysSelect && flagContainer) {
+                paysSelect.addEventListener('change', function () {
+                    const selectedOption = paysSelect.options[paysSelect.selectedIndex];
+                    const flagUrl = selectedOption.getAttribute('data-flag');
+                    flagContainer.innerHTML = flagUrl ? `<span class="country-flag" style="background-image:url('${flagUrl}')"></span>` : '';
+                });
             }
         }
 
         async function handleFormSubmit(e) {
             e.preventDefault();
-            
+
             const formData = {
                 nom: document.getElementById("nom").value.trim(),
+                pays: document.getElementById("pays").value,
                 prix: document.getElementById("prix").value.trim(),
                 contact: document.getElementById("contact").value.trim(),
                 photo: document.getElementById("photo").files[0]
             };
 
             const submitBtn = document.getElementById("submit-btn");
-            
+
             // Validation
-            if (!formData.nom || !formData.prix || !formData.contact || !formData.photo) {
+            if (!formData.nom || !formData.prix || !formData.contact || !formData.photo || !formData.pays) {
                 alert("Tous les champs sont obligatoires !");
                 return;
             }
 
-            if (formData.photo.size > 200 * 1024) {
-                alert("La photo doit faire moins de 200Ko.");
+            // Redimensionner et compresser l'image si > 200Ko
+            let photoDataUrl;
+            try {
+                photoDataUrl = await compressImageToUnder200KB(formData.photo);
+            } catch (error) {
+                alert("Impossible de traiter l'image. Essayez avec une autre photo.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Publier l\'article';
                 return;
             }
 
@@ -665,14 +726,16 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...';
 
             try {
-                // Conversion de l'image en base64
-                const photoDataUrl = await fileToBase64(formData.photo);
-                
-                // Création de l'article
+                const paysSelect = document.getElementById("pays");
+                const selectedOption = paysSelect.options[paysSelect.selectedIndex];
+                const flagUrl = selectedOption.getAttribute('data-flag') || '';
+
                 const newArticleRef = db.ref("articles").push();
                 const articleData = {
                     id: newArticleRef.key,
                     nom: formData.nom,
+                    pays: formData.pays,
+                    flagUrl: flagUrl,
                     prix: formData.prix,
                     contact: formData.contact,
                     photoDataUrl: photoDataUrl,
@@ -680,14 +743,13 @@
                 };
 
                 await newArticleRef.set(articleData);
-                
-                // Réinitialisation du formulaire
+
                 document.getElementById('article-form').reset();
-                toggleForm();
-                
-                // Notification de succès (optionnel)
+                document.getElementById('flag-container').innerHTML = '';
+                toggleForm(false);
+
                 showNotification('Article publié avec succès !', 'success');
-                
+
             } catch (error) {
                 console.error('Erreur lors de la publication:', error);
                 alert("Erreur lors de la publication. Veuillez réessayer.");
@@ -697,10 +759,50 @@
             }
         }
 
-        function fileToBase64(file) {
+        // Fonction pour compresser/redimensionner l'image en moins de 200ko
+        function compressImageToUnder200KB(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        let canvas = document.createElement('canvas');
+                        let ctx = canvas.getContext('2d');
+                        let width = img.width;
+                        let height = img.height;
+                        let maxAttempts = 10;
+                        let attempt = 0;
+                        let quality = 0.92; // start high, decrease if needed
+
+                        function tryCompress() {
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.clearRect(0, 0, width, height);
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                            let size = Math.ceil((dataUrl.length - 'data:image/jpeg;base64,'.length) * 3 / 4);
+
+                            // Si <= 200ko, nickel, sinon on réduit qualité et/ou taille
+                            if (size <= 200*1024 || attempt >= maxAttempts) {
+                                resolve(dataUrl);
+                            } else {
+                                // Réduire la qualité ou la taille
+                                if (quality > 0.5) {
+                                    quality -= 0.08;
+                                } else {
+                                    width *= 0.85;
+                                    height *= 0.85;
+                                }
+                                attempt++;
+                                setTimeout(tryCompress, 0);
+                            }
+                        }
+                        tryCompress();
+                    };
+                    img.onerror = reject;
+                    img.src = event.target.result;
+                };
                 reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
@@ -709,7 +811,7 @@
         function getContactLink(article) {
             const isWhatsApp = article.contact && (article.contact.includes("+") || /^\d{8,15}$/.test(article.contact));
             const message = encodeURIComponent(`Bonjour, je suis intéressé par l'article "${article.nom}" (${article.prix} FCFA), ID: ${article.id} (vu sur Alls).`);
-            
+
             if (isWhatsApp) {
                 const tel = article.contact.replace(/[^0-9+]/g, "");
                 return `<a href="https://wa.me/${tel}?text=${message}" target="_blank" rel="noopener noreferrer" class="contact-link contact-whatsapp">
@@ -732,14 +834,15 @@
                     <img src="${article.photoDataUrl}" alt="${article.nom}" class="article-image" loading="lazy" />
                     <div class="article-content">
                         <h3 class="article-title">${article.nom}</h3>
-                        <div class="article-price">${parseInt(article.prix).toLocaleString()} FCFA</div>
-                        <div class="article-id">ID: ${article.id}</div>
-                        
+                        <div class="article-price">
+                            ${parseInt(article.prix).toLocaleString()} FCFA
+                            ${article.flagUrl ? `<span class="country-flag" style="background-image:url('${article.flagUrl}')"></span>` : ''}
+                        </div>
+                        <div class="article-id">ID: ${article.id} ${article.pays ? '- ' + article.pays : ''}</div>
                         <div class="article-contact">
                             <div class="contact-label">Contact :</div>
                             ${getContactLink(article)}
                         </div>
-                        
                         <div class="article-actions">
                             <button class="btn btn-warning" onclick="commanderArticle('${article.id}')" style="flex: 1;">
                                 <i class="fas fa-shopping-cart"></i>
@@ -757,9 +860,9 @@
 
             const subject = encodeURIComponent(`Commande de l'article Alls N°${article.id}`);
             const message = encodeURIComponent(`Bonjour, je souhaite commander l'article "${article.nom}" (${article.prix} FCFA), ID: ${article.id} (vu sur Alls).`);
-            
+
             const isWhatsApp = article.contact && (article.contact.includes("+") || /^\d{8,15}$/.test(article.contact));
-            
+
             if (isWhatsApp) {
                 const tel = article.contact.replace(/[^0-9+]/g, "");
                 window.open(`https://wa.me/${tel}?text=${message}`, "_blank");
@@ -770,7 +873,7 @@
 
         function renderArticles() {
             const articlesArray = Object.values(state.articles).sort((a, b) => b.createdAt - a.createdAt);
-            
+
             if (articlesArray.length === 0) {
                 elements.articlesContainer.innerHTML = `
                     <div class="empty-state">
@@ -790,15 +893,11 @@
         }
 
         function initializeApp() {
-            // Event listeners
-            elements.toggleBtn.addEventListener('click', toggleForm);
-            
-            // Chargement initial des articles
+            elements.toggleBtn.addEventListener('click', () => toggleForm(true));
             loadArticles();
         }
 
         function loadArticles() {
-            // Chargement initial
             db.ref('articles').once('value')
                 .then(snapshot => {
                     state.articles = {};
@@ -821,19 +920,15 @@
                     `;
                 });
 
-            // Écoute en temps réel pour les nouveaux articles
             db.ref('articles').on('child_added', snapshot => {
                 const article = snapshot.val();
                 article.id = snapshot.key;
-                
-                // Éviter les doublons lors du chargement initial
                 if (!state.loading && !state.articles[article.id]) {
                     state.articles[article.id] = article;
                     renderArticles();
                 }
             });
 
-            // Écoute en temps réel pour les suppressions
             db.ref('articles').on('child_removed', snapshot => {
                 const articleId = snapshot.key;
                 if (state.articles[articleId]) {
@@ -843,10 +938,7 @@
             });
         }
 
-        // Rendre la fonction globale pour les onclick
         window.commanderArticle = commanderArticle;
-
-        // Initialisation de l'application
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
