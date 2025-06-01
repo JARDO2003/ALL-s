@@ -551,12 +551,14 @@
                                 <div class="form-country-row">
                                     <select id="pays" class="form-input" required>
                                         <option value="" data-flag="">-- Choisissez un pays --</option>
-                                        <option value="CI" data-flag="https://flagcdn.com/ci.svg">Côte d'Ivoire</option>
-                                        <option value="SN" data-flag="https://flagcdn.com/sn.svg">Sénégal</option>
-                                        <option value="CM" data-flag="https://flagcdn.com/cm.svg">Cameroun</option>
-                                        <option value="BF" data-flag="https://flagcdn.com/bf.svg">Burkina Faso</option>
-                                        <option value="ML" data-flag="https://flagcdn.com/ml.svg">Mali</option>
-                                        <option value="FR" data-flag="https://flagcdn.com/fr.svg">France</option>
+                                        <option value="CI" data-flag="https://flagcdn.com/ci.svg" data-indicatif="+225">Côte d'Ivoire</option>
+<option value="SN" data-flag="https://flagcdn.com/sn.svg" data-indicatif="+221">Sénégal</option>
+<option value="BJ" data-flag="https://flagcdn.com/bj.svg" data-indicatif="+229">Bénin</option>
+<option value="TG" data-flag="https://flagcdn.com/tg.svg" data-indicatif="+228">Togo</option>
+<option value="CI" data-flag="https://flagcdn.com/ci.svg" data-indicatif="+225">Côte d'Ivoire</option>
+<option value="CM" data-flag="https://flagcdn.com/cm.svg" data-indicatif="+237">Cameroun</option>
+<option value="FR" data-flag="https://flagcdn.com/fr.svg" data-indicatif="+33">France</option>
+<option value="BF" data-flag="https://flagcdn.com/bf.svg" data-indicatif="+226">Burkina Faso</option>
                                     </select>
                                     <span id="flag-container"></span>
                                 </div>
@@ -621,380 +623,396 @@
     <footer class="footer">
         <p>&copy; 2025 Alls - Marché ouvert à tous. Plateforme de commerce en ligne.</p>
     </footer>
+<script>
+    // Configuration Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyAj_JRgQupGeETFrVz1IbcEC1HZSRKur5E",
+    authDomain: "marcher-5a39b.firebaseapp.com",
+    databaseURL: "https://marcher-5a39b-default-rtdb.firebaseio.com",
+    projectId: "marcher-5a39b",
+    storageBucket: "marcher-5a39b.appspot.com",
+    messagingSenderId: "133904247907",
+    appId: "1:133904247907:web:da360e798307fb982e1c56",
+    measurementId: "G-BH7H6FQ6VX"
+};
 
-    <script>
-        // Configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyAj_JRgQupGeETFrVz1IbcEC1HZSRKur5E",
-            authDomain: "marcher-5a39b.firebaseapp.com",
-            databaseURL: "https://marcher-5a39b-default-rtdb.firebaseio.com",
-            projectId: "marcher-5a39b",
-            storageBucket: "marcher-5a39b.appspot.com",
-            messagingSenderId: "133904247907",
-            appId: "1:133904247907:web:da360e798307fb982e1c56",
-            measurementId: "G-BH7H6FQ6VX"
-        };
+// Initialisation Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-        // Initialisation Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+// Variables globales
+const elements = {
+    formSection: document.getElementById("form-section"),
+    toggleBtn: document.getElementById("toggle-form-btn"),
+    articlesContainer: document.getElementById("articles"),
+    articleForm: null
+};
 
-        // Variables globales
-        const elements = {
-            formSection: document.getElementById("form-section"),
-            toggleBtn: document.getElementById("toggle-form-btn"),
-            articlesContainer: document.getElementById("articles"),
-            articleForm: null
-        };
+let state = {
+    formVisible: false,
+    articles: {},
+    loading: true
+};
 
-        let state = {
-            formVisible: false,
-            articles: {},
-            loading: true
-        };
+function toggleForm(autoShow = false) {
+    state.formVisible = autoShow ? true : !state.formVisible;
+    if (state.formVisible) {
+        elements.formSection.classList.remove('hidden');
+        elements.toggleBtn.innerHTML = '<i class="fas fa-times"></i> Fermer le formulaire';
+        initFormHandlers();
 
-        function toggleForm(autoShow = false) {
-            state.formVisible = autoShow ? true : !state.formVisible;
-            if (state.formVisible) {
-                elements.formSection.classList.remove('hidden');
-                elements.toggleBtn.innerHTML = '<i class="fas fa-times"></i> Fermer le formulaire';
-                initFormHandlers();
-                
-                // Scroll automatique vers le formulaire
-                setTimeout(() => {
-                    elements.formSection.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start' 
-                    });
-                }, 100);
-            } else {
-                elements.formSection.classList.add('hidden');
-                elements.toggleBtn.innerHTML = '<i class="fas fa-plus"></i> Publier un article';
-            }
-        }
-
-        function initFormHandlers() {
-            const form = document.getElementById('article-form');
-            const cancelBtn = document.getElementById('cancel-btn');
-            const paysSelect = document.getElementById('pays');
-            const flagContainer = document.getElementById('flag-container');
-
-            if (form && !form.dataset.initialized) {
-                form.addEventListener('submit', handleFormSubmit);
-                form.dataset.initialized = 'true';
-            }
-
-            if (cancelBtn) {
-                cancelBtn.onclick = () => toggleForm(false);
-            }
-
-            if (paysSelect && flagContainer) {
-                paysSelect.addEventListener('change', function () {
-                    const selectedOption = paysSelect.options[paysSelect.selectedIndex];
-                    const flagUrl = selectedOption.getAttribute('data-flag');
-                    flagContainer.innerHTML = flagUrl ? `<span class="country-flag" style="background-image:url('${flagUrl}')"></span>` : '';
-                });
-            }
-        }
-
-        async function handleFormSubmit(e) {
-            e.preventDefault();
-
-            const formData = {
-                nom: document.getElementById("nom").value.trim(),
-                pays: document.getElementById("pays").value,
-                prix: document.getElementById("prix").value.trim(),
-                contact: document.getElementById("contact").value.trim(),
-                photo: document.getElementById("photo").files[0]
-            };
-
-            const submitBtn = document.getElementById("submit-btn");
-
-            // Validation
-            if (!formData.nom || !formData.prix || !formData.contact || !formData.photo || !formData.pays) {
-                alert("Tous les champs sont obligatoires !");
-                return;
-            }
-
-            // Redimensionner et compresser l'image si > 200Ko
-            let photoDataUrl;
-            try {
-                photoDataUrl = await compressImageToUnder200KB(formData.photo);
-            } catch (error) {
-                alert("Impossible de traiter l'image. Essayez avec une autre photo.");
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-check"></i> Publier l\'article';
-                return;
-            }
-
-            // État de chargement
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...';
-
-            try {
-                const paysSelect = document.getElementById("pays");
-                const selectedOption = paysSelect.options[paysSelect.selectedIndex];
-                const flagUrl = selectedOption.getAttribute('data-flag') || '';
-
-                const newArticleRef = db.ref("articles").push();
-                const articleData = {
-                    id: newArticleRef.key,
-                    nom: formData.nom,
-                    pays: formData.pays,
-                    flagUrl: flagUrl,
-                    prix: formData.prix,
-                    contact: formData.contact,
-                    photoDataUrl: photoDataUrl,
-                    createdAt: Date.now()
-                };
-
-                await newArticleRef.set(articleData);
-
-                document.getElementById('article-form').reset();
-                document.getElementById('flag-container').innerHTML = '';
-                toggleForm(false);
-
-                showNotification('Article publié avec succès !', 'success');
-
-            } catch (error) {
-                console.error('Erreur lors de la publication:', error);
-                alert("Erreur lors de la publication. Veuillez réessayer.");
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-check"></i> Publier l\'article';
-            }
-        }
-
-        // Fonction pour compresser/redimensionner l'image en moins de 200ko
-        function compressImageToUnder200KB(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const img = new Image();
-                    img.onload = function() {
-                        let canvas = document.createElement('canvas');
-                        let ctx = canvas.getContext('2d');
-                        let width = img.width;
-                        let height = img.height;
-                        let maxAttempts = 10;
-                        let attempt = 0;
-                        let quality = 0.92; // start high, decrease if needed
-
-                        function tryCompress() {
-                            canvas.width = width;
-                            canvas.height = height;
-                            ctx.clearRect(0, 0, width, height);
-                            ctx.drawImage(img, 0, 0, width, height);
-
-                            let dataUrl = canvas.toDataURL('image/jpeg', quality);
-                            let size = Math.ceil((dataUrl.length - 'data:image/jpeg;base64,'.length) * 3 / 4);
-
-                            // Si <= 200ko, nickel, sinon on réduit qualité et/ou taille
-                            if (size <= 200*1024 || attempt >= maxAttempts) {
-                                resolve(dataUrl);
-                            } else {
-                                // Réduire la qualité ou la taille
-                                if (quality > 0.5) {
-                                    quality -= 0.08;
-                                } else {
-                                    width *= 0.85;
-                                    height *= 0.85;
-                                }
-                                attempt++;
-                                setTimeout(tryCompress, 0);
-                            }
-                        }
-                        tryCompress();
-                    };
-                    img.onerror = reject;
-                    img.src = event.target.result;
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
+        // Scroll automatique vers le formulaire
+        setTimeout(() => {
+            elements.formSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
-        }
+        }, 100);
+    } else {
+        elements.formSection.classList.add('hidden');
+        elements.toggleBtn.innerHTML = '<i class="fas fa-plus"></i> Publier un article';
+    }
+}
 
-        function getContactLink(article) {
-            const isWhatsApp = article.contact && (article.contact.includes("+") || /^\d{8,15}$/.test(article.contact));
-            const message = encodeURIComponent(`Bonjour, je suis intéressé par l'article "${article.nom}" (${article.prix} FCFA), ID: ${article.id} (vu sur Alls).`);
+function initFormHandlers() {
+    const form = document.getElementById('article-form');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const paysSelect = document.getElementById('pays');
+    const flagContainer = document.getElementById('flag-container');
 
-            if (isWhatsApp) {
-                const tel = article.contact.replace(/[^0-9+]/g, "");
-                return `<a href="https://wa.me/${tel}?text=${message}" target="_blank" rel="noopener noreferrer" class="contact-link contact-whatsapp">
-                    <i class="fab fa-whatsapp"></i>
-                    ${article.contact}
-                </a>`;
-            } else {
-                 const subject = encodeURIComponent(`Commande de l'article Alls N°${article.id}`);
-                const emailBody = encodeURIComponent(`Bonjour, je souhaite commander l'article "${article.nom}" (${article.prix} FCFA), ID: ${article.id} (vu sur Alls).`);
-                return `<a href="mailto:${article.contact}?subject=${subject}&body=${emailBody}" class="contact-link contact-email">
-                    <i class="fas fa-envelope"></i>
-                    ${article.contact}
-                </a>`;
+    if (form && !form.dataset.initialized) {
+        form.addEventListener('submit', handleFormSubmit);
+        form.dataset.initialized = 'true';
+    }
+
+    if (cancelBtn) {
+        cancelBtn.onclick = () => toggleForm(false);
+    }
+
+    if (paysSelect && flagContainer) {
+        paysSelect.addEventListener('change', function () {
+            const selectedOption = paysSelect.options[paysSelect.selectedIndex];
+            const flagUrl = selectedOption.getAttribute('data-flag');
+            flagContainer.innerHTML = flagUrl ? `<span class="country-flag" style="background-image:url('${flagUrl}')"></span>` : '';
+
+            // --- Début auto-remplissage de l'indicatif ---
+            const indicatif = selectedOption.getAttribute('data-indicatif');
+            const contactInput = document.getElementById('contact');
+            // On ne remplit que si le champ est vide ou ne commence pas déjà par '+'
+            if (
+                indicatif &&
+                contactInput &&
+                (
+                    contactInput.value.trim() === '' ||
+                    contactInput.value.trim().charAt(0) !== '+'
+                )
+            ) {
+                contactInput.value = indicatif;
+                contactInput.focus();
+                // Place le curseur à la fin de l'indicatif
+                contactInput.setSelectionRange(contactInput.value.length, contactInput.value.length);
             }
-        }
+            // --- Fin auto-remplissage de l'indicatif ---
+        });
+    }
+}
 
-        function renderArticle(article) {
-            return `
-                <div class="article-card fade-in" id="article-${article.id}">
-                    <img src="${article.photoDataUrl}" alt="${article.nom}" class="article-image clickable-article-image" data-img="${article.photoDataUrl}" loading="lazy" />
-                    <div class="article-content">
-                        <h3 class="article-title">${article.nom}</h3>
-                        <div class="article-price">
-                            ${parseInt(article.prix).toLocaleString()} FCFA
-                            ${article.flagUrl ? `<span class="country-flag" style="background-image:url('${article.flagUrl}')"></span>` : ''}
-                        </div>
-                        <div class="article-id">ID: ${article.id} ${article.pays ? '- ' + article.pays : ''}</div>
-                        <div class="article-contact">
-                            <div class="contact-label">Contact :</div>
-                            ${getContactLink(article)}
-                        </div>
-                        <div class="article-actions">
-                            <button class="btn btn-warning" onclick="commanderArticle('${article.id}')" style="flex: 1;">
-                                <i class="fas fa-shopping-cart"></i>
-                                Commander
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+async function handleFormSubmit(e) {
+    e.preventDefault();
 
-        // Modal pour agrandir la photo
-        function createImageModal() {
-            if (document.getElementById('image-modal')) return;
-            const modal = document.createElement('div');
-            modal.id = 'image-modal';
-            modal.style.display = 'none';
-            modal.style.position = 'fixed';
-            modal.style.top = '0';
-            modal.style.left = '0';
-            modal.style.width = '100vw';
-            modal.style.height = '100vh';
-            modal.style.background = 'rgba(0,0,0,0.8)';
-            modal.style.zIndex = '10000';
-            modal.style.justifyContent = 'center';
-            modal.style.alignItems = 'center';
-            modal.style.cursor = 'zoom-out';
+    const formData = {
+        nom: document.getElementById("nom").value.trim(),
+        pays: document.getElementById("pays").value,
+        prix: document.getElementById("prix").value.trim(),
+        contact: document.getElementById("contact").value.trim(),
+        photo: document.getElementById("photo").files[0]
+    };
 
-            modal.innerHTML = `
-                <img id="modal-image" src="" alt="Agrandissement" style="max-width:90vw;max-height:90vh;box-shadow:0 4px 32px #000;" />
-            `;
+    const submitBtn = document.getElementById("submit-btn");
 
-            modal.onclick = function() {
-                modal.style.display = 'none';
-                document.getElementById('modal-image').src = '';
-                document.body.style.overflow = '';
-            };
+    // Validation
+    if (!formData.nom || !formData.prix || !formData.contact || !formData.photo || !formData.pays) {
+        alert("Tous les champs sont obligatoires !");
+        return;
+    }
 
-            document.body.appendChild(modal);
-        }
+    // Redimensionner et compresser l'image si > 200Ko
+    let photoDataUrl;
+    try {
+        photoDataUrl = await compressImageToUnder200KB(formData.photo);
+    } catch (error) {
+        alert("Impossible de traiter l'image. Essayez avec une autre photo.");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Publier l\'article';
+        return;
+    }
 
-        function setupBigImageOnClick() {
-            createImageModal();
-            document.querySelectorAll('.clickable-article-image').forEach(img => {
-                img.onclick = function(e) {
-                    e.stopPropagation();
-                    const src = this.getAttribute('data-img');
-                    const modal = document.getElementById('image-modal');
-                    const modalImg = document.getElementById('modal-image');
-                    if (src && modal && modalImg) {
-                        modalImg.src = src;
-                        modal.style.display = 'flex';
-                        document.body.style.overflow = 'hidden';
+    // État de chargement
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...';
+
+    try {
+        const paysSelect = document.getElementById("pays");
+        const selectedOption = paysSelect.options[paysSelect.selectedIndex];
+        const flagUrl = selectedOption.getAttribute('data-flag') || '';
+
+        const newArticleRef = db.ref("articles").push();
+        const articleData = {
+            id: newArticleRef.key,
+            nom: formData.nom,
+            pays: formData.pays,
+            flagUrl: flagUrl,
+            prix: formData.prix,
+            contact: formData.contact,
+            photoDataUrl: photoDataUrl,
+            createdAt: Date.now()
+        };
+
+        await newArticleRef.set(articleData);
+
+        document.getElementById('article-form').reset();
+        document.getElementById('flag-container').innerHTML = '';
+        toggleForm(false);
+
+        showNotification('Article publié avec succès !', 'success');
+
+    } catch (error) {
+        console.error('Erreur lors de la publication:', error);
+        alert("Erreur lors de la publication. Veuillez réessayer.");
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Publier l\'article';
+    }
+}
+
+// Fonction pour compresser/redimensionner l'image en moins de 200ko
+function compressImageToUnder200KB(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const img = new Image();
+            img.onload = function () {
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
+                let width = img.width;
+                let height = img.height;
+                let maxAttempts = 10;
+                let attempt = 0;
+                let quality = 0.92; // start high, decrease if needed
+
+                function tryCompress() {
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.clearRect(0, 0, width, height);
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    let size = Math.ceil((dataUrl.length - 'data:image/jpeg;base64,'.length) * 3 / 4);
+
+                    // Si <= 200ko, nickel, sinon on réduit qualité et/ou taille
+                    if (size <= 200 * 1024 || attempt >= maxAttempts) {
+                        resolve(dataUrl);
+                    } else {
+                        // Réduire la qualité ou la taille
+                        if (quality > 0.5) {
+                            quality -= 0.08;
+                        } else {
+                            width *= 0.85;
+                            height *= 0.85;
+                        }
+                        attempt++;
+                        setTimeout(tryCompress, 0);
                     }
                 }
-            });
-        }
+                tryCompress();
+            };
+            img.onerror = reject;
+            img.src = event.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
 
-        function commanderArticle(articleId) {
-            const article = state.articles[articleId];
-            if (!article) return;
+function getContactLink(article) {
+    const isWhatsApp = article.contact && (article.contact.includes("+") || /^\d{8,15}$/.test(article.contact));
+    const message = encodeURIComponent(`Bonjour, je suis intéressé par l'article "${article.nom}" (${article.prix} FCFA), ID: ${article.id} (vu sur Alls).`);
 
-            const subject = encodeURIComponent(`Commande de l'article Alls N°${article.id}`);
-            const message = encodeURIComponent(`Bonjour, je souhaite commander l'article "${article.nom}" (${article.prix} FCFA), ID: ${article.id} (vu sur Alls).`);
+    if (isWhatsApp) {
+        const tel = article.contact.replace(/[^0-9+]/g, "");
+        return `<a href="https://wa.me/${tel}?text=${message}" target="_blank" rel="noopener noreferrer" class="contact-link contact-whatsapp">
+            <i class="fab fa-whatsapp"></i>
+            ${article.contact}
+        </a>`;
+    } else {
+        const subject = encodeURIComponent(`Commande de l'article Alls N°${article.id}`);
+        const emailBody = encodeURIComponent(`Bonjour, je souhaite commander l'article "${article.nom}" (${article.prix} FCFA), ID: ${article.id} (vu sur Alls).`);
+        return `<a href="mailto:${article.contact}?subject=${subject}&body=${emailBody}" class="contact-link contact-email">
+            <i class="fas fa-envelope"></i>
+            ${article.contact}
+        </a>`;
+    }
+}
 
-            const isWhatsApp = article.contact && (article.contact.includes("+") || /^\d{8,15}$/.test(article.contact));
+function renderArticle(article) {
+    return `
+        <div class="article-card fade-in" id="article-${article.id}">
+            <img src="${article.photoDataUrl}" alt="${article.nom}" class="article-image clickable-article-image" data-img="${article.photoDataUrl}" loading="lazy" />
+            <div class="article-content">
+                <h3 class="article-title">${article.nom}</h3>
+                <div class="article-price">
+                    ${parseInt(article.prix).toLocaleString()} FCFA
+                    ${article.flagUrl ? `<span class="country-flag" style="background-image:url('${article.flagUrl}')"></span>` : ''}
+                </div>
+                <div class="article-id">ID: ${article.id} ${article.pays ? '- ' + article.pays : ''}</div>
+                <div class="article-contact">
+                    <div class="contact-label">Contact :</div>
+                    ${getContactLink(article)}
+                </div>
+                <div class="article-actions">
+                    <button class="btn btn-warning" onclick="commanderArticle('${article.id}')" style="flex: 1;">
+                        <i class="fas fa-shopping-cart"></i>
+                        Commander
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
 
-            if (isWhatsApp) {
-                const tel = article.contact.replace(/[^0-9+]/g, "");
-                window.open(`https://wa.me/${tel}?text=${message}`, "_blank");
-            } else {
-                window.location.href = `mailto:${article.contact}?subject=${subject}&body=${message}`;
+// Modal pour agrandir la photo
+function createImageModal() {
+    if (document.getElementById('image-modal')) return;
+    const modal = document.createElement('div');
+    modal.id = 'image-modal';
+    modal.style.display = 'none';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.background = 'rgba(0,0,0,0.8)';
+    modal.style.zIndex = '10000';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.cursor = 'zoom-out';
+
+    modal.innerHTML = `
+        <img id="modal-image" src="" alt="Agrandissement" style="max-width:90vw;max-height:90vh;box-shadow:0 4px 32px #000;" />
+    `;
+
+    modal.onclick = function () {
+        modal.style.display = 'none';
+        document.getElementById('modal-image').src = '';
+        document.body.style.overflow = '';
+    };
+
+    document.body.appendChild(modal);
+}
+
+function setupBigImageOnClick() {
+    createImageModal();
+    document.querySelectorAll('.clickable-article-image').forEach(img => {
+        img.onclick = function (e) {
+            e.stopPropagation();
+            const src = this.getAttribute('data-img');
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            if (src && modal && modalImg) {
+                modalImg.src = src;
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
         }
+    });
+}
 
-        function renderArticles() {
-            const articlesArray = Object.values(state.articles).sort((a, b) => b.createdAt - a.createdAt);
+function commanderArticle(articleId) {
+    const article = state.articles[articleId];
+    if (!article) return;
 
-            if (articlesArray.length === 0) {
-                elements.articlesContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-shopping-bag"></i>
-                        <h3>Aucun article pour le moment</h3>
-                        <p>Soyez le premier à publier un article !</p>
-                    </div>
-                `;
-            } else {
-                elements.articlesContainer.innerHTML = articlesArray.map(renderArticle).join('');
-            }
-            setupBigImageOnClick();
-        }
+    const subject = encodeURIComponent(`Commande de l'article Alls N°${article.id}`);
+    const message = encodeURIComponent(`Bonjour, je souhaite commander l'article "${article.nom}" (${article.prix} FCFA), ID: ${article.id} (vu sur Alls).`);
 
-        function showNotification(message, type = 'info') {
-            // Simple notification - peut être améliorée avec une library
-            console.log(`${type}: ${message}`);
-        }
+    const isWhatsApp = article.contact && (article.contact.includes("+") || /^\d{8,15}$/.test(article.contact));
 
-        function initializeApp() {
-            // Affiche le formulaire automatiquement quand on clique sur Publier un article
-            elements.toggleBtn.addEventListener('click', () => toggleForm(true));
-            loadArticles();
-        }
+    if (isWhatsApp) {
+        const tel = article.contact.replace(/[^0-9+]/g, "");
+        window.open(`https://wa.me/${tel}?text=${message}`, "_blank");
+    } else {
+        window.location.href = `mailto:${article.contact}?subject=${subject}&body=${message}`;
+    }
+}
 
-        function loadArticles() {
-            db.ref('articles').once('value')
-                .then(snapshot => {
-                    state.articles = {};
-                    snapshot.forEach(childSnap => {
-                        const article = childSnap.val();
-                        article.id = childSnap.key;
-                        state.articles[article.id] = article;
-                    });
-                    state.loading = false;
-                    renderArticles();
-                })
-                .catch(error => {
-                    console.error('Erreur lors du chargement:', error);
-                    elements.articlesContainer.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <h3>Erreur de chargement</h3>
-                            <p>Impossible de charger les articles. Veuillez actualiser la page.</p>
-                        </div>
-                    `;
-                });
+function renderArticles() {
+    const articlesArray = Object.values(state.articles).sort((a, b) => b.createdAt - a.createdAt);
 
-            db.ref('articles').on('child_added', snapshot => {
-                const article = snapshot.val();
-                article.id = snapshot.key;
-                if (!state.loading && !state.articles[article.id]) {
-                    state.articles[article.id] = article;
-                    renderArticles();
-                }
+    if (articlesArray.length === 0) {
+        elements.articlesContainer.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-shopping-bag"></i>
+                <h3>Aucun article pour le moment</h3>
+                <p>Soyez le premier à publier un article !</p>
+            </div>
+        `;
+    } else {
+        elements.articlesContainer.innerHTML = articlesArray.map(renderArticle).join('');
+    }
+    setupBigImageOnClick();
+}
+
+function showNotification(message, type = 'info') {
+    // Simple notification - peut être améliorée avec une library
+    console.log(`${type}: ${message}`);
+}
+
+function initializeApp() {
+    // Affiche le formulaire automatiquement quand on clique sur Publier un article
+    elements.toggleBtn.addEventListener('click', () => toggleForm(true));
+    loadArticles();
+}
+
+function loadArticles() {
+    db.ref('articles').once('value')
+        .then(snapshot => {
+            state.articles = {};
+            snapshot.forEach(childSnap => {
+                const article = childSnap.val();
+                article.id = childSnap.key;
+                state.articles[article.id] = article;
             });
+            state.loading = false;
+            renderArticles();
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement:', error);
+            elements.articlesContainer.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Erreur de chargement</h3>
+                    <p>Impossible de charger les articles. Veuillez actualiser la page.</p>
+                </div>
+            `;
+        });
 
-            db.ref('articles').on('child_removed', snapshot => {
-                const articleId = snapshot.key;
-                if (state.articles[articleId]) {
-                    delete state.articles[articleId];
-                    renderArticles();
-                }
-            });
+    db.ref('articles').on('child_added', snapshot => {
+        const article = snapshot.val();
+        article.id = snapshot.key;
+        if (!state.loading && !state.articles[article.id]) {
+            state.articles[article.id] = article;
+            renderArticles();
         }
+    });
 
-        window.commanderArticle = commanderArticle;
-        document.addEventListener('DOMContentLoaded', initializeApp);
-    </script>
-</body>
-</html>
+    db.ref('articles').on('child_removed', snapshot => {
+        const articleId = snapshot.key;
+        if (state.articles[articleId]) {
+            delete state.articles[articleId];
+            renderArticles();
+        }
+    });
+}
+
+window.commanderArticle = commanderArticle;
+document.addEventListener('DOMContentLoaded', initializeApp);
+</script>
