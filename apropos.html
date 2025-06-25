@@ -7,120 +7,461 @@
     <!-- Font Awesome pour les icônes -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3B82F6;
-            --primary-dark: #2563EB;
-            --secondary: #10B981;
-            --secondary-dark: #059669;
-            --accent: #F59E0B;
-            --accent-dark: #D97706;
-            --background: #F8FAFC;
-            --surface: #FFFFFF;
-            --text-primary: #1E293B;
-            --text-secondary: #64748B;
-            --border: #E2E8F0;
-            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+            --primary: #667eea;
+            --primary-dark: #5a6fd8;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --accent-light: #f5c2ff;
+            --background: #0f0f23;
+            --surface: rgba(255, 255, 255, 0.05);
+            --surface-hover: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0db;
+            --text-muted: #6b7280;
+            --border: rgba(255, 255, 255, 0.1);
+            --glow: 0 0 20px rgba(102, 126, 234, 0.3);
+            --shadow-intense: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--background);
-            color: var(--text-primary);
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 2rem 0 1.5rem 0;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(59,130,246,0.08);
-        }
-        header .icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        main {
-            max-width: 700px;
-            margin: 2.5rem auto 0 auto;
-            background: var(--surface);
-            box-shadow: var(--shadow);
-            border-radius: 1.2rem;
-            padding: 2.5rem 2.2rem 2rem 2.2rem;
-        }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 0.7rem;
-            font-weight: 700;
-        }
-        .subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 2.2rem;
-            font-size: 1.15rem;
-        }
-        .apropos-text {
-            font-size: 1.08rem;
-            line-height: 1.8;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-        }
-        .contact {
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--background);
-            padding: 1rem 1.5rem;
-            border-radius: 0.5rem;
-            border-left: 4px solid var(--accent);
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            max-width: 420px;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
         }
-        .contact i {
-            color: var(--accent-dark);
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(240, 147, 251, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            position: relative;
+            padding: 4rem 0 3rem 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        header .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+            animation: pulse 2s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            letter-spacing: -0.02em;
+        }
+
+        header .subtitle {
             font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 0.5px;
         }
-        @media (max-width: 600px) {
-            main {
-                padding: 1.2rem 0.8rem;
-            }
+
+        main {
+            max-width: 800px;
+            margin: -2rem auto 0 auto;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            padding: 3rem 3rem 2.5rem 3rem;
+            position: relative;
+            z-index: 10;
+            box-shadow: var(--shadow-intense);
         }
-        a.back-link {
+
+        main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 2rem;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(240, 147, 251, 0.3));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+        }
+
+        .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            color: var(--primary);
+            gap: 0.8rem;
+            margin-bottom: 2.5rem;
+            color: var(--accent);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.13s;
             font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(240, 147, 251, 0.1);
+            border: 1px solid rgba(240, 147, 251, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        a.back-link:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
+
+        .back-link:hover {
+            background: rgba(240, 147, 251, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(240, 147, 251, 0.2);
+        }
+
+        .back-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover i {
+            transform: translateX(-3px);
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .apropos-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(240, 147, 251, 0.3);
+            box-shadow: 0 15px 35px rgba(240, 147, 251, 0.1);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            border: 1px solid rgba(240, 147, 251, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle, rgba(240, 147, 251, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: sparkle 15s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes sparkle {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(50px, 50px) rotate(360deg); }
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-text {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.2rem 2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(240, 147, 251, 0.2);
+        }
+
+        .contact-card i {
+            color: var(--accent);
+            font-size: 1.4rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            header .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            main {
+                margin: -1rem 1rem 0 1rem;
+                padding: 2rem 1.5rem;
+            }
+            
+            .content-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 3rem 0 2rem 0;
+            }
+            
+            header .icon {
+                font-size: 3rem;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            main {
+                border-radius: 1.5rem;
+                margin: -1rem 0.5rem 0 0.5rem;
+                padding: 1.5rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .contact-card {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
         }
     </style>
-</head>
-<body>
-    <header>
-        <div class="icon"><i class="fas fa-store"></i></div>
-        <h1>À propos de ALLS</h1>
-        <div class="subtitle">Le marché ouvert à tous, sans inscription ni frontière</div>
-    </header>
-    <main>
-        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i>Retour à l’accueil</a>
-        <div class="apropos-text">
-            Créer en 2025 par M. Jardel, ALLS est un site web conçu pour offrir à chacun un espace de mise en relation directe entre vendeurs et acheteurs, sans aucune contrainte d’inscription ni gestion de transaction en ligne. Cette plateforme innovante permet à toute personne, quel que soit son profil ou sa localisation, de publier gratuitement des annonces ou de consulter celles mises en ligne par d’autres utilisateurs.<br><br>
-            L’un des grands avantages d’ALLS réside dans sa simplicité d’utilisation : il n’est nul besoin de créer un compte ou de fournir des informations personnelles pour accéder au service. Chacun peut, en toute liberté, proposer ses articles à la vente ou rechercher des biens selon ses besoins et ses envies. Les échanges se font directement entre particuliers, sans intermédiaire, favorisant ainsi la rapidité et la confiance dans la prise de contact.<br><br>
-            ALLS encourage la liberté d’échange, la transparence et l’accessibilité, permettant à tous de profiter des opportunités du marché sans barrières administratives ni restrictions techniques. Notre site se veut inclusif, convivial et ouvert sur le monde, afin de dynamiser le commerce local aussi bien qu’international.<br><br>
-            Aucune transaction n’est effectuée via la plateforme : acheteurs et vendeurs conviennent eux-mêmes des modalités d’échange ou de paiement, dans le respect mutuel. ALLS s’affirme ainsi comme un outil facilitateur, mettant l’accent sur la mise en relation et la simplicité.<br><br>
-            N’hésitez pas à me contacter pour toute question ou suggestion à l’adresse suivante :
+<header class="header">
+    <div class="header-content">
+    
+            <!-- Nouveau bouton "À propos de nous" -->
+            <a href="a%20propos.html" class="btn btn-secondary" style="text-decoration:none;">
+                <i class="fas fa-info-circle"></i>
+                
+            </a>
         </div>
-        <div class="contact">
-            <i class="fas fa-envelope"></i>
-            <span>zinzindohouemarcio@gmail.com</span>
+    </div>
+</header>
+    <main>
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Retour à la boutique
+        </a>
+        
+        <div class="content-section">
+            <h2 class="section-title">Découvrez ALLS</h2>
+            <div class="apropos-text">
+                Bienvenue chez <span class="highlight">ALLS</span>, votre destination shopping en ligne créée en 2025 par Monsieur Jardel. Notre boutique digitale révolutionne votre expérience d'achat en vous proposant une sélection soigneusement choisie d'articles de qualité, disponibles à tout moment et accessible depuis n'importe où dans le monde.
+                <br><br>
+                Chez ALLS, nous croyons que faire ses achats doit être <span class="highlight">simple, rapide et agréable</span>. Notre plateforme intuitive vous permet de découvrir facilement nos produits, de comparer les options et de finaliser vos achats en quelques clics seulement.
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Achat Simplifié</h3>
+                <p>Interface moderne et intuitive pour une expérience shopping optimale</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-globe"></i>
+                <h3>Accessible 24/7</h3>
+                <p>Boutique ouverte en permanence, shopping sans contrainte horaire</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Notre Engagement</h2>
+            <div class="apropos-text">
+                ALLS s'engage à vous offrir une <span class="highlight">expérience client exceptionnelle</span>. Nous sélectionnons chaque produit avec soin pour garantir qualité et satisfaction. Notre équipe dédiée travaille continuellement pour enrichir notre catalogue et améliorer nos services.
+                <br><br>
+                Nous valorisons la <span class="highlight">transparence, la qualité et la satisfaction client</span>. Chaque achat est une opportunité pour nous de démontrer notre engagement envers l'excellence.
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h2 class="contact-title">Vendeurs & Partenaires</h2>
+            <div class="contact-text">
+                Vous souhaitez proposer vos articles sur notre plateforme ? Rejoignez notre réseau de vendeurs partenaires et bénéficiez de notre audience grandissante.
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <span>zinzindohouemarcio@gmail.com</span>
+            </div>
         </div>
     </main>
 </body>
