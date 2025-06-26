@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -604,26 +605,28 @@
             font-size: 0.9rem;
         }
     </style>
-<header class="header">
-    <div class="header-content">
-        <div class="logo">
-            <i class="fas fa-crown"></i>
-            <span>ALLS BOUTIQUE</span>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>ALLS BOUTIQUE</span>
+            </div>
+            <div class="header-actions">
+                <button class="cart-button" id="cart-toggle">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Panier</span>
+                    <div class="cart-count" id="cart-count">0</div>
+                </button>
+                <!-- Nouveau bouton "À propos de nous" -->
+                <a href="apropos.html" class="btn btn-secondary" style="text-decoration:none;">
+                    <i class="fas fa-info-circle"></i>
+                    À propos de nous
+                </a>
+            </div>
         </div>
-        <div class="header-actions">
-            <button class="cart-button" id="cart-toggle">
-                <i class="fas fa-shopping-bag"></i>
-                <span>Panier</span>
-                <div class="cart-count" id="cart-count">0</div>
-            </button>
-            <!-- Nouveau bouton "À propos de nous" -->
-            <a href="apropos.html" class="btn btn-secondary" style="text-decoration:none;">
-                <i class="fas fa-info-circle"></i>
-                À propos de nous
-            </a>
-        </div>
-    </div>
-</header>
+    </header>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -759,118 +762,108 @@
                 image: "image/hp pro.jpg",
                 whatsapp: "+2250172369840"
             },
-            
             // Parfums abordables
             {
-                id: 11,
-                name: "Parfum Homme Prestige",
-                price: 2500,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 12,
-                name: "Parfum Femme Élégance",
-                price: 3000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1588405748880-12d1d2a59d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 13,
-                name: "Parfum Unisexe Fresh",
-                price: 2000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 14,
-                name: "Parfum Romance Femme",
-                price: 2700,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            // Maillots Real Madrid
-            {
-                id: 15,
-                name: "Maillot Real Madrid Domicile 2024",
-                price: 8500,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 16,
-                name: "Maillot Real Madrid Extérieur 2024",
-                price: 8500,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 17,
-                name: "Maillot Real Madrid Enfant",
-                price: 6500,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 18,
-                name: "Kit Complet Real Madrid",
-                price: 12000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            // Téléphones Huawei
-            {
-                id: 19,
-                name: "Huawei P60 Pro",
-                price: 450000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 20,
-                name: "Huawei Nova 11",
-                price: 280000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 21,
-                name: "Huawei Y9 Prime",
-                price: 95000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 22,
-                name: "Huawei Mate 50 Pro",
-                price: 520000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 23,
-                name: "Huawei P Smart 2024",
-                price: 75000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
-            }
-        ];
+    "id": 11,
+    "name": "Parfum Homme Prestige",
+    "price": 2500,
+    "country": "Côte d'Ivoire",
+    "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 12,
+    "name": "Parfum Femme Élégance",
+    "price": 3000,
+    "country": "Côte d'Ivoire",
+    "image": "image/femmel.jpg",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 13,
+    "name": "Parfum Unisexe Fresh",
+    "price": 2000,
+    "country": "Côte d'Ivoire",
+    "image": "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 14,
+    "name": "Parfum Romance Femme",
+    "price": 22000,
+    "country": "Côte d'Ivoire",
+    "image": "image/romance.jpg",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 21,
+    "name": "Parfum Homme Élégant",
+    "price": 8000,
+    "country": "Côte d'Ivoire",
+    "image": "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 22,
+    "name": "Parfum Femme Luxe",
+    "price": 10000,
+    "country": "Côte d'Ivoire",
+    "image": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 23,
+    "name": "Parfum Unisexe Signature",
+    "price": 15000,
+    "country": "Côte d'Ivoire",
+    "image": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 15,
+    "name": "Maillot Benzema #9 Real Madrid",
+    "price": 12000,
+    "country": "Côte d'Ivoire",
+    "image": "image/benzema.jpg",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 16,
+    "name": "Maillot Vinicius Jr #7 Real Madrid",
+    "price": 12000,
+    "country": "Côte d'Ivoire",
+    "image": "image/vinisus.jpg",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 17,
+    "name": "Maillot Modric #10 Real Madrid",
+    "price": 12000,
+    "country": "Côte d'Ivoire",
+    "image": "image/modric.jpg",
+    "whatsapp": "+2250172369840"
+  },
+  {
+    "id": 18,
+    "name": "Maillot Bellingham #5 Real Madrid",
+    "price": 13000,
+    "country": "Côte d'Ivoire",
+    "image": "image/beligam.jpg",
+    "whatsapp": "+2250172369840"
+  },
+  
+  {
+    "id": 20,
+    "name": "Huawei P60 Pro",
+    "price": 450000,
+    "country": "Côte d'Ivoire",
+    "image": "image/p60.jpg",
+    "whatsapp": "+2250172369840"
+  }
+    
+            ];
 
-           
-        ];
+
 
         // État du panier
         let cart = [];
