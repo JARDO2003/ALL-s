@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -222,6 +221,7 @@
             height: 280px;
             object-fit: cover;
             transition: transform 0.4s ease;
+            cursor: pointer;
         }
 
         .product-card:hover .product-image {
@@ -504,6 +504,60 @@
             visibility: visible;
         }
 
+        /* Image Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            animation: fadeInUp 0.4s;
+        }
+        .image-modal.show {
+            display: flex;
+        }
+        .image-modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            background: var(--surface);
+        }
+        .image-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gradient-accent);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-modal-close:hover {
+            background: var(--accent);
+        }
+
         /* Empty Cart */
         .empty-cart {
             text-align: center;
@@ -528,11 +582,9 @@
                 transform: translateY(0);
             }
         }
-
         .fade-in {
             animation: fadeInUp 0.6s ease-out;
         }
-
         @keyframes bounce {
             0%, 20%, 53%, 80%, 100% {
                 transform: scale(1);
@@ -547,7 +599,6 @@
                 transform: scale(1.05);
             }
         }
-
         .bounce {
             animation: bounce 0.6s ease-out;
         }
@@ -588,6 +639,9 @@
 
             .product-actions {
                 flex-direction: column;
+            }
+            .image-modal-content img {
+                max-height: 60vh;
             }
         }
 
@@ -631,8 +685,7 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Collection Premium</h1>
-            <p>Découvrez notre sélection exclusive de produits de qualité supérieure, soigneusement choisis pour vous offrir le meilleur de chaque catégorie.</p>
+            <p>Bienvenue sur ALLS STORE, découvrez notre sélection exclusive de produits de qualité supérieure, soigneusement choisis pour vous offrir le meilleur de chaque catégorie.</p>
         </div>
     </section>
 
@@ -674,6 +727,14 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
+    <!-- Image Modal -->
+    <div class="image-modal" id="image-modal">
+        <div class="image-modal-content">
+            <button class="image-modal-close" id="image-modal-close" aria-label="Fermer l'image"><i class="fas fa-times"></i></button>
+            <img src="" alt="Agrandissement produit" id="modal-img">
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Alls Boutique - Excellence & Qualité Premium. Votre satisfaction, notre priorité.</p>
@@ -684,26 +745,26 @@
         const products = [
             {
                 id: 1,
-                name: "iPhone 15 Pro Max",
-                price: 850000,
+                name: "Gourde de sport",
+                price: 3000,
                 country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "image/ES9.jpg",
                 whatsapp: "+2250172369840"
             },
             {
                 id: 2,
-                name: "HP Pavilion Laptop 15 TACTILE Core I7",
-                price: 350000,
+                name: "Gobelet TYESO",
+                price: 7000,
                 country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "image/ES12.jpg",
                 whatsapp: "+2250172369840"
             },
             {
                 id: 3,
-                name: "Samsung Galaxy S24 Ultra",
-                price: 680000,
+                name: "BOUTEILLE D'EAU",
+                price: 2500,
                 country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "image/ES10.jpg",
                 whatsapp: "+2250172369840"
             },
             {
@@ -724,18 +785,90 @@
             },
             {
                 id: 6,
-                name: "iPad Pro 12.9",
-                price: 750000,
+                name: "GOBELET A PAILLE HELLO KITTY",
+                price: 3000,
                 country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "image/ES14.jpg",
                 whatsapp: "+2250172369840"
             },
             {
-                id: 7,
-                name: "Sony WH-1000XM5",
-                price: 280000,
+                id: 11.8 ,
+                name: "Bouteille isotherme en acier inoxydable",
+                price: 8000,
                 country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                image: "image/ES11.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.9,
+                name: "THE DREAM SPRAY ESSENCE",
+                price: 900,
+                country: "Côte d'Ivoire",
+                image: "image/es1.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.10,
+                name: "INFIDELE ESSENCE",
+                price: 1000,
+                country: "Côte d'Ivoire",
+                image: "image/ES2.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.11,
+                name: "DIPLOMATIC DEODORANT",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/ES3.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.12,
+                name: "CARAFE D'EAU EN VERRE",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/ES5.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.13,
+                name: "ADIDAS",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES22.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.14,
+                name: "NIKE",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES24.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.15,
+                name: "ADIDAS",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES27.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.16,
+                name: "NIKE",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES24.jpg",
+                whatsapp: "+2250172369840"
+            },
+            {
+                id: 11.17,
+                name: "ADIDAS",
+                price: 18000,
+                country: "Côte d'Ivoire",
+                image: "image/ES21.jpg",
                 whatsapp: "+2250172369840"
             },
             {
@@ -813,118 +946,109 @@
             {
                 id: 11.7,
                 name: "ADIDAS",
-                price: 17000,
+                price: 18000,
                 country: "Côte d'Ivoire",
-                image: "image/adidas1.jpg",
+                image: "image/ES26.jpg",
                 whatsapp: "+2250172369840"
             },
-           
-           
-
-
-
             // Parfums abordables
             {
-    "id": 11,
-    "name": "Parfum Homme Prestige",
-    "price": 2500,
-    "country": "Côte d'Ivoire",
-    "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 12,
-    "name": "Parfum Femme Élégance",
-    "price": 3000,
-    "country": "Côte d'Ivoire",
-    "image": "image/femmel.jpg",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 13,
-    "name": "Parfum Unisexe Fresh",
-    "price": 2000,
-    "country": "Côte d'Ivoire",
-    "image": "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 14,
-    "name": "Parfum Romance Femme",
-    "price": 22000,
-    "country": "Côte d'Ivoire",
-    "image": "image/romance.jpg",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 21,
-    "name": "Parfum Homme Élégant",
-    "price": 8000,
-    "country": "Côte d'Ivoire",
-    "image": "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 22,
-    "name": "Parfum Femme Luxe",
-    "price": 10000,
-    "country": "Côte d'Ivoire",
-    "image": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 23,
-    "name": "Parfum Unisexe Signature",
-    "price": 15000,
-    "country": "Côte d'Ivoire",
-    "image": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 15,
-    "name": "Maillot Benzema #9 Real Madrid",
-    "price": 12000,
-    "country": "Côte d'Ivoire",
-    "image": "image/benzema.jpg",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 16,
-    "name": "Maillot Vinicius Jr #7 Real Madrid",
-    "price": 12000,
-    "country": "Côte d'Ivoire",
-    "image": "image/vinisus.jpg",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 17,
-    "name": "Maillot Modric #10 Real Madrid",
-    "price": 12000,
-    "country": "Côte d'Ivoire",
-    "image": "image/modric.jpg",
-    "whatsapp": "+2250172369840"
-  },
-  {
-    "id": 18,
-    "name": "Maillot Bellingham #5 Real Madrid",
-    "price": 13000,
-    "country": "Côte d'Ivoire",
-    "image": "image/beligam.jpg",
-    "whatsapp": "+2250172369840"
-  },
-  
-  {
-    "id": 20,
-    "name": "Huawei P60 Pro",
-    "price": 450000,
-    "country": "Côte d'Ivoire",
-    "image": "image/p60.jpg",
-    "whatsapp": "+2250172369840"
-  }
-    
-            ];
-
-
+                "id": 11,
+                "name": "Parfum Homme Prestige",
+                "price": 2500,
+                "country": "Côte d'Ivoire",
+                "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 12,
+                "name": "Parfum Femme Élégance",
+                "price": 3000,
+                "country": "Côte d'Ivoire",
+                "image": "image/femmel.jpg",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 13,
+                "name": "Parfum Unisexe Fresh",
+                "price": 2000,
+                "country": "Côte d'Ivoire",
+                "image": "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 14,
+                "name": "Parfum Romance Femme",
+                "price": 22000,
+                "country": "Côte d'Ivoire",
+                "image": "image/romance.jpg",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 21,
+                "name": "Parfum Homme Élégant",
+                "price": 8000,
+                "country": "Côte d'Ivoire",
+                "image": "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 22,
+                "name": "Parfum Femme Luxe",
+                "price": 10000,
+                "country": "Côte d'Ivoire",
+                "image": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 23,
+                "name": "Parfum Unisexe Signature",
+                "price": 15000,
+                "country": "Côte d'Ivoire",
+                "image": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 15,
+                "name": "Bouteille d'eau",
+                "price": 3000,
+                "country": "Côte d'Ivoire",
+                "image": "image/ES6.jpg",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 16,
+                "name": "Maillot Vinicius Jr #7 Real Madrid",
+                "price": 12000,
+                "country": "Côte d'Ivoire",
+                "image": "image/vinisus.jpg",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 17,
+                "name": "Maillot Modric #10 Real Madrid",
+                "price": 12000,
+                "country": "Côte d'Ivoire",
+                "image": "image/modric.jpg",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 18,
+                "name": "Maillot Bellingham #5 Real Madrid",
+                "price": 13000,
+                "country": "Côte d'Ivoire",
+                "image": "image/beligam.jpg",
+                "whatsapp": "+2250172369840"
+            },
+            {
+                "id": 20,
+                "name": "Huawei P60 Pro",
+                "price": 450000,
+                "country": "Côte d'Ivoire",
+                "image": "image/p60.jpg",
+                "whatsapp": "+2250172369840"
+            }
+        ];
 
         // État du panier
         let cart = [];
@@ -940,7 +1064,10 @@
             cartFooter: document.getElementById('cart-footer'),
             cartCount: document.getElementById('cart-count'),
             totalPrice: document.getElementById('total-price'),
-            checkoutBtn: document.getElementById('checkout-btn')
+            checkoutBtn: document.getElementById('checkout-btn'),
+            imageModal: document.getElementById('image-modal'),
+            imageModalClose: document.getElementById('image-modal-close'),
+            modalImg: document.getElementById('modal-img')
         };
 
         // Formatage des prix
@@ -952,7 +1079,7 @@
         function renderProducts() {
             elements.productsGrid.innerHTML = products.map(product => `
                 <div class="product-card fade-in">
-                    <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onclick="showImageModal('${product.image}', '${product.name.replace(/'/g, "\\'")}')">
                     <div class="product-content">
                         <h3 class="product-title">${product.name}</h3>
                         <div class="product-country">
@@ -1059,7 +1186,7 @@
             }
         }
 
-                // Supprimer du panier
+        // Supprimer du panier
         function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
             updateCartUI();
@@ -1105,11 +1232,41 @@
             window.open(whatsappUrl, '_blank');
         }
 
+        // Gestion du modal d'image
+        function showImageModal(imageUrl, altText) {
+            elements.modalImg.src = imageUrl;
+            elements.modalImg.alt = altText;
+            elements.imageModal.classList.add('show');
+            elements.overlay.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Désactive le scroll
+        }
+
+        function closeImageModal() {
+            elements.imageModal.classList.remove('show');
+            elements.overlay.classList.remove('show');
+            elements.modalImg.src = '';
+            elements.modalImg.alt = '';
+            document.body.style.overflow = ''; // Réactive le scroll
+        }
+
         // Évènements
         elements.cartToggle.addEventListener('click', openCart);
-        elements.overlay.addEventListener('click', closeCart);
+        elements.overlay.addEventListener('click', () => {
+            closeCart();
+            closeImageModal();
+        });
         elements.closeCaet.addEventListener('click', closeCart);
         elements.checkoutBtn.addEventListener('click', checkoutCart);
+
+        elements.imageModalClose.addEventListener('click', closeImageModal);
+
+        // Fermeture modal avec touche Echap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageModal();
+                closeCart();
+            }
+        });
 
         // Initialisation
         renderProducts();
@@ -1120,6 +1277,7 @@
         window.updateQuantity = updateQuantity;
         window.removeFromCart = removeFromCart;
         window.buyNow = buyNow;
+        window.showImageModal = showImageModal;
     </script>
 </body>
 </html>
