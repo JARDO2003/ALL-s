@@ -1227,7 +1227,7 @@
             message += `\nTotal à payer : ${formatPrice(totalPrice)}\nMerci de me contacter pour finaliser la commande.`;
 
             // Prendre le WhatsApp du premier produit (ou définir un WhatsApp général)
-            const whatsappNumber = products[0]?.whatsapp || "+2250172369840";
+            const whatsappNumber = products[0]?.whatsapp || "+2250506483003";
             const whatsappUrl = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }
