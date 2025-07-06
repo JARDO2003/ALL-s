@@ -929,7 +929,7 @@
         11.13, 11.14, 11.15, 11.16, 11.17, 11.4, 11.5, 11.6, 11.7
     ].includes(p.id));
     const itProducts = products.filter(p => [
-        11.2, 20,10,9,
+        11.2, 20,10,9,8,11.3,11.111
     ].includes(p.id));
     const otherProducts = products.filter(
         p => !foodProducts.includes(p) && !shoesProducts.includes(p) && !itProducts.includes(p)
@@ -1027,7 +1027,7 @@ function createProductCard(product) {
                 <strong>Total: ${formatPrice(cart.reduce((sum, item) => sum + item.price * item.quantity, 0))}</strong>
             </div>
             <div style="text-align:center;">
-                <button class="btn btn-primary" onclick="checkout()">Commander par WhatsApp</button>
+                <button class="btn btn-primary" onclick="checkout()">Passer la commande</button>
             </div>
         `;
     }
