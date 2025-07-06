@@ -741,283 +741,237 @@
         <p>&copy; 2025 Alls Boutique - Excellence & Qualité Premium. Votre satisfaction, notre priorité.</p>
     </footer>
 
-    <script>
-        // Données des produits (remplace la base de données)
+     <script>
+        // Données des produits
         const products = [
             {
                 id: 1,
                 name: "Gourde de sport",
                 price: 3000,
                 country: "Côte d'Ivoire",
-                image: "image/ES9.jpg",
-                
+                image: "image/ES9.jpg"
             },
             {
                 id: 2,
                 name: "Gobelet TYESO",
                 price: 7000,
                 country: "Côte d'Ivoire",
-                image: "image/ES12.jpg",
-                
+                image: "image/ES12.jpg"
             },
             {
                 id: 3,
                 name: "BOUTEILLE D'EAU",
                 price: 2500,
                 country: "Côte d'Ivoire",
-                image: "image/ES10.jpg",
-               
+                image: "image/ES10.jpg"
             },
-            {
-                id: 4,
-                name: "AirPods Pro 2",
-                price: 18000,
+             {
+                id: 15,
+                name: "Bouteille d'eau",
+                price: 3000,
                 country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-               
-            },
-            {
-                id: 5,
-                name: "Apple Watch ",
-                price: 20000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                
+                image: "image/ES6.jpg"
             },
             {
                 id: 6,
                 name: "GOBELET A PAILLE HELLO KITTY",
                 price: 3000,
                 country: "Côte d'Ivoire",
-                image: "image/ES14.jpg",
-               
+                image: "image/ES14.jpg"
             },
+           
+            
             {
-                id: 11.8 ,
+                id: 11.8,
                 name: "Bouteille isotherme en acier inoxydable",
                 price: 8000,
                 country: "Côte d'Ivoire",
-                image: "image/ES11.jpg",
-                
-            },
-            {
-                id: 11.9,
-                name: "THE DREAM SPRAY ESSENCE",
-                price: 900,
-                country: "Côte d'Ivoire",
-                image: "image/es1.jpg",
-               
-            },
-            {
-                id: 11.10,
-                name: "INFIDELE ESSENCE",
-                price: 1000,
-                country: "Côte d'Ivoire",
-                image: "image/ES2.jpg",
-               
-            },
-            {
-                id: 11.11,
-                name: "DIPLOMATIC DEODORANT",
-                price: 3000,
-                country: "Côte d'Ivoire",
-                image: "image/ES3.jpg",
-               
+                image: "image/ES11.jpg"
             },
             {
                 id: 11.12,
                 name: "CARAFE D'EAU EN VERRE",
                 price: 3000,
                 country: "Côte d'Ivoire",
-                image: "image/ES5.jpg",
-                
+                image: "image/ES5.jpg"
             },
+            {
+                id: 11.9,
+                name: "THE DREAM SPRAY ESSENCE",
+                price: 900,
+                country: "Côte d'Ivoire",
+                image: "image/es1.jpg"
+            },
+            {
+                id: 11.10,
+                name: "INFIDELE ESSENCE",
+                price: 1000,
+                country: "Côte d'Ivoire",
+                image: "image/ES2.jpg"
+            },
+            {
+                id: 11.11,
+                name: "DIPLOMATIC DEODORANT",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/ES3.jpg"
+            },
+            
             {
                 id: 11.13,
                 name: "ADIDAS",
                 price: 18000,
                 country: "Côte d'Ivoire",
-                image: "image/ES22.jpg",
-               
+                image: "image/ES22.jpg"
             },
             {
                 id: 11.14,
                 name: "NIKE",
                 price: 18000,
                 country: "Côte d'Ivoire",
-                image: "image/ES24.jpg",
-               
+                image: "image/ES24.jpg"
             },
             {
                 id: 11.15,
                 name: "ADIDAS",
                 price: 18000,
                 country: "Côte d'Ivoire",
-                image: "image/ES27.jpg",
-            
+                image: "image/ES27.jpg"
             },
             {
                 id: 11.16,
                 name: "NIKE",
                 price: 18000,
                 country: "Côte d'Ivoire",
-                image: "image/ES24.jpg",
-                
+                image: "image/ES24.jpg"
             },
             {
                 id: 11.17,
                 name: "ADIDAS",
                 price: 18000,
                 country: "Côte d'Ivoire",
-                image: "image/ES21.jpg",
-                
+                image: "image/ES21.jpg"
             },
             {
                 id: 8,
                 name: "HP Pavilion Laptop 15 TACTILE Core I7",
                 price: 350000,
                 country: "Côte d'Ivoire",
-                image: "image/HP2.jpg",
-                
+                image: "image/HP2.jpg"
             },
             {
                 id: 9,
                 name: "HP Pavilion Laptop 15 tactile CORE I7",
                 price: 350000,
                 country: "Côte d'Ivoire",
-                image: "image/HP1.jpg",
-                
+                image: "image/HP1.jpg"
             },
             {
                 id: 10,
                 name: "Hp Probook 440 G5",
                 price: 120000,
                 country: "Côte d'Ivoire",
-                image: "image/hp pro.jpg",
-                
+                image: "image/hp pro.jpg"
             },
             {
                 id: 11.1,
                 name: "DELL LATITUDE 7480 CORE I7",
                 price: 250000,
                 country: "Côte d'Ivoire",
-                image: "image/de1.jpg",
-                
+                image: "image/de1.jpg"
             },
             {
                 id: 11.2,
                 name: "DELL LATITUDE 7480 CORE I7",
                 price: 250000,
                 country: "Côte d'Ivoire",
-                image: "image/del2.jpg",
-               
+                image: "image/del2.jpg"
             },
             {
                 id: 11.3,
                 name: "DELL LATITUDE 7480 CORE I7",
                 price: 250000,
                 country: "Côte d'Ivoire",
-                image: "image/del3.jpg",
-               
+                image: "image/del3.jpg"
             },
             {
                 id: 11.4,
                 name: "OFF-WHITE",
                 price: 15000,
                 country: "Côte d'Ivoire",
-                image: "image/tanoire.jpg",
-                
+                image: "image/tanoire.jpg"
             },
             {
                 id: 11.5,
                 name: "NIKE",
                 price: 15000,
                 country: "Côte d'Ivoire",
-                image: "image/nike.jpg",
-               
+                image: "image/nike.jpg"
             },
             {
                 id: 11.6,
                 name: "NIKE AIR MAX",
                 price: 20000,
                 country: "Côte d'Ivoire",
-                image: "image/bi.jpg",
-                
+                image: "image/bi.jpg"
             },
             {
                 id: 11.7,
                 name: "ADIDAS",
                 price: 18000,
                 country: "Côte d'Ivoire",
-                image: "image/ES26.jpg",
-                
-            },
-            // Parfums abordables
-            {
-                "id": 11,
-                "name": "Parfum Homme Prestige",
-                "price": 2500,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                
+                image: "image/ES26.jpg"
             },
             {
-                "id": 12,
-                "name": "Parfum Femme Élégance",
-                "price": 3000,
-                "country": "Côte d'Ivoire",
-                "image": "image/femmel.jpg",
-               
+                id: 11,
+                name: "Parfum Homme Prestige",
+                price: 2500,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
             },
             {
-                "id": 13,
-                "name": "Parfum Unisexe Fresh",
-                "price": 2000,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                
+                id: 12,
+                name: "Parfum Femme Élégance",
+                price: 3000,
+                country: "Côte d'Ivoire",
+                image: "image/femmel.jpg"
             },
             {
-                "id": 14,
-                "name": "Parfum Romance Femme",
-                "price": 22000,
-                "country": "Côte d'Ivoire",
-                "image": "image/romance.jpg",
-                
+                id: 13,
+                name: "Parfum Unisexe Fresh",
+                price: 2000,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
             },
             {
-                "id": 21,
-                "name": "Parfum Homme Élégant",
-                "price": 8000,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-               
+                id: 14,
+                name: "Parfum Romance Femme",
+                price: 22000,
+                country: "Côte d'Ivoire",
+                image: "image/romance.jpg"
             },
             {
-                "id": 22,
-                "name": "Parfum Femme Luxe",
-                "price": 10000,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-               
+                id: 21,
+                name: "Parfum Homme Élégant",
+                price: 8000,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
             },
             {
-                "id": 23,
-                "name": "Parfum Unisexe Signature",
-                "price": 15000,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                
+                id: 22,
+                name: "Parfum Femme Luxe",
+                price: 10000,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
             },
             {
-                "id": 15,
-                "name": "Bouteille d'eau",
-                "price": 3000,
-                "country": "Côte d'Ivoire",
-                "image": "image/ES6.jpg",
-                
+                id: 23,
+                name: "Parfum Unisexe Signature",
+                price: 15000,
+                country: "Côte d'Ivoire",
+                image: "https://images.unsplash.com/photo-1615634260167-c8cdede054de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
             },
-            
+           
         ];
 
         // État du panier
@@ -1045,29 +999,28 @@
             return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
         }
 
-        // Rendu des produits
+        // Rendu des produits (sans le bouton Acheter)
         function renderProducts() {
-        elements.productsGrid.innerHTML = products.map(product => `
-            <div class="product-card fade-in">
-                <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onclick="showImageModal('${product.image}', '${product.name.replace(/'/g, "\\'")}')">
-                <div class="product-content">
-                    <h3 class="product-title">${product.name}</h3>
-                    <div class="product-country">
-                        <i class="fas fa-map-marker-alt"></i>
-                        ${product.country}
-                    </div>
-                    <div class="product-price">${formatPrice(product.price)}</div>
-                    <div class="product-actions">
-                        <button class="btn btn-primary" onclick="addToCart(${product.id})">
-                            <i class="fas fa-cart-plus"></i>
-                            Ajouter au panier
-                        </button>
-                        <!-- Le bouton "Acheter" a été retiré ici -->
+            elements.productsGrid.innerHTML = products.map(product => `
+                <div class="product-card fade-in">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onclick="showImageModal('${product.image}', '${product.name.replace(/'/g, "\\'")}')">
+                    <div class="product-content">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-country">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${product.country}
+                        </div>
+                        <div class="product-price">${formatPrice(product.price)}</div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i>
+                                Ajouter au panier
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `).join('');
-    }
+            `).join('');
+        }
 
         // Ajouter au panier
         function addToCart(productId) {
@@ -1159,28 +1112,6 @@
             updateCartUI();
         }
 
-        // Acheter maintenant (ouvrir WhatsApp avec un message pré-rempli)
-        function buyNow(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                const message = encodeURIComponent(`Bonjour, je souhaite acheter le produit suivant :\n- ${product.name}\nPrix : ${formatPrice(product.price)}\nMerci de me contacter pour finaliser la commande.`);
-                const whatsappUrl = `https://wa.me/${product.whatsapp.replace('+', '')}?text=${message}`;
-                window.open(whatsappUrl, '_blank');
-            }
-        }
-
-        // Ouvrir le panier
-        function openCart() {
-            elements.cartSidebar.classList.add('open');
-            elements.overlay.classList.add('show');
-        }
-
-        // Fermer le panier
-        function closeCart() {
-            elements.cartSidebar.classList.remove('open');
-            elements.overlay.classList.remove('show');
-        }
-
         // Commander via WhatsApp (panier entier)
         function checkoutCart() {
             if (cart.length === 0) return;
@@ -1193,9 +1124,9 @@
             const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
             message += `\nTotal à payer : ${formatPrice(totalPrice)}\nMerci de me contacter pour finaliser la commande.`;
 
-            // Prendre le WhatsApp du premier produit (ou définir un WhatsApp général)
-            const whatsappNumber = products[0]?.whatsapp || "+2250506483003";
-            const whatsappUrl = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${encodeURIComponent(message)}`;
+            // Numéro WhatsApp unique
+            const whatsappNumber = "2250506483003";
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         }
 
@@ -1216,6 +1147,18 @@
             document.body.style.overflow = ''; // Réactive le scroll
         }
 
+        // Ouvrir le panier
+        function openCart() {
+            elements.cartSidebar.classList.add('open');
+            elements.overlay.classList.add('show');
+        }
+
+        // Fermer le panier
+        function closeCart() {
+            elements.cartSidebar.classList.remove('open');
+            elements.overlay.classList.remove('show');
+        }
+
         // Évènements
         elements.cartToggle.addEventListener('click', openCart);
         elements.overlay.addEventListener('click', () => {
@@ -1224,7 +1167,6 @@
         });
         elements.closeCaet.addEventListener('click', closeCart);
         elements.checkoutBtn.addEventListener('click', checkoutCart);
-
         elements.imageModalClose.addEventListener('click', closeImageModal);
 
         // Fermeture modal avec touche Echap
@@ -1243,7 +1185,6 @@
         window.addToCart = addToCart;
         window.updateQuantity = updateQuantity;
         window.removeFromCart = removeFromCart;
-        window.buyNow = buyNow;
         window.showImageModal = showImageModal;
     </script>
 </body>
