@@ -28,13 +28,7 @@
             --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
             --gradient-gold: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--background);
@@ -42,8 +36,6 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
-
-        /* Header */
         .header {
             background: var(--gradient-primary);
             backdrop-filter: blur(20px);
@@ -51,9 +43,8 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
-
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
@@ -62,7 +53,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .logo {
             display: flex;
             align-items: center;
@@ -75,21 +65,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .logo i {
-            font-size: 2.5rem;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .logo i { 
+            font-size: 2.5rem; 
+            background: var(--gradient-gold); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            background-clip: text; 
         }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
+        .header-actions { display: flex; align-items: center; gap: 1rem; }
         .cart-button {
             position: relative;
             background: var(--gradient-accent);
@@ -105,12 +88,7 @@
             font-weight: 600;
             box-shadow: var(--shadow);
         }
-
-        .cart-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
+        .cart-button:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
         .cart-count {
             position: absolute;
             top: -8px;
@@ -126,20 +104,14 @@
             transform: scale(0);
             transition: transform 0.3s ease;
         }
-
-        .cart-count.show {
-            transform: scale(1);
-        }
-
-        /* Hero Section */
+        .cart-count.show { transform: scale(1); }
         .hero {
             background: var(--gradient-primary);
-            padding: 4rem 2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-
         .hero::before {
             content: '';
             position: absolute;
@@ -147,17 +119,14 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.04)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.5;
+            background: radial-gradient(circle at 50% 50%, rgba(233, 69, 96, 0.1) 0%, transparent 70%);
         }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
+        .hero-content { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            position: relative; 
+            z-index: 1; 
         }
-
         .hero h1 {
             font-family: 'Playfair Display', serif;
             font-size: 3.5rem;
@@ -167,39 +136,374 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: fadeInUp 1s ease-out;
         }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
+        .hero p { 
+            font-size: 1.25rem; 
+            color: var(--text-secondary); 
+            margin-bottom: 1.5rem; 
+            animation: fadeInUp 1s ease-out 0.2s both;
         }
-
-        /* Products Section */
-        .products-section {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
+        .scroll-indicator {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
         }
-
+        .scroll-indicator span {
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .scroll-indicator i {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+        .guide-assistant {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1rem;
+        }
+        .guide-bubble {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            border: 2px solid var(--gold);
+            box-shadow: var(--shadow-lg);
+            max-width: 300px;
+            position: relative;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        .guide-bubble.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .guide-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--gold);
+        }
+        .guide-bubble p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .guide-bubble .guide-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .guide-bubble button {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .guide-bubble button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+        }
+        .guide-robot {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        .guide-robot:hover {
+            transform: scale(1.1);
+        }
+        .guide-robot i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        .guide-robot.talking {
+            animation: talking 0.5s ease-in-out infinite alternate;
+        }
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border);
+            border: 2px solid var(--gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-dot.active {
+            background: var(--gold);
+            transform: scale(1.2);
+        }
+        .nav-dot:hover {
+            background: var(--gold);
+            transform: scale(1.1);
+        }
+        .nav-dot::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--surface);
+            color: var(--text-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .nav-dot:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+        .slider-section { 
+            max-width: 1400px; 
+            margin: 0 auto 2rem auto; 
+            padding: 1.5rem 2rem; 
+        }
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 32px;
             font-weight: 600;
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 5px;
             background: var(--gradient-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
+        .slider-controls { 
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 1rem; 
+            margin-bottom: 1rem; 
+        }
+        .slider-btn {
+            background: var(--gradient-accent); 
+            color: #fff; 
+            border: none; 
+            border-radius: 50%;
+            width: 45px; 
+            height: 45px; 
+            font-size: 1.2rem; 
+            cursor: pointer;
+            box-shadow: var(--shadow); 
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slider-btn:hover { 
+            background: var(--accent-light); 
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .slider-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .slider {
+            display: flex;
+            gap: 2rem;
+            padding-bottom: 1rem;
+            transition: transform 0.3s ease;
+            cursor: grab;
+            user-select: none;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .slider:active {
+            cursor: grabbing;
+        }
+        .slider::-webkit-scrollbar { 
+            height: 8px; 
+            background: var(--surface); 
+            border-radius: 4px;
+        }
+        .slider::-webkit-scrollbar-thumb { 
+            background: var(--accent); 
+            border-radius: 4px;
+        }
+        .slider::-webkit-scrollbar-track {
+            background: var(--surface);
+            border-radius: 4px;
+        }
+        .slider-card {
+            min-width: 300px; 
+            max-width: 300px; 
+            flex: 0 0 auto;
+            background: var(--surface); 
+            border-radius: 20px; 
+            border: 1px solid var(--border);
+            overflow: hidden; 
+            transition: all 0.4s ease;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .slider-card:hover { 
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg); 
+            border-color: var(--accent); 
+        }
+        .slider-img { 
+            width: 100%; 
+            height: 200px; 
+            object-fit: cover; 
+            cursor: pointer; 
+            transition: transform 0.3s ease;
+        }
+        .slider-card:hover .slider-img {
+            transform: scale(1.05);
+        }
+        .slider-content { 
+            padding: 1.5rem; 
+            flex: 1;
+        }
+        .slider-title { 
+            font-size: 1.2rem; 
+            font-weight: 600; 
+            margin-bottom: 0.5rem; 
+            color: var(--text-primary);
+        }
+        .slider-price { 
+            font-size: 1.3rem; 
+            font-weight: 700; 
+            color: var(--gold); 
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        .slider-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .slider-btn-primary {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            flex: 1;
+            box-shadow: var(--shadow);
+        }
+        .slider-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .slider-btn-secondary {
+            background: var(--surface-light);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+        .slider-btn-secondary:hover {
+            background: var(--gradient-gold);
+            color: var(--primary);
+            border-color: var(--gold);
+        }
+        .visit-btn-container {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .visit-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .visit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .products-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 2rem;
+        }
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
         }
-
         .product-card {
             background: var(--surface);
             border-radius: 20px;
@@ -209,1075 +513,913 @@
             position: relative;
             backdrop-filter: blur(20px);
         }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--accent);
+        .product-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: var(--shadow-lg); 
+            border-color: var(--accent); 
         }
-
-        .product-image {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-            cursor: pointer;
+        .product-image { 
+            width: 100%; 
+            height: 280px; 
+            object-fit: cover; 
+            transition: transform 0.4s ease; 
+            cursor: pointer; 
         }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
+        .product-card:hover .product-image { 
+            transform: scale(1.05); 
         }
-
-        .product-content {
-            padding: 1.5rem;
+        .product-content { 
+            padding: 1.5rem; 
         }
-
-        .product-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
+        .product-title { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.5rem; 
+            font-weight: 600; 
+            margin-bottom: 0.5rem; 
+            color: var(--text-primary); 
         }
-
-        .product-country {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .product-country { 
+            color: var(--text-muted); 
+            font-size: 0.9rem; 
+            margin-bottom: 1rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
         }
-
-        .product-price {
-            font-size: 1.75rem;
-            font-weight: 700;
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
+        .product-price { 
+            font-size: 1.75rem; 
+            font-weight: 700; 
+            background: var(--gradient-gold); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            background-clip: text; 
+            margin-bottom: 1.5rem; 
         }
-
-        .product-actions {
-            display: flex;
-            gap: 1rem;
+        .product-actions { 
+            display: flex; 
+            gap: 1rem; 
         }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            text-decoration: none;
+        .btn { 
+            padding: 0.75rem 1.5rem; 
+            border: none; 
+            border-radius: 50px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            font-size: 0.9rem; 
+            text-decoration: none; 
         }
-
-        .btn-primary {
-            background: var(--gradient-accent);
-            color: white;
-            flex: 1;
-            box-shadow: var(--shadow);
+        .btn-primary { 
+            background: var(--gradient-accent); 
+            color: white; 
+            flex: 1; 
+            box-shadow: var(--shadow); 
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: var(--shadow-lg); 
         }
-
-        .btn-secondary {
-            background: var(--surface-light);
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
+        .btn-secondary { 
+            background: var(--surface-light); 
+            color: var(--text-secondary); 
+            border: 1px solid var(--border); 
         }
-
-        .btn-secondary:hover {
-            background: var(--gradient-gold);
-            color: var(--primary);
-            border-color: var(--gold);
+        .btn-secondary:hover { 
+            background: var(--gradient-gold); 
+            color: var(--primary); 
+            border-color: var(--gold); 
         }
-
-        /* Cart Sidebar */
         .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -500px;
-            width: 500px;
+            position: fixed; 
+            top: 0; 
+            right: -500px; 
+            width: 500px; 
             height: 100vh;
-            background: var(--surface);
+            background: var(--surface); 
             backdrop-filter: blur(20px);
             border-left: 1px solid var(--border);
-            z-index: 1000;
+            z-index: 1000; 
             transition: right 0.4s ease;
-            display: flex;
-            flex-direction: column;
+            display: flex; 
+            flex-direction: column; 
             box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
         }
-
-        .cart-sidebar.open {
-            right: 0;
-        }
-
+        .cart-sidebar.open { right: 0; }
         .cart-header {
-            padding: 2rem;
+            padding: 2rem; 
             border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
+            display: flex; 
+            justify-content: space-between; 
             align-items: center;
             background: var(--gradient-primary);
         }
-
-        .cart-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
+        .cart-header h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.5rem; 
+            font-weight: 600; 
         }
-
         .close-cart {
-            background: none;
-            border: none;
+            background: none; 
+            border: none; 
             color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
+            font-size: 1.5rem; 
+            cursor: pointer; 
             transition: color 0.3s ease;
         }
-
-        .close-cart:hover {
-            color: var(--accent);
+        .close-cart:hover { color: var(--accent); }
+        .cart-items { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 1rem; 
         }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
+        .empty-cart { 
+            text-align: center; 
+            padding: 3rem 2rem; 
+            color: var(--text-muted); 
         }
-
-        .cart-item {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.3s ease;
+        .empty-cart i { 
+            font-size: 4rem; 
+            margin-bottom: 1rem; 
+            opacity: 0.5; 
         }
-
-        .cart-item:hover {
-            background: var(--surface-light);
+        .overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.7); 
+            z-index: 999; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: all 0.3s ease; 
         }
-
-        .cart-item-image {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 10px;
+        .overlay.show { 
+            opacity: 1; 
+            visibility: visible; 
         }
-
-        .cart-item-info {
-            flex: 1;
+        .footer { 
+            background: var(--gradient-primary); 
+            color: var(--text-secondary); 
+            text-align: center; 
+            padding: 2rem; 
+            margin-top: 2rem; 
+            border-top: 1px solid var(--border); 
         }
-
-        .cart-item-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
+        .footer p { 
+            font-size: 0.9rem; 
         }
-
-        .cart-item-price {
-            color: var(--gold);
-            font-weight: 700;
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .quantity-btn {
-            background: var(--surface-light);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .quantity-btn:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .quantity {
-            min-width: 30px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .remove-item {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 0.25rem;
-            transition: color 0.3s ease;
-        }
-
-        .remove-item:hover {
-            color: var(--accent);
-        }
-
-        .cart-footer {
-            padding: 2rem;
-            border-top: 1px solid var(--border);
-            background: var(--gradient-primary);
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .total-price {
-            background: var(--gradient-gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            background: var(--gradient-accent);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-        }
-
-        .checkout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .checkout-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Image Modal */
-        .image-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.8);
-            align-items: center;
-            justify-content: center;
-            animation: fadeInUp 0.4s;
-        }
-        .image-modal.show {
-            display: flex;
-        }
-        .image-modal-content {
-            position: relative;
-            max-width: 90vw;
-            max-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .image-modal-content img {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
-            background: var(--surface);
-        }
-        .image-modal-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--gradient-accent);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .image-modal-close:hover {
-            background: var(--accent);
-        }
-
-        /* Empty Cart */
-        .empty-cart {
-            text-align: center;
-            padding: 3rem 2rem;
-            color: var(--text-muted);
-        }
-
-        .empty-cart i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        /* Animations */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
             }
-        }
-        .fade-in {
-            animation: fadeInUp 0.6s ease-out;
         }
         @keyframes bounce {
-            0%, 20%, 53%, 80%, 100% {
-                transform: scale(1);
-            }
-            40%, 43% {
-                transform: scale(1.2);
-            }
-            70% {
-                transform: scale(1.1);
-            }
-            90% {
-                transform: scale(1.05);
-            }
+            0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+            40%, 43% { transform: translateY(-10px); }
+            70% { transform: translateY(-5px); }
+            90% { transform: translateY(-2px); }
         }
-        .bounce {
-            animation: bounce 0.6s ease-out;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-
-        /* Responsive */
+        @keyframes talking {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        .fade-in { 
+            animation: fadeInUp 0.6s ease-out; 
+        }
+        .bounce { 
+            animation: bounce 0.6s ease-out; 
+        }
         @media (max-width: 768px) {
-            .header-content {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 1rem;
+            .header-content { 
+                padding: 1rem; 
+                flex-direction: column; 
+                gap: 1rem; 
             }
-
-            .logo {
-                font-size: 1.5rem;
+            .logo { 
+                font-size: 1.5rem; 
             }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .products-section {
+            .hero {
                 padding: 2rem 1rem;
             }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
+            .hero h1 { 
+                font-size: 2.5rem; 
             }
-
-            .cart-sidebar {
-                width: 100%;
-                right: -100%;
+            .hero p { 
+                font-size: 1rem; 
             }
-
-            .product-actions {
+            .slider-section { 
+                padding: 1rem; 
+            }
+            .products-section { 
+                padding: 1rem; 
+            }
+            .products-grid { 
+                grid-template-columns: 1fr; 
+                gap: 1.5rem; 
+            }
+            .cart-sidebar { 
+                width: 100%; 
+                right: -100%; 
+            }
+            .product-actions { 
+                flex-direction: column; 
+            }
+            .slider { 
+                gap: 1rem; 
+            }
+            .slider-card { 
+                min-width: 280px; 
+                max-width: 280px; 
+            }
+            .guide-bubble {
+                max-width: 250px;
+            }
+            .nav-dots {
+                display: none;
+            }
+            .slider-actions {
                 flex-direction: column;
-            }
-            .image-modal-content img {
-                max-height: 60vh;
+                gap: 0.5rem;
             }
         }
-
-        /* Footer */
-        .footer {
-            background: var(--gradient-primary);
-            color: var(--text-secondary);
-            text-align: center;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .footer p {
-            font-size: 0.9rem;
-        }
-    </style>
+     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <i class="fas fa-crown"></i>
-                <span>ALLS STORE</span>
-            </div>
-            <div class="header-actions">
-                <button class="cart-button" id="cart-toggle">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>Panier</span>
-                    <div class="cart-count" id="cart-count">0</div>
-                </button>
-                <!-- Nouveau bouton "À propos de nous" -->
-                <a href="apropos.html" class="btn btn-secondary" style="text-decoration:none;">
-                    <i class="fas fa-info-circle"></i>
-                    À propos de nous
-                </a>
-            </div>
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <i class="fas fa-crown"></i>
+            <span>ALLS STORE</span>
         </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <p>Bienvenue sur ALLS STORE, découvrez notre sélection exclusive de produits de qualité supérieure, soigneusement choisis pour vous offrir le meilleur de chaque catégorie.</p>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="products-section">
-        <h2 class="section-title">Nos Produits Phares</h2>
-        <div class="products-grid" id="products-grid">
-            <!-- Les produits seront générés par JavaScript -->
-        </div>
-    </section>
-
-    <!-- Cart Sidebar -->
-    <div class="cart-sidebar" id="cart-sidebar">
-        <div class="cart-header">
-            <h2><i class="fas fa-shopping-bag"></i> Mon Panier</h2>
-            <button class="close-cart" id="close-cart">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="cart-items" id="cart-items">
-            <div class="empty-cart">
+        <div class="header-actions">
+            <button class="cart-button" id="cart-toggle">
                 <i class="fas fa-shopping-bag"></i>
-                <h3>Votre panier est vide</h3>
-                <p>Ajoutez des produits pour commencer vos achats</p>
-            </div>
-        </div>
-        <div class="cart-footer" id="cart-footer" style="display: none;">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span class="total-price" id="total-price">0 FCFA</span>
-            </div>
-            <button class="checkout-btn" id="checkout-btn">
-                <i class="fab fa-whatsapp"></i>
-                Commander via WhatsApp
+                <span>Panier</span>
+                <div class="cart-count" id="cart-count">0</div>
             </button>
+            <a href="#" class="btn btn-secondary" style="text-decoration:none;">
+                <i class="fas fa-info-circle"></i>
+                À propos
+            </a>
         </div>
     </div>
+</header>
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <p>Bienvenue sur ALLS STORE, découvrez notre sélection exclusive de produits de qualité supérieure.</p>
+    </div>
+    <div class="scroll-indicator" onclick="scrollToSection('food')">
+        <span>Découvrir nos produits</span>
+        <i class="fas fa-chevron-down"></i>
+    </div>
+</section>
 
-    <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
+<div class="nav-dots">
+    <div class="nav-dot active" data-label="Accueil" onclick="scrollToSection('hero')"></div>
+    <div class="nav-dot" data-label="Accessoires" onclick="scrollToSection('food')"></div>
+    <div class="nav-dot" data-label="Chaussures" onclick="scrollToSection('shoes')"></div>
+    <div class="nav-dot" data-label="Informatique" onclick="scrollToSection('it')"></div>
+    <div class="nav-dot" data-label="Autres" onclick="scrollToSection('other')"></div>
+</div>
 
-    <!-- Image Modal -->
-    <div class="image-modal" id="image-modal">
-        <div class="image-modal-content">
-            <button class="image-modal-close" id="image-modal-close" aria-label="Fermer l'image"><i class="fas fa-times"></i></button>
-            <img src="" alt="Agrandissement produit" id="modal-img">
+<section class="slider-section" id="food">
+    <h2 class="section-title">Accessoires Alimentaires</h2>
+    <div class="slider-controls">
+        <button class="slider-btn" id="food-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-btn" id="food-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    <div class="slider-container">
+        <div class="slider" id="food-slider"></div>
+    </div>
+    <div class="visit-btn-container">
+    </div>
+</section>
+
+<section class="slider-section" id="shoes">
+    <h2 class="section-title">Nos Chaussures</h2>
+    <div class="slider-controls">
+        <button class="slider-btn" id="shoes-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-btn" id="shoes-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    <div class="slider-container">
+        <div class="slider" id="shoes-slider"></div>
+    </div>
+    <div class="visit-btn-container">
+    </div>
+</section>
+<section class="slider-section" id="it">
+    <h2 class="section-title">Matériel Informatique</h2>
+    <div class="slider-controls">
+        <button class="slider-btn" id="it-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-btn" id="it-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    <div class="slider" id="it-slider"></div>
+    <div class="visit-btn-container">
+    </div>
+</section>
+<section class="products-section" id="other">
+    <h2 class="section-title">Autres Produits</h2>
+    <div class="products-grid" id="products-grid"></div>
+</section>
+<div class="guide-assistant">
+    <div class="guide-bubble" id="guide-bubble">
+        <p id="guide-text">Bonjour ! Je suis votre assistant virtuel. Voulez-vous que je vous guide dans votre visite ?</p>
+        <div class="guide-actions">
+            <button onclick="startGuide()">Oui, guidez-moi</button>
+            <button onclick="hideGuide()">Non merci</button>
         </div>
     </div>
+    <div class="guide-robot" id="guide-robot" onclick="toggleGuide()">
+        <i class="fas fa-robot"></i>
+    </div>
+</div>
+<div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+        <h2><i class="fas fa-shopping-bag"></i> Mon Panier</h2>
+        <button class="close-cart" id="close-cart">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="cart-items" id="cart-items">
+        <div class="empty-cart">
+            <i class="fas fa-shopping-bag"></i>
+            <h3>Votre panier est vide</h3>
+            <p>Ajoutez des produits pour commencer vos achats</p>
+        </div>
+    </div>
+</div>
+<div class="overlay" id="overlay"></div>
+<footer class="footer">
+    <p>&copy; 2025 Alls Boutique - Excellence & Qualité Premium. Votre satisfaction, notre priorité.</p>
+</footer>
+<script>
+    // PRODUITS (liste complète)
+    const products = [
+        { id: 1, name: "Gourde de sport", price: 3000, country: "Côte d'Ivoire", image: "image/ES9.jpg", whatsapp: "+2250172369840" },
+        { id: 2, name: "Gobelet TYESO", price: 7000, country: "Côte d'Ivoire", image: "image/ES12.jpg", whatsapp: "+2250172369840" },
+        { id: 3, name: "BOUTEILLE D'EAU", price: 2500, country: "Côte d'Ivoire", image: "image/ES10.jpg", whatsapp: "+2250172369840" },
+        { id: 4, name: "AirPods Pro 2", price: 18000, country: "Côte d'Ivoire", image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", whatsapp: "+2250172369840" },
+        { id: 5, name: "Apple Watch ", price: 20000, country: "Côte d'Ivoire", image: "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", whatsapp: "+2250172369840" },
+        { id: 6, name: "GOBELET A PAILLE HELLO KITTY", price: 3000, country: "Côte d'Ivoire", image: "image/ES14.jpg", whatsapp: "+2250172369840" },
+        { id: 11.8, name: "Bouteille isotherme en acier inoxydable", price: 8000, country: "Côte d'Ivoire", image: "image/ES11.jpg", whatsapp: "+2250172369840" },
+        { id: 11.9, name: "THE DREAM SPRAY ESSENCE", price: 900, country: "Côte d'Ivoire", image: "image/es1.jpg", whatsapp: "+2250172369840" },
+        { id: 11.10, name: "INFIDELE ESSENCE", price: 1000, country: "Côte d'Ivoire", image: "image/ES2.jpg", whatsapp: "+2250172369840" },
+        { id: 11.11, name: "DIPLOMATIC DEODORANT", price: 3000, country: "Côte d'Ivoire", image: "image/ES3.jpg", whatsapp: "+2250172369840" },
+        { id: 11.12, name: "CARAFE D'EAU EN VERRE", price: 3000, country: "Côte d'Ivoire", image: "image/ES5.jpg", whatsapp: "+2250172369840" },
+        { id: 11.13, name: "ADIDAS", price: 18000, country: "Côte d'Ivoire", image: "image/ES22.jpg", whatsapp: "+2250172369840" },
+        { id: 11.14, name: "NIKE", price: 18000, country: "Côte d'Ivoire", image: "image/ES24.jpg", whatsapp: "+2250172369840" },
+        { id: 11.15, name: "ADIDAS", price: 18000, country: "Côte d'Ivoire", image: "image/ES27.jpg", whatsapp: "+2250172369840" },
+        { id: 11.16, name: "NIKE", price: 18000, country: "Côte d'Ivoire", image: "image/ES24.jpg", whatsapp: "+2250172369840" },
+        { id: 11.17, name: "ADIDAS", price: 18000, country: "Côte d'Ivoire", image: "image/ES21.jpg", whatsapp: "+2250172369840" },
+        { id: 8, name: "HP Pavilion Laptop 15 TACTILE Core I7", price: 350000, country: "Côte d'Ivoire", image: "image/HP2.jpg", whatsapp: "+2250172369840" },
+        { id: 9, name: "HP Pavilion Laptop 15 tactile CORE I7", price: 350000, country: "Côte d'Ivoire", image: "image/HP1.jpg", whatsapp: "+2250172369840" },
+        { id: 10, name: "Hp Probook 440 G5", price: 120000, country: "Côte d'Ivoire", image: "image/hp pro.jpg", whatsapp: "+2250172369840" },
+        { id: 11.111, name: "DELL LATITUDE 7480 CORE I7", price: 250000, country: "Côte d'Ivoire", image: "image/de1.jpg", whatsapp: "+2250172369840" },
+        { id: 11.2, name: "DELL LATITUDE 7480 CORE I7", price: 250000, country: "Côte d'Ivoire", image: "image/del2.jpg", whatsapp: "+2250172369840" },
+        { id: 11.3, name: "DELL LATITUDE 7480 CORE I7", price: 250000, country: "Côte d'Ivoire", image: "image/del3.jpg", whatsapp: "+2250172369840" },
+        { id: 11.4, name: "OFF-WHITE", price: 15000, country: "Côte d'Ivoire", image: "image/tanoire.jpg", whatsapp: "+2250172369840" },
+        { id: 11.5, name: "NIKE", price: 15000, country: "Côte d'Ivoire", image: "image/nike.jpg", whatsapp: "+2250172369840" },
+        { id: 11.6, name: "NIKE AIR MAX", price: 20000, country: "Côte d'Ivoire", image: "image/bi.jpg", whatsapp: "+2250172369840" },
+        { id: 11.7, name: "ADIDAS", price: 18000, country: "Côte d'Ivoire", image: "image/ES26.jpg", whatsapp: "+2250172369840" },
+        { id: 11, name: "Parfum Homme Prestige", price: 2500, country: "Côte d'Ivoire", image: "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", whatsapp: "+2250172369840" },
+        { id: 12, name: "Parfum Femme Élégance", price: 3000, country: "Côte d'Ivoire", image: "image/femmel.jpg", whatsapp: "+2250172369840" },
+        { id: 13, name: "Parfum Unisexe Fresh", price: 2000, country: "Côte d'Ivoire", image: "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", whatsapp: "+2250172369840" },
+        { id: 14, name: "Parfum Romance Femme", price: 22000, country: "Côte d'Ivoire", image: "image/romance.jpg", whatsapp: "+2250172369840" },
+        { id: 21, name: "Parfum Homme Élégant", price: 8000, country: "Côte d'Ivoire", image: "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", whatsapp: "+2250172369840" },
+        { id: 22, name: "Parfum Femme Luxe", price: 10000, country: "Côte d'Ivoire", image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", whatsapp: "+2250172369840" },
+        { id: 23, name: "Parfum Unisexe Signature", price: 15000, country: "Côte d'Ivoire", image: "https://images.unsplash.com/photo-1615634260167-c8cdede054de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", whatsapp: "+2250172369840" },
+        { id: 15, name: "Bouteille d'eau", price: 3000, country: "Côte d'Ivoire", image: "image/ES6.jpg", whatsapp: "+2250172369840" },
+        { id: 16, name: "Maillot Vinicius Jr #7 Real Madrid", price: 12000, country: "Côte d'Ivoire", image: "image/vinisus.jpg", whatsapp: "+2250172369840" },
+        { id: 17, name: "Maillot Modric #10 Real Madrid", price: 12000, country: "Côte d'Ivoire", image: "image/modric.jpg", whatsapp: "+2250172369840" },
+        { id: 18, name: "Maillot Bellingham #5 Real Madrid", price: 13000, country: "Côte d'Ivoire", image: "image/beligam.jpg", whatsapp: "+2250172369840" },
+        { id: 20, name: "Huawei P60 Pro", price: 450000, country: "Côte d'Ivoire", image: "image/p60.jpg", whatsapp: "+2250172369840" }
+    ];
+    // Catégorisation
+    const foodProducts = products.filter(p => [
+        1, 2, 3, 6, 11.8,  11.12, 15
+    ].includes(p.id));
+    const shoesProducts = products.filter(p => [
+        11.13, 11.14, 11.15, 11.16, 11.17, 11.4, 11.5, 11.6, 11.7
+    ].includes(p.id));
+    const itProducts = products.filter(p => [
+        11.2, 20,10,9,
+    ].includes(p.id));
+    const otherProducts = products.filter(
+        p => !foodProducts.includes(p) && !shoesProducts.includes(p) && !itProducts.includes(p)
+    );
+    function formatPrice(price) {
+        return price.toLocaleString('fr-FR') + ' FCFA';
+    }
+    function createSliderCard(product) {
+    return `
+        <div class="slider-card">
+            <img src="${product.image}" alt="${product.name}" class="slider-img">
+            <div style="padding: 0 1.5rem 1rem 1.5rem; text-align:center;">
+                <button class="btn btn-primary" style="margin-top:10px; width:100%;" onclick="addToCart(${JSON.stringify(product.id)})">
+                    <i class="fas fa-shopping-cart"></i>
+                    Ajouter au panier
+                </button>
+            </div>
+            <div class="slider-content">
+                <h3 class="slider-title">${product.name}</h3>
+                <p class="slider-price">${formatPrice(product.price)}</p>
+            </div>
+        </div>
+    `;
+}
+function createProductCard(product) {
+    return `
+        <div class="product-card">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <div class="product-content">
+                <h3 class="product-title">${product.name}</h3>
+                <p class="product-country">
+                    <i class="fas fa-map-marker-alt"></i>
+                    ${product.country}
+                </p>
+                <p class="product-price">${formatPrice(product.price)}</p>
+                <div class="product-actions">
+                    <button class="btn btn-primary" onclick="addToCart(${JSON.stringify(product.id)})">
+                        <i class="fas fa-shopping-cart"></i>
+                        Ajouter au panier
+                    </button>
+                    <button class="btn btn-secondary" onclick="openWhatsApp('${product.whatsapp}', '${product.name}')">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2025 Alls Boutique - Excellence & Qualité Premium. Votre satisfaction, notre priorité.</p>
-    </footer>
+    }
+    // PANIER (exemple minimal, à adapter selon vos besoins)
+    let cart = [];
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        const cartItem = cart.find(item => item.id === productId);
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+        updateCartUI();
+    }
+    function updateCartUI() {
+        const cartCount = document.getElementById('cart-count');
+        const itemsContainer = document.getElementById('cart-items');
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = count;
+        cartCount.classList.toggle('show', count > 0);
 
-    <script>
-        // Données des produits (remplace la base de données)
-        const products = [
+        if (cart.length === 0) {
+            itemsContainer.innerHTML = `
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h3>Votre panier est vide</h3>
+                    <p>Ajoutez des produits pour commencer vos achats</p>
+                </div>
+            `;
+            return;
+        }
+        itemsContainer.innerHTML = cart.map(item => `
+            <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2a4a;padding:1rem 0;">
+                <div>
+                    <strong>${item.name}</strong><br/>
+                    <span>${formatPrice(item.price)} x ${item.quantity}</span>
+                </div>
+                <div>
+                    <button onclick="removeFromCart(${JSON.stringify(item.id)})" style="background:none;border:none;color:#e94560;font-size:1.2rem;cursor:pointer;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('') + `
+            <div style="padding:1rem 0;text-align:right;">
+                <strong>Total: ${formatPrice(cart.reduce((sum, item) => sum + item.price * item.quantity, 0))}</strong>
+            </div>
+            <div style="text-align:center;">
+                <button class="btn btn-primary" onclick="checkout()">Commander par WhatsApp</button>
+            </div>
+        `;
+    }
+    function removeFromCart(productId) {
+        cart = cart.filter(item => item.id !== productId);
+        updateCartUI();
+    }
+    function openWhatsApp(phone, productName) {
+        const message = encodeURIComponent(`Bonjour, je suis intéressé par "${productName}".`);
+        const url = `https://wa.me/${phone.replace('+', '')}?text=${message}`;
+        window.open(url, '_blank');
+    }
+    function checkout() {
+        if (cart.length === 0) return;
+        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        let message = "🛒 *Nouvelle commande ALLS STORE*\n\n";
+        cart.forEach(item => {
+            message += `• ${item.name}\n`;
+            message += `  Prix: ${formatPrice(item.price)}\n`;
+            message += `  Quantité: ${item.quantity}\n`;
+            message += `  Sous-total: ${formatPrice(item.price * item.quantity)}\n\n`;
+        });
+        message += `💰 *Total: ${formatPrice(totalPrice)}*\n\n`;
+        message += "Merci de confirmer votre commande !";
+        const phone = "+2250508463003"; // MODIFICATION DU NUMÉRO
+        const url = `https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+
+    // Slider SANS auto-slide (suppression de l'autoslide)
+    function setupSlider(sliderId, prevBtnId, nextBtnId) {
+        const slider = document.getElementById(sliderId);
+        const prevBtn = document.getElementById(prevBtnId);
+        const nextBtn = document.getElementById(nextBtnId);
+
+        prevBtn.addEventListener('click', () => {
+            slider.scrollBy({ left: -320, behavior: 'smooth' });
+        });
+        nextBtn.addEventListener('click', () => {
+            slider.scrollBy({ left: 320, behavior: 'smooth' });
+        });
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+        slider.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('touchend', () => {
+            isDown = false;
+        });
+        slider.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - slider.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+        // --- AUTOSLIDE SUPPRIMÉ ---
+    }
+
+    // Cart sidebar
+    function toggleCart() {
+        const sidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('overlay');
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('show');
+    }
+    function closeCart() {
+        const sidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('overlay');
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+    }
+
+    // Initialisation
+    function init() {
+        document.getElementById('food-slider').innerHTML = foodProducts.map(createSliderCard).join('');
+        document.getElementById('shoes-slider').innerHTML = shoesProducts.map(createSliderCard).join('');
+        document.getElementById('it-slider').innerHTML = itProducts.map(createSliderCard).join('');
+        document.getElementById('products-grid').innerHTML = otherProducts.map(createProductCard).join('');
+        setupSlider('food-slider', 'food-prev', 'food-next');
+        setupSlider('shoes-slider', 'shoes-prev', 'shoes-next');
+        setupSlider('it-slider', 'it-prev', 'it-next');
+        document.getElementById('cart-toggle').addEventListener('click', toggleCart);
+        document.getElementById('close-cart').addEventListener('click', closeCart);
+        document.getElementById('overlay').addEventListener('click', closeCart);
+        updateCartUI();
+        setTimeout(() => {
+            document.querySelectorAll('.slider-card, .product-card').forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('fade-in');
+                }, index * 100);
+            });
+        }, 100);
+    }
+
+    // Gestion des erreurs d'images
+    function handleImageError(img) {
+        img.src = 'https://via.placeholder.com/400x300/1a1a2e/ffffff?text=Image+Non+Disponible';
+        img.onerror = null;
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+            img.onerror = () => handleImageError(img);
+        });
+    });
+    document.addEventListener('DOMContentLoaded', init);
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // FONCTION DE SCROLL UNIFIÉE
+    function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        const ids = ['hero', 'food', 'shoes', 'it', 'other'];
+        document.querySelectorAll('.nav-dot').forEach((dot, idx) => {
+            dot.classList.toggle('active', ids[idx] === sectionId);
+        });
+    }
+
+    // Guide assistant (inchangé, mais attention à ne garder qu'une seule version de scrollToSection !)
+    function startGuide() {
+        hideGuide();
+    }
+    function hideGuide() {
+        document.getElementById('guide-bubble').classList.remove('show');
+    }
+    function toggleGuide() {
+        const bubble = document.getElementById('guide-bubble');
+        bubble.classList.toggle('show');
+    }
+    window.onload = () => {
+        setTimeout(() => {
+            document.getElementById('guide-bubble').classList.add('show');
+        }, 1000);
+    }
+</script>
+<script>
+        // Variables pour le guide assistant
+        let guideActive = false;
+        let guideStep = 0;
+        let guideInterval;
+
+        // Messages du guide
+        const guideMessages = [
             {
-                id: 1,
-                name: "Gourde de sport",
-                price: 3000,
-                country: "Côte d'Ivoire",
-                image: "image/ES9.jpg",
-                whatsapp: "+2250172369840"
+                text: "Bienvenue sur ALLS STORE ! Je vais vous faire découvrir nos produits.",
+                action: "Commencer"
             },
             {
-                id: 2,
-                name: "Gobelet TYESO",
-                price: 7000,
-                country: "Côte d'Ivoire",
-                image: "image/ES12.jpg",
-                whatsapp: "+2250172369840"
+                text: "Voici nos accessoires alimentaires. Parfaits pour le sport et la maison !",
+                action: "Suivant",
+                scrollTo: "food"
             },
             {
-                id: 3,
-                name: "BOUTEILLE D'EAU",
-                price: 2500,
-                country: "Côte d'Ivoire",
-                image: "image/ES10.jpg",
-                whatsapp: "+2250172369840"
+                text: "Découvrez notre collection de chaussures premium. Nike, Adidas et plus encore !",
+                action: "Suivant",
+                scrollTo: "shoes"
             },
             {
-                id: 4,
-                name: "AirPods Pro 2",
-                price: 18000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
+                text: "Voici notre matériel informatique. Laptops, téléphones et accessoires high-tech !",
+                action: "Suivant",
+                scrollTo: "it"
             },
             {
-                id: 5,
-                name: "Apple Watch ",
-                price: 20000,
-                country: "Côte d'Ivoire",
-                image: "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                whatsapp: "+2250172369840"
+                text: "Et enfin, nos autres produits : parfums, montres, casques audio...",
+                action: "Terminer",
+                scrollTo: "other"
             },
             {
-                id: 6,
-                name: "GOBELET A PAILLE HELLO KITTY",
-                price: 3000,
-                country: "Côte d'Ivoire",
-                image: "image/ES14.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.8 ,
-                name: "Bouteille isotherme en acier inoxydable",
-                price: 8000,
-                country: "Côte d'Ivoire",
-                image: "image/ES11.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.9,
-                name: "THE DREAM SPRAY ESSENCE",
-                price: 900,
-                country: "Côte d'Ivoire",
-                image: "image/es1.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.10,
-                name: "INFIDELE ESSENCE",
-                price: 1000,
-                country: "Côte d'Ivoire",
-                image: "image/ES2.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.11,
-                name: "DIPLOMATIC DEODORANT",
-                price: 3000,
-                country: "Côte d'Ivoire",
-                image: "image/ES3.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.12,
-                name: "CARAFE D'EAU EN VERRE",
-                price: 3000,
-                country: "Côte d'Ivoire",
-                image: "image/ES5.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.13,
-                name: "ADIDAS",
-                price: 18000,
-                country: "Côte d'Ivoire",
-                image: "image/ES22.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.14,
-                name: "NIKE",
-                price: 18000,
-                country: "Côte d'Ivoire",
-                image: "image/ES24.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.15,
-                name: "ADIDAS",
-                price: 18000,
-                country: "Côte d'Ivoire",
-                image: "image/ES27.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.16,
-                name: "NIKE",
-                price: 18000,
-                country: "Côte d'Ivoire",
-                image: "image/ES24.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.17,
-                name: "ADIDAS",
-                price: 18000,
-                country: "Côte d'Ivoire",
-                image: "image/ES21.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 8,
-                name: "HP Pavilion Laptop 15 TACTILE Core I7",
-                price: 350000,
-                country: "Côte d'Ivoire",
-                image: "image/HP2.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 9,
-                name: "HP Pavilion Laptop 15 tactile CORE I7",
-                price: 350000,
-                country: "Côte d'Ivoire",
-                image: "image/HP1.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 10,
-                name: "Hp Probook 440 G5",
-                price: 120000,
-                country: "Côte d'Ivoire",
-                image: "image/hp pro.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.1,
-                name: "DELL LATITUDE 7480 CORE I7",
-                price: 250000,
-                country: "Côte d'Ivoire",
-                image: "image/de1.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.2,
-                name: "DELL LATITUDE 7480 CORE I7",
-                price: 250000,
-                country: "Côte d'Ivoire",
-                image: "image/del2.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.3,
-                name: "DELL LATITUDE 7480 CORE I7",
-                price: 250000,
-                country: "Côte d'Ivoire",
-                image: "image/del3.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.4,
-                name: "OFF-WHITE",
-                price: 15000,
-                country: "Côte d'Ivoire",
-                image: "image/tanoire.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.5,
-                name: "NIKE",
-                price: 15000,
-                country: "Côte d'Ivoire",
-                image: "image/nike.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.6,
-                name: "NIKE AIR MAX",
-                price: 20000,
-                country: "Côte d'Ivoire",
-                image: "image/bi.jpg",
-                whatsapp: "+2250172369840"
-            },
-            {
-                id: 11.7,
-                name: "ADIDAS",
-                price: 18000,
-                country: "Côte d'Ivoire",
-                image: "image/ES26.jpg",
-                whatsapp: "+2250172369840"
-            },
-            // Parfums abordables
-            {
-                "id": 11,
-                "name": "Parfum Homme Prestige",
-                "price": 2500,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1541643600914-78b084683601?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 12,
-                "name": "Parfum Femme Élégance",
-                "price": 3000,
-                "country": "Côte d'Ivoire",
-                "image": "image/femmel.jpg",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 13,
-                "name": "Parfum Unisexe Fresh",
-                "price": 2000,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 14,
-                "name": "Parfum Romance Femme",
-                "price": 22000,
-                "country": "Côte d'Ivoire",
-                "image": "image/romance.jpg",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 21,
-                "name": "Parfum Homme Élégant",
-                "price": 8000,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 22,
-                "name": "Parfum Femme Luxe",
-                "price": 10000,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 23,
-                "name": "Parfum Unisexe Signature",
-                "price": 15000,
-                "country": "Côte d'Ivoire",
-                "image": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 15,
-                "name": "Bouteille d'eau",
-                "price": 3000,
-                "country": "Côte d'Ivoire",
-                "image": "image/ES6.jpg",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 16,
-                "name": "Maillot Vinicius Jr #7 Real Madrid",
-                "price": 12000,
-                "country": "Côte d'Ivoire",
-                "image": "image/vinisus.jpg",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 17,
-                "name": "Maillot Modric #10 Real Madrid",
-                "price": 12000,
-                "country": "Côte d'Ivoire",
-                "image": "image/modric.jpg",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 18,
-                "name": "Maillot Bellingham #5 Real Madrid",
-                "price": 13000,
-                "country": "Côte d'Ivoire",
-                "image": "image/beligam.jpg",
-                "whatsapp": "+2250172369840"
-            },
-            {
-                "id": 20,
-                "name": "Huawei P60 Pro",
-                "price": 450000,
-                "country": "Côte d'Ivoire",
-                "image": "image/p60.jpg",
-                "whatsapp": "+2250172369840"
+                text: "Merci d'avoir visité ALLS STORE ! N'hésitez pas à me rappeler si vous avez besoin d'aide.",
+                action: "Fermer"
             }
         ];
 
-        // État du panier
-        let cart = [];
+        // Fonctions du guide assistant
+        function showGuide() {
+            const bubble = document.getElementById('guide-bubble');
+            const robot = document.getElementById('guide-robot');
+            
+            bubble.classList.add('show');
+            robot.classList.add('talking');
+            
+            // Arrêter l'animation après 2 secondes
+            setTimeout(() => {
+                robot.classList.remove('talking');
+            }, 2000);
+        }
 
-        // Éléments DOM
-        const elements = {
-            productsGrid: document.getElementById('products-grid'),
-            cartToggle: document.getElementById('cart-toggle'),
-            cartSidebar: document.getElementById('cart-sidebar'),
-            closeCaet: document.getElementById('close-cart'),
-            overlay: document.getElementById('overlay'),
-            cartItems: document.getElementById('cart-items'),
-            cartFooter: document.getElementById('cart-footer'),
-            cartCount: document.getElementById('cart-count'),
-            totalPrice: document.getElementById('total-price'),
-            checkoutBtn: document.getElementById('checkout-btn'),
-            imageModal: document.getElementById('image-modal'),
-            imageModalClose: document.getElementById('image-modal-close'),
-            modalImg: document.getElementById('modal-img')
+        function hideGuide() {
+            const bubble = document.getElementById('guide-bubble');
+            const robot = document.getElementById('guide-robot');
+            
+            bubble.classList.remove('show');
+            robot.classList.remove('talking');
+            guideActive = false;
+            guideStep = 0;
+            
+            if (guideInterval) {
+                clearInterval(guideInterval);
+            }
+        }
+
+        function toggleGuide() {
+            const bubble = document.getElementById('guide-bubble');
+            
+            if (bubble.classList.contains('show')) {
+                hideGuide();
+            } else {
+                showGuide();
+            }
+        }
+
+        function startGuide() {
+            guideActive = true;
+            guideStep = 0;
+            nextGuideStep();
+        }
+
+        function nextGuideStep() {
+            if (guideStep < guideMessages.length) {
+                const message = guideMessages[guideStep];
+                const guideText = document.getElementById('guide-text');
+                const guideActions = document.querySelector('.guide-actions');
+                const robot = document.getElementById('guide-robot');
+                
+                // Mettre à jour le texte
+                guideText.textContent = message.text;
+                
+                // Animer le robot
+                robot.classList.add('talking');
+                setTimeout(() => {
+                    robot.classList.remove('talking');
+                }, 1500);
+                
+                // Faire défiler vers la section appropriée
+                if (message.scrollTo) {
+                    setTimeout(() => {
+                        scrollToSection(message.scrollTo);
+                    }, 1000);
+                }
+                
+                // Mettre à jour les actions
+                if (guideStep === guideMessages.length - 1) {
+                    guideActions.innerHTML = `
+                        <button onclick="hideGuide()">Fermer</button>
+                    `;
+                } else {
+                    guideActions.innerHTML = `
+                        <button onclick="nextGuideStep()">${message.action}</button>
+                        <button onclick="hideGuide()">Passer</button>
+                    `;
+                }
+                
+                guideStep++;
+            } else {
+                hideGuide();
+            }
+        }
+
+        function updateNavDots(activeSection) {
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            const sectionMap = {
+                'hero': 0,
+                'food': 1,
+                'shoes': 2,
+                'it': 3,
+                'other': 4
+            };
+            
+            const activeIndex = sectionMap[activeSection];
+            if (activeIndex !== undefined && dots[activeIndex]) {
+                dots[activeIndex].classList.add('active');
+            }
+        }
+
+        // Initialiser le guide assistant
+        function initGuideAssistant() {
+            // Afficher le guide automatiquement après 3 secondes
+            setTimeout(() => {
+                if (!guideActive) {
+                    showGuide();
+                }
+            }, 3000);
+            
+            // Cacher le guide après 10 secondes s'il n'y a pas d'interaction
+            setTimeout(() => {
+                if (!guideActive) {
+                    hideGuide();
+                }
+            }, 13000);
+        }
+
+        // Démarrer le guide assistant quand la page est chargée
+        document.addEventListener('DOMContentLoaded', function() {
+            initGuideAssistant();
+        });
+
+        // Gestion de l'intersection observer pour les sections
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '-50px 0px'
         };
 
-        // Formatage des prix
-        function formatPrice(price) {
-            return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
-        }
-
-        // Rendu des produits
-        function renderProducts() {
-            elements.productsGrid.innerHTML = products.map(product => `
-                <div class="product-card fade-in">
-                    <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onclick="showImageModal('${product.image}', '${product.name.replace(/'/g, "\\'")}')">
-                    <div class="product-content">
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-country">
-                            <i class="fas fa-map-marker-alt"></i>
-                            ${product.country}
-                        </div>
-                        <div class="product-price">${formatPrice(product.price)}</div>
-                        <div class="product-actions">
-                            <button class="btn btn-primary" onclick="addToCart(${product.id})">
-                                <i class="fas fa-cart-plus"></i>
-                                Ajouter au panier
-                            </button>
-                            <button class="btn btn-secondary" onclick="buyNow(${product.id})">
-                                <i class="fab fa-whatsapp"></i>
-                                Acheter
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Ajouter au panier
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const existingItem = cart.find(item => item.id === productId);
-
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-
-            updateCartUI();
-            showCartAnimation();
-        }
-
-        // Animation du panier
-        function showCartAnimation() {
-            elements.cartCount.classList.add('bounce');
-            setTimeout(() => {
-                elements.cartCount.classList.remove('bounce');
-            }, 600);
-        }
-
-        // Mettre à jour l'interface du panier
-        function updateCartUI() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-            // Mettre à jour le compteur
-            elements.cartCount.textContent = totalItems;
-            elements.cartCount.classList.toggle('show', totalItems > 0);
-
-            // Mettre à jour le prix total
-            elements.totalPrice.textContent = formatPrice(totalPrice);
-
-            // Rendu des articles du panier
-            if (cart.length === 0) {
-                elements.cartItems.innerHTML = `
-                    <div class="empty-cart">
-                        <i class="fas fa-shopping-bag"></i>
-                        <h3>Votre panier est vide</h3>
-                        <p>Ajoutez des produits pour commencer vos achats</p>
-                    </div>
-                `;
-                elements.cartFooter.style.display = 'none';
-            } else {
-                elements.cartItems.innerHTML = cart.map(item => `
-                    <div class="cart-item">
-                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">${item.name}</div>
-                            <div class="cart-item-price">${formatPrice(item.price)}</div>
-                            <div class="cart-item-actions">
-                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <span class="quantity">${item.quantity}</span>
-                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                                <button class="remove-item" onclick="removeFromCart(${item.id})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-                elements.cartFooter.style.display = 'block';
-            }
-        }
-
-        // Mettre à jour la quantité
-        function updateQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    removeFromCart(productId);
-                } else {
-                    updateCartUI();
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateNavDots(entry.target.id);
                 }
-            }
-        }
-
-        // Supprimer du panier
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCartUI();
-        }
-
-        // Acheter maintenant (ouvrir WhatsApp avec un message pré-rempli)
-        function buyNow(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                const message = encodeURIComponent(`Bonjour, je souhaite acheter le produit suivant :\n- ${product.name}\nPrix : ${formatPrice(product.price)}\nMerci de me contacter pour finaliser la commande.`);
-                const whatsappUrl = `https://wa.me/${product.whatsapp.replace('+', '')}?text=${message}`;
-                window.open(whatsappUrl, '_blank');
-            }
-        }
-
-        // Ouvrir le panier
-        function openCart() {
-            elements.cartSidebar.classList.add('open');
-            elements.overlay.classList.add('show');
-        }
-
-        // Fermer le panier
-        function closeCart() {
-            elements.cartSidebar.classList.remove('open');
-            elements.overlay.classList.remove('show');
-        }
-
-        // Commander via WhatsApp (panier entier)
-        function checkoutCart() {
-            if (cart.length === 0) return;
-
-            // Regrouper les articles du panier dans un message
-            let message = 'Bonjour, voici ma commande :\n';
-            cart.forEach(item => {
-                message += `- ${item.name} (${item.quantity} x ${formatPrice(item.price)})\n`;
             });
-            const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            message += `\nTotal à payer : ${formatPrice(totalPrice)}\nMerci de me contacter pour finaliser la commande.`;
+        }, observerOptions);
 
-            // Prendre le WhatsApp du premier produit (ou définir un WhatsApp général)
-            const whatsappNumber = products[0]?.whatsapp || "+2250172369840";
-            const whatsappUrl = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        // Gestion du modal d'image
-        function showImageModal(imageUrl, altText) {
-            elements.modalImg.src = imageUrl;
-            elements.modalImg.alt = altText;
-            elements.imageModal.classList.add('show');
-            elements.overlay.classList.add('show');
-            document.body.style.overflow = 'hidden'; // Désactive le scroll
-        }
-
-        function closeImageModal() {
-            elements.imageModal.classList.remove('show');
-            elements.overlay.classList.remove('show');
-            elements.modalImg.src = '';
-            elements.modalImg.alt = '';
-            document.body.style.overflow = ''; // Réactive le scroll
-        }
-
-        // Évènements
-        elements.cartToggle.addEventListener('click', openCart);
-        elements.overlay.addEventListener('click', () => {
-            closeCart();
-            closeImageModal();
-        });
-        elements.closeCaet.addEventListener('click', closeCart);
-        elements.checkoutBtn.addEventListener('click', checkoutCart);
-
-        elements.imageModalClose.addEventListener('click', closeImageModal);
-
-        // Fermeture modal avec touche Echap
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeImageModal();
-                closeCart();
-            }
+        // Observer toutes les sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section[id]');
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
         });
 
-        // Initialisation
-        renderProducts();
-        updateCartUI();
+        // Ajouter des effets sonores (optionnel)
+        function playNotificationSound() {
+            // Créer un son de notification simple
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
 
-        // Pour accès des fonctions depuis HTML dynamique
-        window.addToCart = addToCart;
-        window.updateQuantity = updateQuantity;
-        window.removeFromCart = removeFromCart;
-        window.buyNow = buyNow;
-        window.showImageModal = showImageModal;
+        // Améliorer l'interaction avec le robot
+        document.addEventListener('DOMContentLoaded', function() {
+            const robot = document.getElementById('guide-robot');
+            
+            robot.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+            
+            robot.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
     </script>
 </body>
 </html>
