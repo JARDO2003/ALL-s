@@ -1,3536 +1,1265 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>ALLS STORE - Marketplace Africain</title>
-    <style>
-        /* Reset et variables CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #FF9900;
-            --primary-dark: #E47911;
-            --secondary-color: #146EB4;
-            --accent-color: #007185;
-            --success-color: #007600;
-            --warning-color: #B12704;
-            --error-color: #B12704;
-            --text-primary: #0F1111;
-            --text-secondary: #565959;
-            --text-light: #6F7373;
-            --background-primary: #FFFFFF;
-            --background-secondary: #F7F8F8;
-            --background-tertiary: #EAEDED;
-            --background-dark: #25024d;
-            --border-color: #D5D9D9;
-            --border-light: #E6E6E6;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
-            --shadow-lg: 0 8px 16px rgba(0,0,0,0.15);
-            --border-radius: 4px;
-            --border-radius-lg: 8px;
-            --transition: all 0.15s ease;
-        }
-
-        body {
-            font-family: "Amazon Ember", Arial, sans-serif;
-            background: var(--background-secondary);
-            color: var(--text-primary);
-            line-height: 1.4;
-            font-size: 14px;
-            padding-bottom: 80px;
-        }
-
-        /* Header Amazon Style */
-        .header {
-            background: var(--background-dark);
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-top {
-            background: var(--background-dark);
-            padding: 8px 0;
-            font-size: 12px;
-            border-bottom: 1px solid #166ee2;
-        }
-
-        .header-top-container {
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 0 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header-top-container > div {
-            color: #ccc;
-        }
-
-        .header-main {
-            padding: 8px 0;
-        }
-
-        .header-container {
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 0 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            padding: 8px 12px;
-            border: 1px solid transparent;
-            border-radius: 2px;
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-
-        .logo:hover {
-            border-color: #485769;
-        }
-
-        .search-container {
-            flex: 1;
-            max-width: 600px;
-            margin: 0 16px;
-        }
-
-        .search-bar {
-            display: flex;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .search-select {
-            background: #F3F3F3;
-            border: none;
-            padding: 10px 8px;
-            color: var(--text-primary);
-            font-size: 12px;
-            min-width: 50px;
-            border-right: 1px solid #CDCDCD;
-            outline: none;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 10px 12px;
-            border: none;
-            font-size: 16px;
-            outline: none;
-        }
-
-        .search-btn {
-            background: var(--primary-color);
-            border: none;
-            padding: 10px 16px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .search-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-link {
-            color: white;
-            text-decoration: none;
-            padding: 8px 12px;
-            border: 1px solid transparent;
-            border-radius: 2px;
-            transition: var(--transition);
-            font-size: 12px;
-            text-align: center;
-            min-width: 60px;
-        }
-
-        .header-link:hover {
-            border-color: #485769;
-        }
-
-        /* Navigation Amazon Style */
-        .nav {
-            background: var(--background-dark);
-            border-top: 1px solid #3a4553;
-            padding: 0;
-        }
-
-        .nav-container {
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .nav-tab {
-            color: white;
-            background: transparent;
-            border: none;
-            padding: 8px 12px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition);
-            white-space: nowrap;
-            border-bottom: 3px solid transparent;
-        }
-
-        .nav-tab:hover,
-        .nav-tab.active {
-            border-bottom-color: var(--primary-color);
-        }
-
-        /* Main Container */
-        .main-container {
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 16px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        /* Filtres Amazon Style */
-        .filters-horizontal {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .filters-row {
-            display: flex;
-            gap: 8px;
-            min-width: max-content;
-        }
-
-        .filter-btn {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 6px 12px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: var(--background-tertiary);
-            border-color: var(--accent-color);
-        }
-
-        .filter-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-md);
-            z-index: 1000;
-            margin-top: 4px;
-            min-width: 200px;
-        }
-
-        /* Section des produits Amazon Style */
-        .products-section {
-            background: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-
-        .section-header {
-            background: var(--background-secondary);
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .section-title {
-            font-size: 21px;
-            font-weight: 400;
-            color: var(--text-primary);
-        }
-
-        .results-count {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .sort-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
-
-        .sort-select {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 6px 8px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        /* Grille de produits Amazon Style */
-        .products-grid {
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
-        .product-card {
-            background: white;
-            border: 1px solid var(--border-light);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            height: fit-content;
-        }
-
-        .product-card:hover {
-            box-shadow: var(--shadow-md);
-            border-color: var(--border-color);
-        }
-
-        .product-image-container {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-            overflow: hidden;
-        }
-
-        .product-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.2s ease;
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: var(--warning-color);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 2px;
-            font-size: 11px;
-            font-weight: bold;
-            z-index: 2;
-        }
-
-        .product-badge.new {
-            background: var(--success-color);
-        }
-
-        .product-actions-overlay {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .product-card:hover .product-actions-overlay {
-            opacity: 1;
-        }
-
-        .action-btn-round {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 14px;
-        }
-
-        .action-btn-round:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .product-info {
-            padding: 12px 16px 16px 16px;
-        }
-
-        .supplier-info {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-
-        .supplier-avatar {
-            width: 20px;
-            height: 20px;
-            border-radius: 2px;
-            background: var(--accent-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .supplier-name {
-            font-size: 12px;
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .supplier-name:hover {
-            text-decoration: underline;
-        }
-
-        .product-title {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            line-height: 1.3;
-            height: 36px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-
-        .product-title:hover {
-            color: var(--accent-color);
-        }
-
-        .product-price {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--warning-color);
-            margin-bottom: 4px;
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-        }
-
-        .product-original-price {
-            font-size: 13px;
-            color: var(--text-light);
-            text-decoration: line-through;
-        }
-
-        .product-location {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        .product-rating {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 8px;
-        }
-
-        .rating-stars {
-            color: #FF9900;
-            font-size: 14px;
-        }
-
-        .rating-count {
-            font-size: 12px;
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .product-footer {
-            padding: 8px 16px;
-            border-top: 1px solid var(--border-light);
-            background: var(--background-secondary);
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            font-size: 13px;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            font-weight: 400;
-            background: white;
-            text-align: center;
-        }
-
-        .btn-cart {
-            flex: 1;
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            font-weight: 500;
-        }
-
-        .btn-cart:hover {
-            background: var(--primary-dark);
-            border-color: var(--primary-dark);
-        }
-
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
-            border-color: #25D366;
-            padding: 6px 10px;
-        }
-
-        .btn-whatsapp:hover {
-            background: #22c55e;
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-outline {
-            background: white;
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-
-        .btn-outline:hover {
-            background: var(--background-tertiary);
-        }
-
-        /* Sidebar Amazon Style */
-        .info-sidebar {
-            margin-top: 20px;
-        }
-
-        .sidebar-card {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-
-        .sidebar-header {
-            padding: 12px 16px;
-            background: var(--background-secondary);
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 600;
-            font-size: 16px;
-            color: var(--text-primary);
-        }
-
-        .sidebar-content {
-            padding: 16px;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--background-dark);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            z-index: 1000;
-            border-top: 1px solid #3a4553;
-        }
-
-        .bottom-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #ccc;
-            padding: 6px 8px;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-            font-size: 11px;
-            min-width: 50px;
-        }
-
-        .bottom-nav-item:hover,
-        .bottom-nav-item.active {
-            color: var(--primary-color);
-        }
-
-        .bottom-nav-icon {
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-        /* Modals Amazon Style */
-        .publish-modal,
-        .auth-modal,
-        .profile-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 16px;
-        }
-
-        .publish-content,
-        .auth-content {
-            background: white;
-            border-radius: var(--border-radius-lg);
-            width: 100%;
-            max-width: 400px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .publish-header,
-        .auth-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .publish-title,
-        .auth-title {
-            font-size: 20px;
-            font-weight: 400;
-            color: var(--text-primary);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-light);
-            padding: 4px;
-        }
-
-        .publish-body,
-        .auth-body {
-            padding: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 4px;
-            font-weight: 500;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            font-size: 14px;
-            transition: var(--transition);
-            background: white;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.2);
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 80px;
-            font-family: inherit;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .phone-input-container {
-            display: flex;
-            gap: 8px;
-        }
-
-        .country-select {
-            min-width: 80px;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            font-size: 14px;
-            outline: none;
-            background: white;
-        }
-
-        .phone-number-input {
-            flex: 1;
-        }
-
-        /* Profile Modal Amazon Style */
-        .profile-content {
-            width: 100%;
-            height: 100%;
-            background: white;
-            overflow-y: auto;
-        }
-
-        .profile-header {
-            padding: 20px 16px;
-            background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            position: relative;
-        }
-
-        .profile-close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 700;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-        }
-
-        /* States and animations */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-light);
-        }
-
-        .loading-skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .toast {
-            position: fixed;
-            top: 80px;
-            left: 16px;
-            right: 16px;
-            padding: 12px 16px;
-            border-radius: var(--border-radius);
-            color: white;
-            font-weight: 500;
-            z-index: 3000;
-            transform: translateY(-100px);
-            transition: transform 0.3s ease;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-        }
-
-        .toast.success { background: var(--success-color); }
-        .toast.error { background: var(--error-color); }
-        .toast.info { background: var(--secondary-color); }
-
-        /* Search suggestions */
-        .search-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid var(--border-color);
-            border-top: none;
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
-            box-shadow: var(--shadow-md);
-            z-index: 1000;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .suggestion-item {
-            padding: 10px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid var(--border-light);
-            transition: var(--transition);
-        }
-
-        .suggestion-item:hover {
-            background: var(--background-secondary);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-wrap: wrap;
-                gap: 12px;
-            }
-            
-            .search-container {
-                order: 3;
-                width: 100%;
-                margin: 0;
-            }
-            
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-                padding: 16px;
-            }
-            
-            .product-image-container {
-                height: 150px;
-            }
-            
-            .main-container {
-                padding: 12px;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .bottom-nav {
-                display: none;
-            }
-            
-            body {
-                padding-bottom: 0;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            }
-        }
-
-        /* Filter items */
-        .filter-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: var(--transition);
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .filter-item:hover {
-            background: var(--background-secondary);
-        }
-
-        .filter-checkbox {
-            width: 16px;
-            height: 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 2px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .filter-checkbox.checked {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .filter-checkbox.checked::after {
-            content: '✓';
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 11px;
-        }
-
-        /* Image modal */
-        .image-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 3000;
-            cursor: pointer;
-        }
-
-        .image-modal img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border-radius: var(--border-radius);
-        }
-
-        .image-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMEO AI — Panneau Serveur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:        #08090d;
+  --surface:   #0f1117;
+  --surface2:  #161922;
+  --surface3:  #1e222e;
+  --border:    #252936;
+  --border2:   #2e3347;
+  --gold:      #d4a853;
+  --gold2:     #e8c07a;
+  --gold-dim:  #8a6820;
+  --ink:       #f0ece0;
+  --slate:     #b0acA0;
+  --muted:     #666070;
+  --red:       #f87171;
+  --red-dim:   #7f2020;
+  --green:     #4ade80;
+  --green-dim: #1a5c30;
+  --blue:      #60a5fa;
+  --blue-dim:  #1e3a6e;
+  --purple:    #a78bfa;
+  --orange:    #fb923c;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-body: 'DM Sans', sans-serif;
+  --radius:    10px;
+  --glow:      0 0 20px rgba(212,168,83,.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── GRID NOISE BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── AUTH OVERLAY ── */
+#authGate {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+.auth-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 48px;
+  width: 420px;
+  box-shadow: 0 32px 80px rgba(0,0,0,.6), var(--glow);
+  position: relative;
+  overflow: hidden;
+}
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
+}
+.auth-logo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: .7;
+}
+.auth-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.auth-sub { color: var(--muted); font-size: 13px; margin-bottom: 32px; }
+.auth-field { margin-bottom: 16px; }
+.auth-field label { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-family: var(--font-mono); }
+.auth-field input {
+  width: 100%;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  color: var(--ink);
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s;
+}
+.auth-field input:focus { border-color: var(--gold); }
+.btn-auth {
+  width: 100%;
+  background: var(--gold);
+  color: #08090d;
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .06em;
+  cursor: pointer;
+  transition: all .2s;
+  margin-top: 8px;
+}
+.btn-auth:hover { background: var(--gold2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,168,83,.3); }
+.auth-err { color: var(--red); font-size: 12px; margin-top: 10px; display: none; }
+.auth-err.show { display: block; }
+
+/* ── MAIN LAYOUT ── */
+#appShell { display: none; position: relative; z-index: 1; }
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-logo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.header-sep { width: 1px; height: 20px; background: var(--border2); }
+.header-title { font-weight: 600; font-size: 15px; color: var(--ink); }
+.header-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--red-dim);
+  color: var(--red);
+  border: 1px solid #f8717133;
+}
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.header-user {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.btn-logout {
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  color: var(--slate);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all .15s;
+  font-family: var(--font-mono);
+}
+.btn-logout:hover { border-color: var(--red); color: var(--red); }
+
+/* ── CONTENT ── */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 28px 64px;
+  display: grid;
+  gap: 24px;
+}
+
+/* ── SECTION TITLES ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.section-icon {
+  width: 34px; height: 34px;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.section-label { font-weight: 600; font-size: 15px; color: var(--ink); }
+.section-meta { color: var(--muted); font-size: 12px; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,.25);
+}
+.card-head {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-body { padding: 20px 22px; }
+
+/* ── STATS GRID ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.stat-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.stat-box:hover { border-color: var(--border2); }
+.stat-box::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+}
+.stat-box.gold::after { background: var(--gold); }
+.stat-box.blue::after { background: var(--blue); }
+.stat-box.green::after { background: var(--green); }
+.stat-box.purple::after { background: var(--purple); }
+.stat-box.orange::after { background: var(--orange); }
+.stat-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.stat-val { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--ink); }
+.stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.stat-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-top: 6px;
+}
+.stat-badge.up { background: var(--green-dim); color: var(--green); }
+.stat-badge.down { background: var(--red-dim); color: var(--red); }
+
+/* ── TABLES ── */
+.srv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.srv-table th {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.srv-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.srv-table tr:last-child td { border-bottom: none; }
+.srv-table tr:hover td { background: var(--surface2); }
+
+/* ── FORMS ── */
+.form-row { display: flex; gap: 10px; align-items: flex-end; margin-top: 16px; }
+.form-group { flex: 1; }
+.form-group label { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.form-group input, .form-group select {
+  width: 100%;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  color: var(--ink);
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+.form-group select option { background: var(--surface3); }
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--gold); color: #08090d; }
+.btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
+.btn-danger { background: var(--red-dim); color: var(--red); border: 1px solid #f8717133; }
+.btn-danger:hover { background: #9b1c1c; }
+.btn-ghost { background: var(--surface3); color: var(--slate); border: 1px solid var(--border2); }
+.btn-ghost:hover { border-color: var(--gold-dim); color: var(--ink); }
+.btn-sm { padding: 5px 11px; font-size: 11px; }
+.btn-success { background: var(--green-dim); color: var(--green); border: 1px solid #4ade8033; }
+.btn-success:hover { background: #166534; }
+
+/* ── KEY DISPLAY ── */
+.key-display {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--gold);
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  padding: 4px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.key-masked { letter-spacing: .1em; }
+
+/* ── BADGE STATUS ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.badge.active { background: var(--green-dim); color: var(--green); border: 1px solid #4ade8033; }
+.badge.inactive { background: var(--surface3); color: var(--muted); border: 1px solid var(--border2); }
+.badge.error { background: var(--red-dim); color: var(--red); border: 1px solid #f8717133; }
+.badge::before { content: '●'; font-size: 8px; }
+
+/* ── MODEL PILL ── */
+.model-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--blue-dim);
+  color: var(--blue);
+  padding: 3px 9px;
+  border-radius: 4px;
+  display: inline-block;
+  border: 1px solid #60a5fa22;
+}
+.model-pill.current { background: var(--gold-dim); color: var(--gold); border-color: #d4a85322; }
+
+/* ── TOKEN CHART ── */
+.token-bars { margin-top: 16px; }
+.token-bar-row { margin-bottom: 12px; }
+.token-bar-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.token-bar-label { font-size: 12px; color: var(--slate); }
+.token-bar-val { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.token-bar-track {
+  height: 6px;
+  background: var(--surface3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.token-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width .6s ease;
+}
+
+/* ── DAILY USAGE TABLE ── */
+.usage-day-row td:first-child { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.usage-sparkbar {
+  display: inline-block;
+  height: 12px;
+  border-radius: 2px;
+  min-width: 3px;
+  background: var(--gold);
+  opacity: .7;
+  vertical-align: middle;
+  margin-left: 6px;
+  transition: width .4s;
+}
+
+/* ── LOG STREAM ── */
+.log-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  max-height: 240px;
+  overflow-y: auto;
+  color: var(--slate);
+}
+.log-entry { padding: 3px 0; border-bottom: 1px solid var(--border); display: flex; gap: 10px; }
+.log-entry:last-child { border-bottom: none; }
+.log-time { color: var(--muted); min-width: 52px; }
+.log-model { color: var(--blue); min-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.log-tokens { color: var(--gold); min-width: 60px; text-align: right; }
+.log-status.ok { color: var(--green); }
+.log-status.err { color: var(--red); }
+
+/* ── QUOTA RING ── */
+.quota-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0 8px;
+}
+.quota-svg { transform: rotate(-90deg); }
+.quota-ring-val {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  margin-top: -4px;
+}
+.quota-ring-sub { font-size: 11px; color: var(--muted); text-align: center; }
+
+/* ── SEPARATOR ── */
+.sep { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* ── ALERTS ── */
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.alert-warn { background: #78350f22; border: 1px solid #d9770633; color: #fed7aa; }
+.alert-info { background: var(--blue-dim); border: 1px solid #60a5fa33; color: var(--blue); }
+.alert-icon { font-size: 15px; margin-top: 1px; }
+
+/* ── TOAST ── */
+#toastZone {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.t-toast {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 260px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  animation: slideIn .2s ease;
+  transition: opacity .4s;
+}
+@keyframes slideIn { from { transform: translateX(30px); opacity: 0; } }
+
+/* ── LOADER ── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-inline { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; padding: 20px; }
+
+/* ── EMPTY ── */
+.empty-state {
+  text-align: center;
+  padding: 32px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.empty-state .ei { font-size: 28px; margin-bottom: 8px; }
+
+/* ── SCROLL ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── KEY REVEAL TOGGLE ── */
+.key-toggle { cursor: pointer; color: var(--muted); font-size: 11px; margin-left: 6px; opacity: .5; transition: opacity .15s; }
+.key-toggle:hover { opacity: 1; }
+
+/* ── GRID 2 COLS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } .header { padding: 0 16px; } .content { padding: 20px 16px; } }
+
+/* ── Blink cursor ── */
+.cursor { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+</style>
 </head>
-<!-- Modal pour affichage d'image plein écran -->
-    <div class="image-modal" id="imageModal">
-        <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
-        <img id="modalImage" src="" alt="Image en grand">
-    </div>
-
-    <!-- Header -->
-    <header class="header">
-        <div class="header-top">
-            <div class="header-top-container">
-                <div>Livraison gratuite à partir de 1000 FCFA</div>
-                <div>Support: +2250508463003</div>
-            </div>
-        </div>
-        
-        <div class="header-main">
-            <div class="header-container">
-                <a href="#" class="logo">ALLS STORE</a>
-                
-                <div class="search-container">
-                    <div class="search-bar">
-                        <select class="search-select" id="searchCategory">
-                            <option value="">Tout</option>
-                            <option value="electronique">Électronique</option>
-                            <option value="textile">Textile</option>
-                            <option value="alimentaire">Alimentaire</option>
-                            <option value="construction">Construction</option>
-                            <option value="automobile">Automobile</option>
-                            <option value="cosmetique">Cosmétique</option>
-                            <option value="mobilier">Mobilier</option>
-                        </select>
-                        <div class="search-input-container" style="position: relative; flex: 1;">
-                            <input type="text" class="search-input" id="searchInput" placeholder="Rechercher ALLS STORE" autocomplete="off">
-                            <div class="search-suggestions" id="searchSuggestions" style="display: none;"></div>
-                        </div>
-                        <button class="search-btn" id="searchBtn">🔍</button>
-                    </div>
-                </div>
-                
-                <div class="header-actions">
-                    <a href="#" class="header-link" id="favoritesLink">
-                        <div></div>
-                        <div></div>
-                    </a>
-                    <div id="userSection"></div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-container">
-            <div class="nav-tabs">
-                <button class="nav-tab active" data-tab="all">Accueil</button>
-                <button class="nav-tab" data-tab="following">Abonnements</button>
-                <button class="nav-tab" data-tab="trending">Tendances</button>
-                <button class="nav-tab" data-tab="new">Nouveautés</button>
-                <button class="nav-tab" data-tab="deals">Promotions</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Container -->
-    <div class="main-container">
-        <div>
-            <!-- Filtres horizontaux -->
-            <div class="filters-horizontal">
-                <div class="filters-row">
-                    <!-- Filtre Prix -->
-                    <div class="filter-group">
-                        <button class="filter-btn" id="priceFilterBtn" onclick="toggleDropdown('priceDropdown')">
-                            Prix <span class="dropdown-arrow">▼</span>
-                        </button>
-                        <div class="filter-dropdown" id="priceDropdown" style="display: none;">
-                            <div style="padding: 16px;">
-                                <input type="number" class="form-control" placeholder="Prix min" id="priceMin" style="margin-bottom: 8px;">
-                                <input type="number" class="form-control" placeholder="Prix max" id="priceMax" style="margin-bottom: 12px;">
-                                <button class="btn btn-primary" style="width: 100%; font-size: 14px;" id="applyPriceFilter">Appliquer</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Filtre Évaluation -->
-                    <div class="filter-group">
-                        <button class="filter-btn" id="ratingFilterBtn" onclick="toggleDropdown('ratingDropdown')">
-                            Note <span class="dropdown-arrow">▼</span>
-                        </button>
-                        <div class="filter-dropdown" id="ratingDropdown" style="display: none;">
-                            <div class="filter-item" data-filter="rating" data-value="4">
-                                <div class="filter-checkbox"></div>
-                                ⭐⭐⭐⭐ et plus
-                            </div>
-                            <div class="filter-item" data-filter="rating" data-value="3">
-                                <div class="filter-checkbox"></div>
-                                ⭐⭐⭐ et plus
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bouton Réinitialiser -->
-                    <button class="btn btn-outline reset-filters-btn" id="resetFilters" onclick="resetAllFilters()">
-                        Réinitialiser
-                    </button>
-                </div>
-            </div>
-
-            <!-- Section des produits -->
-            <div class="products-section">
-                <div class="section-header">
-                    <div>
-                        <div class="section-title" id="sectionTitle">Tous les produits</div>
-                        <div class="results-count" id="resultsCount">Chargement...</div>
-                    </div>
-                    <div class="sort-controls">
-                        <span>Trier par:</span>
-                        <select class="sort-select" id="sortSelect">
-                            <option value="newest">Les plus récents</option>
-                            <option value="price-low">Prix croissant</option>
-                            <option value="price-high">Prix décroissant</option>
-                            <option value="popular">Les plus populaires</option>
-                            <option value="rating">Mieux notés</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="products-grid" id="productsGrid">
-                    <!-- Les produits seront chargés ici -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="info-sidebar">
-            <!-- Dashboard utilisateur -->
-            <div class="sidebar-card" id="userDashboard" style="display: none;">
-                <div class="sidebar-header">Tableau de bord</div>
-                <div class="sidebar-content">
-                    <button class="btn btn-primary" style="width: 100%; margin-bottom: 16px;" id="publishBtn">
-                        Publier un produit
-                    </button>
-                    <div id="userStats" style="font-size: 14px; color: var(--text-secondary);"></div>
-                </div>
-            </div>
-            
-            <!-- Fournisseurs suggérés -->
-            <div class="sidebar-card">
-                <div class="sidebar-header">Fournisseurs suggérés</div>
-                <div class="sidebar-content" id="suggestedSuppliers">
-                    <!-- Contenu dynamique -->
-                </div>
-            </div>
-            
-            <!-- Statistiques -->
-            <div class="sidebar-card">
-                <div class="sidebar-header">Statistiques du marketplace</div>
-                <div class="sidebar-content">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
-                        <div style="text-align: center; padding: 16px; background: var(--background-secondary); border-radius: var(--border-radius); border: 1px solid var(--border-light);">
-                            <div style="font-weight: 700; color: var(--warning-color); font-size: 20px;" id="totalProducts">0</div>
-                            <div style="color: var(--text-secondary); margin-top: 4px;">Produits</div>
-                        </div>
-                        <div style="text-align: center; padding: 16px; background: var(--background-secondary); border-radius: var(--border-radius); border: 1px solid var(--border-light);">
-                            <div style="font-weight: 700; color: var(--warning-color); font-size: 20px;" id="totalSuppliers">0</div>
-                            <div style="color: var(--text-secondary); margin-top: 4px;">Fournisseurs</div>
-                        </div>
-                        <div style="text-align: center; padding: 16px; background: var(--background-secondary); border-radius: var(--border-radius); border: 1px solid var(--border-light);">
-                            <div style="font-weight: 700; color: var(--success-color); font-size: 20px;" id="onlineUsers">0</div>
-                            <div style="color: var(--text-secondary); margin-top: 4px;">En ligne</div>
-                        </div>
-                        <div style="text-align: center; padding: 16px; background: var(--background-secondary); border-radius: var(--border-radius); border: 1px solid var(--border-light);">
-                            <div style="font-weight: 700; color: var(--accent-color); font-size: 20px;" id="totalViews">0</div>
-                            <div style="color: var(--text-secondary); margin-top: 4px;">Vues</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigation mobile fixe en bas -->
-    <div class="bottom-nav">
-        <a href="#" class="bottom-nav-item active" data-tab="all">
-            <span class="bottom-nav-icon">🏠</span>
-            <span>Accueil</span>
-        </a>
-        <a href="#" class="bottom-nav-item" id="searchNavBtn">
-            <span class="bottom-nav-icon">🔍</span>
-            <span>Recherche</span>
-        </a>
-        <a href="#" class="bottom-nav-item" id="publishNavBtn">
-            <span class="bottom-nav-icon">➕</span>
-            <span>Publier</span>
-        </a>
-        <a href="A.html" class="bottom-nav-item" id="favoritesNavBtn">
-            <span class="bottom-nav-icon">A PROPOS</span>
-            <span>A propos</span>
-        </a>
-        <a href="#" class="bottom-nav-item" id="profileNavBtn">
-            <span class="bottom-nav-icon">👤</span>
-            <span>Profil</span>
-        </a>
-    </div>
-
-    <!-- Modal de publication -->
-    <div class="publish-modal" id="publishModal">
-        <div class="publish-content">
-            <div class="publish-header">
-                <h2 class="publish-title">Publier un nouveau produit</h2>
-                <button class="close-btn" id="closePublishModal">×</button>
-            </div>
-            <div class="publish-body">
-                <form id="productForm">
-                    <div class="form-group">
-                        <label class="form-label">Nom du produit *</label>
-                        <input type="text" class="form-control" id="productName" placeholder="Ex: iPhone 15 Pro Max" required>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Prix (FCFA) *</label>
-                            <input type="number" class="form-control" id="productPrice" placeholder="150000" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Catégorie *</label>
-                            <select class="form-control" id="productCategory" required>
-                                <option value="">Choisir une catégorie</option>
-                                <option value="electronique">Électronique</option>
-                                <option value="textile">Textile</option>
-                                <option value="alimentaire">Alimentaire</option>
-                                <option value="construction">Construction</option>
-                                <option value="automobile">Automobile</option>
-                                <option value="cosmetique">Cosmétique</option>
-                                <option value="mobilier">Mobilier</option>
-                                <option value="autre">Autre</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Pays *</label>
-                        <select class="form-control" id="productCountry" required>
-                            <option value="">Choisir un pays</option>
-                            <option value="benin">Bénin</option>
-                            <option value="cote_divoire">Côte d'Ivoire</option>
-                            <option value="nigeria">Nigeria</option>
-                            <option value="senegal">Sénégal</option>
-                            <option value="ghana">Ghana</option>
-                            <option value="togo">Togo</option>
-                            <option value="chine">Chine</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Description *</label>
-                        <textarea class="form-control" id="productDescription" placeholder="Décrivez votre produit en détail..." required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Photo du produit</label>
-                        <input type="file" class="form-control" id="productImage" accept="image/*">
-                        <div style="font-size: 11px; color: var(--text-light); margin-top: 4px;">
-                            Format accepté: JPG, PNG (Taille max: 5MB)
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 14px; margin-top: 8px;">
-                        Publier le produit
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal d'authentification -->
-    <div class="auth-modal" id="authModal">
-        <div class="auth-content">
-            <div id="loginForm">
-                <div class="auth-header">
-                    <h2 class="auth-title">Se connecter</h2>
-                    <p class="auth-subtitle">Connectez-vous à votre compte ALLS STORE</p>
-                </div>
-                <form id="loginFormElement">
-                    <div class="form-group">
-                        <label class="form-label">Numéro WhatsApp</label>
-                        <div class="phone-input-container">
-                            <select class="country-select" id="loginCountryCode" required>
-                                <option value="+229">+229</option>
-                                <option value="+225">+225</option>
-                                <option value="+234">+234</option>
-                                <option value="+221">+221</option>
-                                <option value="+233">+233</option>
-                                <option value="+228">+228</option>
-                            </select>
-                            <input type="tel" class="form-control phone-number-input" id="loginContact" placeholder="90123456" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="loginPassword" placeholder="Entrez votre mot de passe" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        Se connecter
-                    </button>
-                </form>
-                <div class="auth-switch">
-                    <a href="#" class="auth-link" id="showRegister">Créer votre compte</a> • 
-                    <a href="#" class="auth-link" id="showForgotPassword">Mot de passe oublié?</a>
-                </div>
-            </div>
-
-            <div id="registerForm" style="display: none;">
-                <div class="auth-header">
-                    <h2 class="auth-title">Créer un compte</h2>
-                    <p class="auth-subtitle">Rejoignez ALLS STORE en tant que fournisseur</p>
-                </div>
-                <form id="registerFormElement">
-                    <div class="form-group">
-                        <label class="form-label">Nom de l'entreprise *</label>
-                        <input type="text" class="form-control" id="registerEntreprise" placeholder="Nom de votre entreprise" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Prénom *</label>
-                            <input type="text" class="form-control" id="registerPrenom" placeholder="Votre prénom" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Nom *</label>
-                            <input type="text" class="form-control" id="registerNom" placeholder="Votre nom" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">WhatsApp *</label>
-                        <div class="phone-input-container">
-                            <select class="country-select" id="registerCountryCode" required>
-                                <option value="+229">+229</option>
-                                <option value="+225">+225</option>
-                                <option value="+234">+234</option>
-                                <option value="+221">+221</option>
-                                <option value="+233">+233</option>
-                                <option value="+228">+228</option>
-                            </select>
-                            <input type="tel" class="form-control phone-number-input" id="registerContact" placeholder="90123456" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Secteur d'activité *</label>
-                        <select class="form-control" id="registerSecteur" required>
-                            <option value="">Choisir un secteur</option>
-                            <option value="electronique">Électronique</option>
-                            <option value="textile">Textile</option>
-                            <option value="alimentaire">Alimentaire</option>
-                            <option value="construction">Construction</option>
-                            <option value="automobile">Automobile</option>
-                            <option value="cosmetique">Cosmétique</option>
-                            <option value="mobilier">Mobilier</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Mot de passe *</label>
-                        <input type="password" class="form-control" id="registerPassword" placeholder="Minimum 6 caractères" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        Créer mon compte
-                    </button>
-                </form>
-                <div class="auth-switch">
-                    <a href="#" class="auth-link" id="showLogin">J'ai déjà un compte</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal mot de passe oublié -->
-    <div class="auth-modal" id="forgotPasswordModal">
-        <div class="auth-content">
-            <div class="auth-header">
-                <h2 class="auth-title">Récupération du mot de passe</h2>
-                <p class="auth-subtitle">Nous vous contacterons pour réinitialiser votre mot de passe</p>
-                <button class="close-btn" id="closeForgotPasswordModal">×</button>
-            </div>
-            <div class="auth-body">
-                <form id="forgotPasswordForm">
-                    <div class="form-group">
-                        <label class="form-label">Nom *</label>
-                        <input type="text" class="form-control" id="forgotNom" placeholder="Votre nom de famille" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Prénom *</label>
-                        <input type="text" class="form-control" id="forgotPrenom" placeholder="Votre prénom" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Contact WhatsApp *</label>
-                        <div class="phone-input-container">
-                            <select class="country-select" id="forgotCountryCode" required>
-                                <option value="+229">+229</option>
-                                <option value="+225">+225</option>
-                                <option value="+234">+234</option>
-                                <option value="+221">+221</option>
-                                <option value="+233">+233</option>
-                                <option value="+228">+228</option>
-                            </select>
-                            <input type="tel" class="form-control phone-number-input" id="forgotContact" placeholder="90123456" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        Envoyer la demande
-                    </button>
-                </form>
-                <div class="auth-switch">
-                    <a href="#" class="auth-link" id="backToLogin">Retour à la connexion</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de profil -->
-    <div class="profile-modal" id="profileModal">
-        <div class="profile-content">
-            <div class="profile-header">
-                <button class="profile-close" id="profileClose">×</button>
-                <div class="profile-info">
-                    <div class="profile-avatar" id="profileAvatar" onclick="triggerAvatarUpload()">
-                        <span id="profileAvatarText">S</span>
-                        <div class="profile-avatar-upload" id="profileAvatarUpload">📷</div>
-                        <input type="file" class="profile-avatar-input" id="profileAvatarInput" accept="image/*" style="display: none;">
-                    </div>
-                    <div class="profile-details">
-                        <h2 id="profileName">Nom du fournisseur</h2>
-                        <p id="profileSector">Secteur d'activité</p>
-                        <div class="profile-stats">
-                            <div class="profile-stat">
-                                <span class="profile-stat-value" id="profileProductsCount">0</span>
-                                <span class="profile-stat-label">Produits</span>
-                            </div>
-                            <div class="profile-stat">
-                                <span class="profile-stat-value" id="profileFollowersCount">0</span>
-                                <span class="profile-stat-label">Abonnés</span>
-                            </div>
-                            <div class="profile-stat">
-                                <span class="profile-stat-value" id="profileLikesCount">0</span>
-                                <span class="profile-stat-label">J'aime</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="profile-body">
-                <div class="profile-section">
-                    <h3>Informations</h3>
-                    <p><strong>Contact:</strong> <span id="profileContact">-</span></p>
-                    <p><strong>Membre depuis:</strong> <span id="profileMemberSince">-</span></p>
-                </div>
-                
-                <div class="profile-section">
-                    <h3>Produits disponibles</h3>
-                    <div class="profile-products" id="profileProducts">
-                        <!-- Produits du fournisseur -->
-                    </div>
-                </div>
-            </div>
-            
-            <div class="profile-actions">
-                <button class="btn btn-primary" id="profileFollowBtn">Suivre</button>
-                <a class="btn btn-whatsapp" id="profileWhatsAppBtn" style="text-decoration: none;">Contacter</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast notification -->
-    <div class="toast" id="toast"></div>
-
-    <!-- Progress bar -->
-    <div class="upload-progress" id="uploadProgress" style="display: none;">
-        <div class="progress-circle" id="progressCircle">
-            <span class="progress-percentage" id="progressPercentage">0%</span>
-        </div>
-        <div class="progress-text" id="progressText">Publication en cours...</div>
-    </div>
 <body>
 
-    
-    <script type="module">
-        // Configuration Firebase
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
-        import { 
-            getFirestore, 
-            collection, 
-            doc, 
-            setDoc, 
-            addDoc, 
-            getDocs, 
-            getDoc,
-            query, 
-            orderBy, 
-            limit, 
-            onSnapshot, 
-            deleteDoc,
-            updateDoc,
-            serverTimestamp,
-            where,
-            increment
-        } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
-        
-        import { 
-            getDatabase, 
-            ref, 
-            set, 
-            get, 
-            push, 
-            onValue,
-            update,
-            remove,
-            child,
-            serverTimestamp as rtdbServerTimestamp
-        } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js';
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDV8s8md1kginP7nohy63XgUR9xNk_p6iE",
-            authDomain: "store-ab477.firebaseapp.com",
-            databaseURL: "https://store-ab477-default-rtdb.firebaseio.com",
-            projectId: "store-ab477",
-            storageBucket: "store-ab477.firebasestorage.app",
-            messagingSenderId: "109524191191",
-            appId: "1:109524191191:web:23f365c1a4712cc094ed92",
-            measurementId: "G-86T5K1SG1F"
-        };
-
-        // Initialisation Firebase
-        const app = initializeApp(firebaseConfig);
-        const firestore = getFirestore(app);
-        const realtimeDb = getDatabase(app);
-
-        // Configuration Cloudinary
-        const cloudinaryConfig = {
-            cloudName: 'djxcqczh1',
-            uploadPreset: 'database'
-        };
-
-        // Variables globales
-        let currentUser = null;
-        let allProducts = [];
-        let allSuppliers = [];
-        let userLikes = {};
-        let userFollowing = {};
-        let currentTab = 'all';
-        let currentFilters = {
-            category: '',
-            country: [],
-            priceMin: null,
-            priceMax: null,
-            rating: null,
-            search: ''
-        };
-
-        // Utilitaires
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type} show`;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
-
-        function formatPrice(price) {
-            return new Intl.NumberFormat('fr-FR').format(price);
-        }
-
-        function getTimeAgo(timestamp) {
-            if (!timestamp) return 'À l\'instant';
-            
-            const now = Date.now();
-            const productTime = typeof timestamp === 'object' && timestamp.seconds 
-                ? timestamp.seconds * 1000 
-                : timestamp;
-            const diff = now - productTime;
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(minutes / 60);
-            const days = Math.floor(hours / 24);
-
-            if (days > 0) return `${days}j`;
-            if (hours > 0) return `${hours}h`;
-            if (minutes > 0) return `${minutes}m`;
-            return 'maintenant';
-        }
-
-        function getCategoryIcon(category) {
-            const icons = {
-                'electronique': '📱',
-                'textile': '👕',
-                'alimentaire': '🍎',
-                'construction': '🏗️',
-                'automobile': '🚗',
-                'cosmetique': '💄',
-                'mobilier': '🪑',
-                'autre': '📦'
-            };
-            return icons[category] || '📦';
-        }
-
-        function getCountryFlag(country) {
-            const flags = {
-                'benin': '🇧🇯', 
-                'cote_divoire': '🇨🇮',
-                'nigeria': '🇳🇬', 
-                'togo': '🇹🇬', 
-                'ghana': '🇬🇭', 
-                'chine': '🇨🇳', 
-                'france': '🇫🇷',
-                'senegal': '🇸🇳', 
-                'mali': '🇲🇱',
-                'burkina_faso': '🇧🇫', 
-                'autre': '🌍'
-            };
-            return flags[country] || '🌍';
-        }
-
-        function generateUserId() {
-            return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        function generateProductId() {
-            return 'product_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-
-        // Classe pour upload Cloudinary avec progress TikTok
-        class CloudinaryUploader {
-            constructor(config) {
-                this.cloudName = config.cloudName;
-                this.uploadPreset = config.uploadPreset;
-                this.apiUrl = `https://api.cloudinary.com/v1_1/${this.cloudName}/image/upload`;
-            }
-
-            async uploadImage(file) {
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('upload_preset', this.uploadPreset);
-                formData.append('quality', 'auto:good');
-                formData.append('fetch_format', 'auto');
-
-                return new Promise((resolve, reject) => {
-                    const xhr = new XMLHttpRequest();
-                    
-                    xhr.upload.addEventListener('progress', (e) => {
-                        if (e.lengthComputable) {
-                            const percentComplete = Math.round((e.loaded / e.total) * 100);
-                            this.updateProgress(percentComplete);
-                        }
-                    });
-
-                    xhr.onload = () => {
-                        setTimeout(() => {
-                            this.hideProgress();
-                        }, 500);
-                        
-                        if (xhr.status === 200) {
-                            const result = JSON.parse(xhr.responseText);
-                            resolve({
-                                url: result.secure_url,
-                                publicId: result.public_id
-                            });
-                        } else {
-                            reject(new Error('Erreur upload'));
-                        }
-                    };
-
-                    xhr.onerror = () => {
-                        this.hideProgress();
-                        reject(new Error('Erreur réseau'));
-                    };
-
-                    this.showProgress();
-                    xhr.open('POST', this.apiUrl);
-                    xhr.send(formData);
-                });
-            }
-
-            showProgress() {
-                const uploadProgress = document.getElementById('uploadProgress');
-                if (uploadProgress) {
-                    uploadProgress.style.display = 'block';
-                    this.updateProgress(0);
-                }
-            }
-
-            updateProgress(percentage) {
-                const progressCircle = document.getElementById('progressCircle');
-                const progressPercentage = document.getElementById('progressPercentage');
-                const progressText = document.getElementById('progressText');
-                
-                if (progressCircle && progressPercentage) {
-                    const degrees = (percentage / 100) * 360;
-                    progressCircle.style.background = `conic-gradient(var(--primary-color) ${degrees}deg, #333 ${degrees}deg)`;
-                    progressPercentage.textContent = `${percentage}%`;
-                    
-                    // Messages de progression style TikTok
-                    if (percentage < 25) {
-                        progressText.textContent = 'Préparation...';
-                    } else if (percentage < 50) {
-                        progressText.textContent = 'Upload en cours...';
-                    } else if (percentage < 75) {
-                        progressText.textContent = 'Traitement...';
-                    } else if (percentage < 100) {
-                        progressText.textContent = 'Finalisation...';
-                    } else {
-                        progressText.textContent = 'Terminé!';
-                    }
-                }
-            }
-
-            hideProgress() {
-                const uploadProgress = document.getElementById('uploadProgress');
-                setTimeout(() => {
-                    if (uploadProgress) uploadProgress.style.display = 'none';
-                }, 1000);
-            }
-        }
-
-        const uploader = new CloudinaryUploader(cloudinaryConfig);
-
-        // Gestion de l'authentification persistante avec indicatif
-        async function checkAuth() {
-    const userData = localStorage.getItem('allsStoreUser');
-    if (userData) {
-        try {
-            currentUser = JSON.parse(userData);
-            // CORRECTION : Normaliser les valeurs undefined
-            if (currentUser.avatarUrl === undefined) {
-                currentUser.avatarUrl = null;
-            }
-            await loadUserData();
-            updateUserInterface();
-            console.log('Utilisateur connecté:', currentUser.fullName);
-        } catch (error) {
-            console.error('Erreur auth:', error);
-            localStorage.removeItem('allsStoreUser');
-            currentUser = null;
-        }
-    }
-    updateUserInterface();
-}
-        async function loginUser(countryCode, phoneNumber, password) {
-            try {
-                // Rechercher l'utilisateur dans Realtime Database
-                const usersRef = ref(realtimeDb, 'users');
-                const snapshot = await get(usersRef);
-                
-                if (!snapshot.exists()) {
-                    throw new Error('Aucun utilisateur trouvé');
-                }
-
-                const users = snapshot.val();
-                let foundUser = null;
-                let userId = null;
-                const fullPhoneNumber = countryCode + phoneNumber;
-
-                // Chercher l'utilisateur par contact complet
-                Object.keys(users).forEach(id => {
-                    if (users[id].contact === fullPhoneNumber) {
-                        foundUser = users[id];
-                        userId = id;
-                    }
-                });
-
-                if (!foundUser) {
-                    throw new Error('Utilisateur non trouvé');
-                }
-                
-                // Vérifier le mot de passe
-                if (foundUser.password !== password) {
-                    throw new Error('Mot de passe incorrect');
-                }
-
-                // Créer la session utilisateur
-                currentUser = {
-                    id: userId,
-                    ...foundUser
-                };
-
-                // Sauvegarder dans le localStorage
-                localStorage.setItem('allsStoreUser', JSON.stringify(currentUser));
-                
-                // Mettre l'utilisateur en ligne
-                await set(ref(realtimeDb, `users/${userId}/online`), true);
-                await set(ref(realtimeDb, `users/${userId}/lastSeen`), rtdbServerTimestamp());
-                
-                return true;
-            } catch (error) {
-                console.error('Erreur connexion:', error);
-                throw error;
-            }
-        }
-
-       async function registerUser(userData) {
-    try {
-        // Vérifier si l'utilisateur existe déjà
-        const usersRef = ref(realtimeDb, 'users');
-        const snapshot = await get(usersRef);
-        
-        const fullPhoneNumber = userData.countryCode + userData.contact;
-        
-        if (snapshot.exists()) {
-            const users = snapshot.val();
-            const existingUser = Object.values(users).find(user => user.contact === fullPhoneNumber);
-            
-            if (existingUser) {
-                throw new Error('Ce numéro WhatsApp est déjà utilisé');
-            }
-        }
-
-        const userId = generateUserId();
-        
-        // Préparer les données utilisateur avec indicatif
-        const newUser = {
-            id: userId,
-            fullName: userData.entreprise,
-            contact: fullPhoneNumber,
-            countryCode: userData.countryCode,
-            phoneNumber: userData.contact,
-            prenom: userData.prenom,
-            nom: userData.nom,
-            secteur: userData.secteur,
-            password: userData.password,
-            avatar: userData.entreprise[0].toUpperCase() + userData.prenom[0].toUpperCase(),
-            avatarUrl: null,
-            createdAt: Date.now(),
-            productsCount: 0,
-            followersCount: 0,
-            likesCount: 0,
-            online: true,
-            lastSeen: rtdbServerTimestamp()
-        };
-
-        // Enregistrer dans Realtime Database
-        await set(ref(realtimeDb, `users/${userId}`), newUser);
-
-        // Créer la session
-        currentUser = newUser;
-        localStorage.setItem('allsStoreUser', JSON.stringify(currentUser));
-        
-        return true;
-    } catch (error) {
-        console.error('Erreur inscription:', error);
-        throw error;
-    }
-}
-
-
-        async function logout() {
-            if (currentUser) {
-                // Marquer comme hors ligne
-                await set(ref(realtimeDb, `users/${currentUser.id}/online`), false);
-                await set(ref(realtimeDb, `users/${currentUser.id}/lastSeen`), rtdbServerTimestamp());
-            }
-            
-            localStorage.removeItem('allsStoreUser');
-            currentUser = null;
-            userLikes = {};
-            userFollowing = {};
-            updateUserInterface();
-            showToast('Déconnexion réussie', 'success');
-        }
-
-        function updateUserInterface() {
-            const userSection = document.getElementById('userSection');
-            const userDashboard = document.getElementById('userDashboard');
-            
-            if (currentUser) {
-                const avatarDisplay = currentUser.avatarUrl ? 
-                    `<img src="${currentUser.avatarUrl}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` :
-                    currentUser.avatar;
-
-                userSection.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; cursor: pointer; overflow: hidden;" onclick="showProfile('${currentUser.id}')">
-                            ${avatarDisplay}
-                        </div>
-                        <div style="display: flex; flex-direction: column;">
-                            <span style="font-weight: 500; font-size: 14px;">${currentUser.fullName}</span>
-                            <button style="background: none; border: none; color: var(--text-light); font-size: 12px; cursor: pointer; text-align: left;" onclick="logout()">Se déconnecter</button>
-                        </div>
-                    </div>
-                `;
-                userDashboard.style.display = 'block';
-            } else {
-                userSection.innerHTML = `
-                    <button class="btn btn-primary" onclick="showAuthModal()">Se connecter</button>
-                `;
-                userDashboard.style.display = 'none';
-            }
-        }
-
-        // Upload d'avatar
-       async function uploadAvatar(file) {
-    try {
-        if (!currentUser) throw new Error('Non connecté');
-        
-        const result = await uploader.uploadImage(file);
-        
-        // Mettre à jour dans Realtime Database
-        await set(ref(realtimeDb, `users/${currentUser.id}/avatarUrl`), result.url);
-        
-        // Mettre à jour la session locale
-        currentUser.avatarUrl = result.url;
-        localStorage.setItem('allsStoreUser', JSON.stringify(currentUser));
-        
-        // CORRECTION : Mettre à jour les produits existants avec la nouvelle avatar
-        const userProductsRef = ref(realtimeDb, 'products');
-        const snapshot = await get(userProductsRef);
-        
-        if (snapshot.exists()) {
-            const products = snapshot.val();
-            const updates = {};
-            
-            Object.keys(products).forEach(productId => {
-                if (products[productId].supplierId === currentUser.id) {
-                    updates[`products/${productId}/supplierAvatarUrl`] = result.url;
-                }
-            });
-            
-            if (Object.keys(updates).length > 0) {
-                await update(ref(realtimeDb), updates);
-            }
-        }
-        
-        // Mettre à jour l'interface
-        updateUserInterface();
-        updateProfileAvatar();
-        
-        showToast('Photo de profil mise à jour', 'success');
-        
-    } catch (error) {
-        console.error('Erreur upload avatar:', error);
-        showToast('Erreur lors de l\'upload', 'error');
-    }
-}
-
-        function updateProfileAvatar() {
-            const profileAvatar = document.getElementById('profileAvatar');
-            const profileAvatarText = document.getElementById('profileAvatarText');
-            
-            if (profileAvatar && currentUser) {
-                if (currentUser.avatarUrl) {
-                    profileAvatar.innerHTML = `
-                        <img src="${currentUser.avatarUrl}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="profile-avatar-upload" style="display: block;">📷</div>
-                    `;
-                } else {
-                    profileAvatarText.textContent = currentUser.avatar;
-                }
-            }
-        }
-
-        // Chargement des données utilisateur avec commentaires Firestore
-        async function loadUserData() {
-            if (!currentUser) return;
-            
-            try {
-                // Charger les likes depuis Firestore
-                const likesQuery = query(collection(firestore, 'likes'), where('userId', '==', currentUser.id));
-                const likesSnapshot = await getDocs(likesQuery);
-                userLikes = {};
-                likesSnapshot.forEach(doc => {
-                    userLikes[doc.data().productId] = true;
-                });
-
-                // Charger les abonnements depuis Firestore
-                const followingQuery = query(collection(firestore, 'following'), where('followerId', '==', currentUser.id));
-                const followingSnapshot = await getDocs(followingQuery);
-                userFollowing = {};
-                followingSnapshot.forEach(doc => {
-                    userFollowing[doc.data().followedId] = true;
-                });
-
-                // Mettre à jour les statistiques
-                await updateUserStats();
-                
-            } catch (error) {
-                console.error('Erreur chargement données utilisateur:', error);
-            }
-        }
-
-        async function updateUserStats() {
-            if (!currentUser) return;
-
-            try {
-                // Compter les produits depuis Realtime Database
-                const userProductsRef = ref(realtimeDb, 'products');
-                const snapshot = await get(userProductsRef);
-                let userProducts = [];
-                
-                if (snapshot.exists()) {
-                    const products = snapshot.val();
-                    userProducts = Object.values(products).filter(p => p.supplierId === currentUser.id);
-                }
-                
-                // Calculer les statistiques
-                const totalLikes = userProducts.reduce((sum, p) => sum + (p.likesCount || 0), 0);
-                const totalViews = userProducts.reduce((sum, p) => sum + (p.viewsCount || 0), 0);
-                
-                const statsHtml = `
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
-                        <div style="text-align: center; padding: 8px; background: var(--background-tertiary); border-radius: var(--border-radius); font-size: 12px;">
-                            <div style="font-weight: 600; color: var(--primary-color);">${userProducts.length}</div>
-                            <div style="color: var(--text-light);">Mes produits</div>
-                        </div>
-                        <div style="text-align: center; padding: 8px; background: var(--background-tertiary); border-radius: var(--border-radius); font-size: 12px;">
-                            <div style="font-weight: 600; color: var(--primary-color);">${totalLikes}</div>
-                            <div style="color: var(--text-light);">J'aime reçus</div>
-                        </div>
-                        <div style="text-align: center; padding: 8px; background: var(--background-tertiary); border-radius: var(--border-radius); font-size: 12px;">
-                            <div style="font-weight: 600; color: var(--primary-color);">${Object.keys(userFollowing).length}</div>
-                            <div style="color: var(--text-light);">Abonnements</div>
-                        </div>
-                        <div style="text-align: center; padding: 8px; background: var(--background-tertiary); border-radius: var(--border-radius); font-size: 12px;">
-                            <div style="font-weight: 600; color: var(--primary-color);">${totalViews}</div>
-                            <div style="color: var(--text-light);">Vues totales</div>
-                        </div>
-                    </div>
-                `;
-                
-                const userStatsElement = document.getElementById('userStats');
-                if (userStatsElement) {
-                    userStatsElement.innerHTML = statsHtml;
-                }
-                
-            } catch (error) {
-                console.error('Erreur mise à jour stats:', error);
-            }
-        }
-
-        // Chargement des produits depuis Realtime Database
-        function loadProducts() {
-            const productsRef = ref(realtimeDb, 'products');
-            
-            onValue(productsRef, (snapshot) => {
-                allProducts = [];
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    Object.keys(data).forEach(key => {
-                        allProducts.push({
-                            id: key,
-                            ...data[key]
-                        });
-                    });
-                    
-                    // Trier par timestamp décroissant
-                    allProducts.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                }
-                
-                renderProducts();
-                updateGlobalStats();
-            }, (error) => {
-                console.error('Erreur chargement produits:', error);
-                showToast('Erreur de chargement des produits', 'error');
-            });
-        }
-
-        // Chargement des utilisateurs depuis Realtime Database
-        function loadSuppliers() {
-            const suppliersRef = ref(realtimeDb, 'users');
-            
-            onValue(suppliersRef, (snapshot) => {
-                allSuppliers = [];
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    Object.keys(data).forEach(key => {
-                        allSuppliers.push({
-                            id: key,
-                            ...data[key]
-                        });
-                    });
-                }
-                
-                renderSuggestedSuppliers();
-                updateGlobalStats();
-            }, (error) => {
-                console.error('Erreur chargement fournisseurs:', error);
-            });
-        }
-
-       // Rendu des produits avec filtrage automatique
-        function renderProducts() {
-            const grid = document.getElementById('productsGrid');
-            let filteredProducts = filterProducts();
-            
-            // Tri des produits
-            const sortBy = document.getElementById('sortSelect').value;
-            filteredProducts = sortProducts(filteredProducts, sortBy);
-
-            if (filteredProducts.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1 / -1;">
-                        <div class="empty-icon">🔍</div>
-                        <h3 class="empty-title">Aucun produit trouvé</h3>
-                        <p>Essayez de modifier vos filtres de recherche</p>
-                    </div>
-                `;
-            } else {
-                grid.innerHTML = filteredProducts.map(product => createProductCard(product)).join('');
-            }
-
-            // Mettre à jour le compteur
-            const resultsCount = document.getElementById('resultsCount');
-            if (resultsCount) {
-                resultsCount.textContent = `${filteredProducts.length} produit${filteredProducts.length > 1 ? 's' : ''} trouvé${filteredProducts.length > 1 ? 's' : ''}`;
-            }
-        }
-
-        function filterProducts() {
-            let filtered = [...allProducts];
-
-            // Filtrer par onglet
-            switch (currentTab) {
-                case 'following':
-                    if (currentUser && Object.keys(userFollowing).length > 0) {
-                        filtered = filtered.filter(p => userFollowing[p.supplierId]);
-                    } else {
-                        filtered = [];
-                    }
-                    break;
-                case 'trending':
-                    filtered = filtered.filter(p => (p.likesCount || 0) + (p.viewsCount || 0) > 50);
-                    break;
-                case 'new':
-                    const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
-                    filtered = filtered.filter(p => (p.timestamp || 0) > oneDayAgo);
-                    break;
-                case 'deals':
-                    filtered = filtered.filter(p => p.originalPrice && p.originalPrice > p.price);
-                    break;
-            }
-
-            // Appliquer les autres filtres
-            if (currentFilters.search) {
-                const search = currentFilters.search.toLowerCase();
-                filtered = filtered.filter(p => 
-                    p.name.toLowerCase().includes(search) ||
-                    p.description.toLowerCase().includes(search) ||
-                    p.supplierName.toLowerCase().includes(search)
-                );
-            }
-
-            if (currentFilters.category) {
-                filtered = filtered.filter(p => p.category === currentFilters.category);
-            }
-
-            if (currentFilters.country.length > 0) {
-                filtered = filtered.filter(p => currentFilters.country.includes(p.country));
-            }
-
-            if (currentFilters.priceMin !== null) {
-                filtered = filtered.filter(p => p.price >= currentFilters.priceMin);
-            }
-
-            if (currentFilters.priceMax !== null) {
-                filtered = filtered.filter(p => p.price <= currentFilters.priceMax);
-            }
-
-            if (currentFilters.rating !== null) {
-                filtered = filtered.filter(p => (p.rating || 0) >= currentFilters.rating);
-            }
-
-            return filtered;
-        }
-
-        function sortProducts(products, sortBy) {
-            switch (sortBy) {
-                case 'price-low':
-                    return products.sort((a, b) => a.price - b.price);
-                case 'price-high':
-                    return products.sort((a, b) => b.price - a.price);
-                case 'popular':
-                    return products.sort((a, b) => ((b.likesCount || 0) + (b.viewsCount || 0)) - ((a.likesCount || 0) + (a.viewsCount || 0)));
-                case 'rating':
-                    return products.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-                case 'newest':
-                default:
-                    return products.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-            }
-        }
-
-        function createProductCard(product) {
-            const timeAgo = getTimeAgo(product.timestamp);
-            const isLiked = userLikes[product.id] || false;
-            
-            // Message WhatsApp avec indicatif complet
-            const whatsappMessage = encodeURIComponent(
-                `Bonjour, je suis intéressé(e) par votre produit:\n\n` +
-                `📦 ${product.name}\n` +
-                `💰 Prix: ${formatPrice(product.price)} FCFA\n\n` +
-                `Vu sur ALLS STORE\n\n` +
-                `Pouvez-vous me donner plus d'informations ?`
-            );
-            
-            const whatsappLink = `https://wa.me/${product.whatsappNumber}?text=${whatsappMessage}`;
-
-            const badgeHtml = product.badge ? `
-                <div class="product-badge ${product.badge}">
-                    ${product.badge === 'hot' ? '🔥 HOT' : 
-                      product.badge === 'new' ? '✨ NEW' : 
-                      product.badge === 'deal' ? '💥 PROMO' : ''}
-                </div>
-            ` : '';
-
-            const ratingHtml = product.rating ? `
-                <div class="product-rating">
-                    <span class="rating-stars">${'★'.repeat(Math.floor(product.rating))}${product.rating % 1 ? '☆' : ''}</span>
-                    <span>(${product.reviews || 0})</span>
-                </div>
-            ` : '';
-
-            // Avatar du fournisseur
-            const supplierAvatarHtml = product.supplierAvatarUrl ? 
-                `<img src="${product.supplierAvatarUrl}" alt="${product.supplierName}" style="width: 100%; height: 100%; object-fit: cover;">` :
-                (product.supplierAvatar || 'S');
-
-            return `
-                <div class="product-card" data-product-id="${product.id}">
-                    <div class="product-image-container">
-                      ${product.imageUrl ? `
-    <img src="${product.imageUrl}" alt="${product.name}" class="product-image" onclick="openImageModal('${product.imageUrl}', '${product.name}')" style="cursor: pointer;">
-` : `
-                            <div class="product-image" style="display: flex; align-items: center; justify-content: center; font-size: 48px; color: var(--text-light); background: var(--background-tertiary);">
-                                ${getCategoryIcon(product.category)}
-                            </div>
-                        `}
-                        ${badgeHtml}
-                        
-                        <div class="product-actions-overlay">
-                            <button class="action-btn-round" onclick="toggleLike('${product.id}')" title="J'aime">
-                                ${isLiked ? '❤️' : '🤍'}
-                            </button>
-                            <button class="action-btn-round" onclick="shareProduct('${product.id}')" title="Partager">
-                                📤
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="product-info">
-                        <div class="supplier-info">
-                            <div class="supplier-avatar">${supplierAvatarHtml}</div>
-                            <a href="#" class="supplier-name" onclick="showProfile('${product.supplierId}')">${product.supplierName}</a>
-                        </div>
-                        
-                        <h3 class="product-title" onclick="openProductDetail('${product.id}')" style="cursor: pointer;">
-                            ${product.name}
-                        </h3>
-                        
-                        <div class="product-price">
-                            ${formatPrice(product.price)} FCFA
-                            ${product.originalPrice && product.originalPrice > product.price ? 
-                                `<span class="product-original-price">${formatPrice(product.originalPrice)} FCFA</span>` 
-                                : ''
-                            }
-                        </div>
-                        
-                        <div class="product-location">
-                            ${getCountryFlag(product.country)}
-                            <span>${product.country.charAt(0).toUpperCase() + product.country.slice(1).replace('_', ' ')}</span>
-                            <span>•</span>
-                            <span>${timeAgo}</span>
-                        </div>
-                        
-                        <div class="product-stats">
-                            ${ratingHtml}
-                            <div style="display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--text-light);">
-                                <span>👁️ ${product.viewsCount || 0}</span>
-                                <span>❤️ ${product.likesCount || 0}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-footer">
-                        <a href="${whatsappLink}" target="_blank" class="btn btn-whatsapp" onclick="incrementViews('${product.id}')">
-                            📱 WhatsApp
-                        </a>
-                        <button class="btn btn-cart" onclick="openProductDetail('${product.id}')">
-                            👀 Voir détails
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-         // Actions sur les produits avec sauvegarde Firestore
-        window.toggleLike = async function(productId) {
-            if (!currentUser) {
-                showToast('Connectez-vous pour aimer les produits', 'error');
-                showAuthModal();
-                return;
-            }
-
-            try {
-                const isLiked = userLikes[productId] || false;
-                const likeDocId = `${currentUser.id}_${productId}`;
-                
-                if (isLiked) {
-                    // Retirer le like dans Firestore
-                    await deleteDoc(doc(firestore, 'likes', likeDocId));
-                    userLikes[productId] = false;
-                    
-                    // Décrémenter le compteur dans Realtime Database
-                    const productRef = ref(realtimeDb, `products/${productId}/likesCount`);
-                    const snapshot = await get(productRef);
-                    const currentCount = snapshot.val() || 0;
-                    await set(productRef, Math.max(0, currentCount - 1));
-                    
-                } else {
-                    // Ajouter le like dans Firestore
-                    await setDoc(doc(firestore, 'likes', likeDocId), {
-                        userId: currentUser.id,
-                        productId: productId,
-                        timestamp: serverTimestamp()
-                    });
-                    userLikes[productId] = true;
-                    
-                    // Incrémenter le compteur dans Realtime Database
-                    const productRef = ref(realtimeDb, `products/${productId}/likesCount`);
-                    const snapshot = await get(productRef);
-                    const currentCount = snapshot.val() || 0;
-                    await set(productRef, currentCount + 1);
-                }
-                
-                // Mettre à jour l'affichage
-                const productCard = document.querySelector(`[data-product-id="${productId}"]`);
-                if (productCard) {
-                    const likeBtn = productCard.querySelector('.action-btn-round');
-                    likeBtn.innerHTML = userLikes[productId] ? '❤️' : '🤍';
-                }
-                
-            } catch (error) {
-                console.error('Erreur toggle like:', error);
-                showToast('Erreur lors du like', 'error');
-            }
-        };
-
-        window.shareProduct = function(productId) {
-            const product = allProducts.find(p => p.id === productId);
-            if (!product) return;
-
-            const shareData = {
-                title: product.name,
-                text: `Découvrez ce produit sur ALLS STORE: ${product.name} - ${formatPrice(product.price)} FCFA`,
-                url: window.location.href
-            };
-
-            if (navigator.share && navigator.canShare(shareData)) {
-                navigator.share(shareData);
-            } else {
-                const shareText = `${shareData.text}\n${shareData.url}`;
-                navigator.clipboard.writeText(shareText).then(() => {
-                    showToast('Lien copié dans le presse-papier', 'success');
-                }).catch(() => {
-                    showToast('Impossible de copier le lien', 'error');
-                });
-            }
-        };
-
-        window.incrementViews = async function(productId) {
-            try {
-                const productRef = ref(realtimeDb, `products/${productId}/viewsCount`);
-                const snapshot = await get(productRef);
-                const currentCount = snapshot.val() || 0;
-                await set(productRef, currentCount + 1);
-            } catch (error) {
-                console.error('Erreur increment views:', error);
-            }
-        };
-
-        window.openProductDetail = function(productId) {
-            const product = allProducts.find(p => p.id === productId);
-            if (product) {
-                showProfile(product.supplierId);
-                incrementViews(productId);
-            }
-        };
-
-       // Gestion des profils plein écran avec bouton Commander
-window.showProfile = async function(supplierId) {
-    try {
-        const userRef = ref(realtimeDb, `users/${supplierId}`);
-        const snapshot = await get(userRef);
-        
-        if (!snapshot.exists()) {
-            showToast('Fournisseur non trouvé', 'error');
-            return;
-        }
-
-        const supplier = { id: supplierId, ...snapshot.val() };
-        
-        // CORRECTION : Normaliser avatarUrl
-        if (supplier.avatarUrl === undefined) {
-            supplier.avatarUrl = null;
-        }
-        
-        // Compter ses produits
-        const supplierProducts = allProducts.filter(p => p.supplierId === supplierId);
-        
-        // Vérifier que tous les éléments DOM existent avant de les manipuler
-        const elements = {
-            profileAvatar: document.getElementById('profileAvatar'),
-            profileAvatarText: document.getElementById('profileAvatarText'),
-            profileName: document.getElementById('profileName'),
-            profileSector: document.getElementById('profileSector'),
-            profileContact: document.getElementById('profileContact'),
-            profileProductsCount: document.getElementById('profileProductsCount'),
-            profileFollowersCount: document.getElementById('profileFollowersCount'),
-            profileLikesCount: document.getElementById('profileLikesCount'),
-            profileMemberSince: document.getElementById('profileMemberSince'),
-            profileProducts: document.getElementById('profileProducts'),
-            profileModal: document.getElementById('profileModal'),
-            profileFollowBtn: document.getElementById('profileFollowBtn'),
-            profileWhatsAppBtn: document.getElementById('profileWhatsAppBtn'),
-            profileAvatarUpload: document.getElementById('profileAvatarUpload')
-        };
-
-        // Vérifier que les éléments essentiels existent
-        if (!elements.profileModal) {
-            console.error('Modal de profil non trouvé');
-            showToast('Erreur: Interface non disponible', 'error');
-            return;
-        }
-
-        // Remplir les données du profil seulement si les éléments existent
-        if (elements.profileAvatar && elements.profileAvatarText) {
-            if (supplier.avatarUrl) {
-                elements.profileAvatar.innerHTML = `
-                    <img src="${supplier.avatarUrl}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
-                    ${supplierId === currentUser?.id ? '<div class="profile-avatar-upload" style="display: block;">📷</div>' : ''}
-                `;
-            } else {
-                elements.profileAvatarText.textContent = supplier.avatar || 'U';
-                if (supplierId === currentUser?.id) {
-                    elements.profileAvatar.innerHTML += '<div class="profile-avatar-upload" style="display: block;">📷</div>';
-                }
-            }
-        }
-
-        if (elements.profileName) {
-            elements.profileName.textContent = supplier.fullName || 'Utilisateur';
-        }
-        
-        if (elements.profileSector) {
-            elements.profileSector.textContent = supplier.secteur || 'Non spécifié';
-        }
-        
-        if (elements.profileContact) {
-            elements.profileContact.textContent = supplier.contact || '';
-        }
-        
-        if (elements.profileProductsCount) {
-            elements.profileProductsCount.textContent = supplierProducts.length;
-        }
-        
-        if (elements.profileFollowersCount) {
-            elements.profileFollowersCount.textContent = supplier.followersCount || 0;
-        }
-        
-        if (elements.profileLikesCount) {
-            elements.profileLikesCount.textContent = supplier.likesCount || 0;
-        }
-        
-        // Date d'inscription
-        if (elements.profileMemberSince) {
-            const memberSince = supplier.createdAt 
-                ? new Date(supplier.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' })
-                : 'Récemment';
-            elements.profileMemberSince.textContent = memberSince;
-        }
-        
-        // Produits du fournisseur avec bouton Commander
-        if (elements.profileProducts) {
-            const productsHtml = supplierProducts.length > 0 ? 
-                supplierProducts.map(p => {
-                    const whatsappMessage = encodeURIComponent(
-                        `Bonjour, je souhaite commander ce produit:\n\n` +
-                        `📦 ${p.name}\n` +
-                        `💰 Prix: ${formatPrice(p.price)} FCFA\n\n` +
-                        `Vu sur ALLS STORE - Profil ${supplier.fullName}\n\n` +
-                        `Merci de me confirmer la disponibilité.`
-                    );
-                    const whatsappLink = `https://wa.me/${p.whatsappNumber}?text=${whatsappMessage}`;
-
-                    return `
-                    <div class="profile-product-card">
-                        <div class="product-image-container" style="height: 200px;">
-                            ${p.imageUrl ? `
-                                <img src="${p.imageUrl}" alt="${p.name}" class="product-image">
-                            ` : `
-                                <div class="product-image" style="display: flex; align-items: center; justify-content: center; font-size: 48px; color: var(--text-light);">
-                                    ${getCategoryIcon(p.category)}
-                                </div>
-                            `}
-                        </div>
-                        <div class="product-info" style="padding: 16px;">
-                            <div class="product-title" style="font-size: 16px; height: auto; -webkit-line-clamp: 2; margin-bottom: 8px;">
-                                ${p.name}
-                            </div>
-                            <div class="product-price" style="font-size: 18px; margin-bottom: 12px;">
-                                ${formatPrice(p.price)} FCFA
-                            </div>
-                            <div class="product-location" style="margin-bottom: 16px;">
-                                ${getCountryFlag(p.country)}
-                                <span>${p.country.charAt(0).toUpperCase() + p.country.slice(1).replace('_', ' ')}</span>
-                                <span>•</span>
-                                <span>${getTimeAgo(p.timestamp)}</span>
-                            </div>
-                            <div style="display: flex; gap: 8px;">
-                                <a href="${whatsappLink}" target="_blank" class="btn btn-whatsapp" style="flex: 1; text-decoration: none; text-align: center;" onclick="incrementViews('${p.id}')">
-                                    🛒 Commander
-                                </a>
-                                <button class="btn btn-outline" style="flex: 1;" onclick="toggleLike('${p.id}')">
-                                    ${userLikes[p.id] ? '❤️' : '🤍'} ${p.likesCount || 0}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                }).join('') :
-                '<p style="text-align: center; color: var(--text-light); padding: 40px; font-size: 16px;">Aucun produit pour le moment</p>';
-            
-            elements.profileProducts.innerHTML = productsHtml;
-        }
-        
-        // Configurer les boutons d'action
-        const isOwnProfile = currentUser && supplier.id === currentUser.id;
-        
-        if (elements.profileFollowBtn) {
-            if (isOwnProfile) {
-                elements.profileFollowBtn.style.display = 'none';
-            } else {
-                elements.profileFollowBtn.style.display = 'block';
-                elements.profileFollowBtn.textContent = userFollowing[supplierId] ? 'Suivi ✓' : 'Suivre';
-                elements.profileFollowBtn.onclick = () => toggleFollow(supplierId);
-            }
-        }
-        
-        if (elements.profileAvatarUpload) {
-            elements.profileAvatarUpload.style.display = isOwnProfile ? 'block' : 'none';
-        }
-        
-        if (elements.profileWhatsAppBtn && supplier.contact) {
-            const whatsappMessage = encodeURIComponent(`Bonjour, je vous contacte depuis ALLS STORE concernant vos produits.`);
-            elements.profileWhatsAppBtn.href = `https://wa.me/${supplier.contact}?text=${whatsappMessage}`;
-        }
-        
-        // Afficher le modal plein écran
-        elements.profileModal.style.display = 'block';
-        
-    } catch (error) {
-        console.error('Erreur affichage profil:', error);
-        showToast('Erreur lors du chargement du profil', 'error');
-    }
-};
-
-window.toggleFollow = async function(supplierId) {
-    if (!currentUser) {
-        showToast('Connectez-vous pour suivre des fournisseurs', 'error');
-        showAuthModal();
-        return;
-    }
-
-    try {
-        const isFollowing = userFollowing[supplierId] || false;
-        const followDocId = `${currentUser.id}_${supplierId}`;
-        
-        if (isFollowing) {
-            // Se désabonner dans Firestore
-            await deleteDoc(doc(firestore, 'following', followDocId));
-            userFollowing[supplierId] = false;
-            showToast('Désabonnement effectué', 'success');
-        } else {
-            // S'abonner dans Firestore
-            await setDoc(doc(firestore, 'following', followDocId), {
-                followerId: currentUser.id,
-                followedId: supplierId,
-                timestamp: serverTimestamp()
-            });
-            userFollowing[supplierId] = true;
-            showToast('Abonnement effectué', 'success');
-        }
-        
-        // Mettre à jour le bouton
-        const followBtn = document.getElementById('profileFollowBtn');
-        if (followBtn) {
-            followBtn.textContent = userFollowing[supplierId] ? 'Suivi ✓' : 'Suivre';
-        }
-        
-    } catch (error) {
-        console.error('Erreur toggle follow:', error);
-        showToast('Erreur lors de l\'abonnement', 'error');
-    }
-};
-
-// Publication de produit avec indicatif obligatoire
-async function publishProduct(productData, imageFile) {
-    try {
-        let imageUrl = null;
-        
-        if (imageFile) {
-            if (imageFile.size > 5 * 1024 * 1024) {
-                throw new Error('Image trop volumineuse (max 5MB)');
-            }
-            
-            const result = await uploader.uploadImage(imageFile);
-            imageUrl = result.url;
-        }
-
-        const productId = generateProductId();
-        const newProduct = sanitizeForFirebase({
-            id: productId,
-            ...productData,
-            whatsappNumber: currentUser.contact,
-            supplierId: currentUser.id,
-            supplierName: currentUser.fullName,
-            supplierAvatar: currentUser.avatar,
-            supplierAvatarUrl: currentUser.avatarUrl || null,
-            supplierSector: currentUser.secteur,
-            timestamp: Date.now(),
-            imageUrl: imageUrl,
-            likesCount: 0,
-            viewsCount: 0,
-            rating: 0,
-            reviews: 0
-        });
-
-        await set(ref(realtimeDb, `products/${productId}`), newProduct);
-        return true;
-        
-    } catch (error) {
-        console.error('Erreur publication:', error);
-        throw error;
-    }
-}
-
-// Fournisseurs suggérés
-function renderSuggestedSuppliers() {
-    const container = document.getElementById('suggestedSuppliers');
-    if (!container) return;
-    
-    // Exclure l'utilisateur actuel et ceux déjà suivis
-    const suggestions = allSuppliers.filter(s => 
-        (!currentUser || s.id !== currentUser.id) &&
-        (!currentUser || !userFollowing[s.id])
-    ).slice(0, 5);
-
-    if (suggestions.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: var(--text-light); font-size: 14px; padding: 20px;">Aucune suggestion</p>';
-        return;
-    }
-
-    container.innerHTML = suggestions.map(supplier => {
-        const avatarHtml = supplier.avatarUrl ? 
-            `<img src="${supplier.avatarUrl}" alt="${supplier.fullName}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` :
-            supplier.avatar;
-
-        return `
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color);" class="suggestion-item">
-            <div style="display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer;" onclick="showProfile('${supplier.id}')">
-                <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; overflow: hidden;">
-                    ${avatarHtml}
-                </div>
-                <div style="flex: 1; min-width: 0;">
-                    <div style="font-weight: 500; font-size: 14px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        ${supplier.fullName}
-                    </div>
-                    <div style="font-size: 12px; color: var(--text-light);">
-                        ${supplier.secteur} • ${supplier.productsCount || 0} produits
-                    </div>
-                </div>
-            </div>
-            ${currentUser ? `
-                <button class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;" onclick="toggleFollow('${supplier.id}')">
-                    Suivre
-                </button>
-            ` : ''}
+<!-- ══════════════════════════════════════ AUTH GATE -->
+<div id="authGate">
+  <div class="auth-card">
+    <div class="auth-logo">COMEO AI · SYSCOHADA Pro</div>
+    <div class="auth-title">Panneau d'Administration</div>
+    <div class="auth-sub">Accès restreint — Administrateur serveur</div>
+    <div class="auth-field">
+      <label>Mot de passe administrateur</label>
+      <input type="password" id="adminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')authAdmin()">
+    </div>
+    <button class="btn-auth" onclick="authAdmin()">Accéder au panneau ↗</button>
+    <div class="auth-err" id="authErr">Mot de passe incorrect</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ MAIN APP -->
+<div id="appShell">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">COMEO AI</div>
+    <div class="header-sep"></div>
+    <div class="header-title">Panneau Serveur</div>
+    <span class="header-badge">ADMIN</span>
+    <div class="header-right">
+      <div class="header-user" id="headerTime">—</div>
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ── STATS ROW ── -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-box gold">
+        <div class="stat-label">Total Tokens</div>
+        <div class="stat-val" id="sTotalTokens">—</div>
+        <div class="stat-sub">Depuis le début</div>
+      </div>
+      <div class="stat-box blue">
+        <div class="stat-label">Tokens Prompts</div>
+        <div class="stat-val" id="sPromptTokens">—</div>
+        <div class="stat-sub">Entrées envoyées</div>
+      </div>
+      <div class="stat-box green">
+        <div class="stat-label">Tokens Générés</div>
+        <div class="stat-val" id="sCompTokens">—</div>
+        <div class="stat-sub">Sorties reçues</div>
+      </div>
+      <div class="stat-box purple">
+        <div class="stat-label">Nb Requêtes</div>
+        <div class="stat-val" id="sRequests">—</div>
+        <div class="stat-sub">Appels API total</div>
+      </div>
+      <div class="stat-box orange">
+        <div class="stat-label">Aujourd'hui</div>
+        <div class="stat-val" id="sTodayTokens">—</div>
+        <div class="stat-sub" id="sTodayDate">tokens</div>
+      </div>
+    </div>
+
+    <!-- ── ROW 1 : Clés + Quota Ring ── -->
+    <div class="grid-2">
+
+      <!-- CLÉS API GROQ -->
+      <div class="card">
+        <div class="card-head">
+          <div class="section-icon">🔑</div>
+          <div>
+            <div class="section-label">Clés API Groq</div>
+            <div class="section-meta">Rotation automatique entre les clés actives</div>
+          </div>
         </div>
-    `;
-    }).join('');
+        <div class="card-body">
+          <table class="srv-table" id="keysTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Clé API</th>
+                <th>Statut</th>
+                <th>Tokens utilisés</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="keysBody">
+              <tr><td colspan="5"><div class="loading-inline"><div class="spinner"></div>Chargement…</div></td></tr>
+            </tbody>
+          </table>
 
-    // Supprimer la dernière bordure
-    const lastItem = container.querySelector('.suggestion-item:last-child');
-    if (lastItem) {
-        lastItem.style.borderBottom = 'none';
-    }
-}
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nouvelle clé API Groq</label>
+              <input type="password" id="newKeyInput" placeholder="gsk_…" autocomplete="off">
+            </div>
+            <div class="form-group" style="max-width:160px">
+              <label>Label (optionnel)</label>
+              <input type="text" id="newKeyLabel" placeholder="ex: Prod-1">
+            </div>
+            <button class="btn btn-primary" onclick="addKey()">+ Ajouter</button>
+          </div>
+        </div>
+      </div>
 
-// Statistiques globales
-function updateGlobalStats() {
-    const elements = {
-        totalProducts: document.getElementById('totalProducts'),
-        totalSuppliers: document.getElementById('totalSuppliers'),
-        totalViews: document.getElementById('totalViews'),
-        onlineUsers: document.getElementById('onlineUsers')
-    };
-    
-    if (elements.totalProducts) {
-        elements.totalProducts.textContent = allProducts.length;
-    }
-    
-    if (elements.totalSuppliers) {
-        elements.totalSuppliers.textContent = allSuppliers.length;
-    }
-    
-    if (elements.totalViews) {
-        const totalViews = allProducts.reduce((sum, p) => sum + (p.viewsCount || 0), 0);
-        elements.totalViews.textContent = totalViews;
-    }
-    
-    // Compter les utilisateurs en ligne
-    if (elements.onlineUsers) {
-        const onlineRef = ref(realtimeDb, 'users');
-        get(onlineRef).then(snapshot => {
-            if (snapshot.exists()) {
-                const users = snapshot.val();
-                const onlineCount = Object.values(users).filter(user => user.online).length;
-                elements.onlineUsers.textContent = onlineCount;
-            }
-        }).catch(error => {
-            console.error('Erreur lors du comptage des utilisateurs en ligne:', error);
-        });
-    }
-}
+      <!-- QUOTA ESTIMATION -->
+      <div class="card">
+        <div class="card-head">
+          <div class="section-icon">📊</div>
+          <div>
+            <div class="section-label">Quota & Estimation</div>
+            <div class="section-meta">Suivi de consommation Groq (Free Tier)</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="quota-ring-wrap">
+            <svg class="quota-svg" width="120" height="120" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#1e222e" stroke-width="10"/>
+              <circle id="quotaArc" cx="60" cy="60" r="50" fill="none" stroke="#d4a853" stroke-width="10"
+                stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"
+                style="transition:stroke-dashoffset .8s ease"/>
+            </svg>
+            <div class="quota-ring-val" id="quotaPct">0%</div>
+            <div class="quota-ring-sub" id="quotaLabel">Calcul en cours…</div>
+          </div>
+          <div class="sep"></div>
+          <div class="token-bars" id="tokenBars">
+            <div class="token-bar-row">
+              <div class="token-bar-info">
+                <span class="token-bar-label">Prompts (input)</span>
+                <span class="token-bar-val" id="barPromptVal">—</span>
+              </div>
+              <div class="token-bar-track"><div class="token-bar-fill" id="barPrompt" style="width:0%;background:var(--blue)"></div></div>
+            </div>
+            <div class="token-bar-row">
+              <div class="token-bar-info">
+                <span class="token-bar-label">Génération (output)</span>
+                <span class="token-bar-val" id="barCompVal">—</span>
+              </div>
+              <div class="token-bar-track"><div class="token-bar-fill" id="barComp" style="width:0%;background:var(--green)"></div></div>
+            </div>
+            <div class="token-bar-row">
+              <div class="token-bar-info">
+                <span class="token-bar-label">Estimation coût ($/1M tok)</span>
+                <span class="token-bar-val" id="barCostVal">—</span>
+              </div>
+              <div class="token-bar-track"><div class="token-bar-fill" id="barCost" style="width:0%;background:var(--gold)"></div></div>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" onclick="resetStats()">🗑 Réinitialiser les stats</button>
+            <button class="btn btn-ghost btn-sm" onclick="loadAllData()">↺ Actualiser</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-// Gestion des onglets
-function setupTabs() {
-    const tabs = document.querySelectorAll('.nav-tab');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentTab = tab.dataset.tab;
-            updateSectionTitle();
-            renderProducts();
-        });
-    });
-}
+    <!-- ── ROW 2 : Modèles + Log ── -->
+    <div class="grid-2">
 
-function updateSectionTitle() {
-    const titles = {
-        'all': 'Tous les produits',
-        'following': 'Mes abonnements',
-        'trending': 'Produits tendance',
-        'new': 'Nouveautés',
-        'deals': 'Promotions'
-    };
-    const titleElement = document.getElementById('sectionTitle');
-    if (titleElement) {
-        titleElement.textContent = titles[currentTab] || 'Produits';
-    }
-}
+      <!-- MODÈLES -->
+      <div class="card">
+        <div class="card-head">
+          <div class="section-icon">🤖</div>
+          <div>
+            <div class="section-label">Modèles Groq</div>
+            <div class="section-meta">Ordre de rotation prioritaire</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <span class="alert-icon">ℹ</span>
+            <span>Le modèle en <strong>position 1</strong> est utilisé en priorité. En cas d'échec, les suivants prennent le relais automatiquement.</span>
+          </div>
 
-// Gestion des modals
-window.showAuthModal = function() {
-    const authModal = document.getElementById('authModal');
-    if (authModal) {
-        authModal.style.display = 'flex';
-    }
+          <table class="srv-table" id="modelsTable">
+            <thead>
+              <tr><th>#</th><th>Modèle</th><th>Tokens max</th><th>Vitesse</th><th></th></tr>
+            </thead>
+            <tbody id="modelsBody">
+              <tr><td colspan="5"><div class="loading-inline"><div class="spinner"></div>Chargement…</div></td></tr>
+            </tbody>
+          </table>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>ID du modèle Groq</label>
+              <input type="text" id="newModelInput" placeholder="ex: llama-3.3-70b-versatile">
+            </div>
+            <button class="btn btn-primary" onclick="addModel()">+ Ajouter</button>
+          </div>
+
+          <div class="sep"></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);line-height:1.8">
+            Modèles recommandés :<br>
+            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">llama-3.3-70b-versatile</span>
+            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">qwen/qwen3-32b</span>
+            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">meta-llama/llama-4-scout-17b-16e-instruct</span>
+            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">llama-3.1-8b-instant</span>
+            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">gemma2-9b-it</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOG DES APPELS ── -->
+      <div class="card">
+        <div class="card-head">
+          <div class="section-icon">📡</div>
+          <div>
+            <div class="section-label">Journal des requêtes</div>
+            <div class="section-meta">Derniers appels API (session courante)</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <span style="font-size:12px;color:var(--muted)">Temps réel · <span id="logCount">0</span> entrée(s)</span>
+            <button class="btn btn-ghost btn-sm" onclick="clearLog()">Vider</button>
+          </div>
+          <div class="log-box" id="logBox">
+            <div class="loading-inline" style="padding:8px"><div class="spinner"></div>En attente de requêtes…</div>
+          </div>
+
+          <div class="sep"></div>
+
+          <!-- Utilisation par jour -->
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-bottom:10px;letter-spacing:.06em">TOKENS PAR JOUR (7 derniers jours)</div>
+          <table class="srv-table" id="dailyTable">
+            <thead><tr><th>Date</th><th>Tokens</th><th>Requêtes</th><th>Répartition</th></tr></thead>
+            <tbody id="dailyBody">
+              <tr><td colspan="4"><div class="loading-inline"><div class="spinner"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TEST DE CONNEXION ── -->
+    <div class="card">
+      <div class="card-head">
+        <div class="section-icon">🧪</div>
+        <div>
+          <div class="section-label">Test de connexion API</div>
+          <div class="section-meta">Vérifier que les clés et modèles fonctionnent</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-success" onclick="testAllKeys()">▶ Tester toutes les clés</button>
+          <div class="form-group" style="max-width:280px">
+            <label>Tester une clé spécifique (index)</label>
+            <div style="display:flex;gap:8px">
+              <input type="number" id="testKeyIdx" placeholder="0" min="0" style="width:80px">
+              <button class="btn btn-ghost" onclick="testKey(parseInt(document.getElementById('testKeyIdx').value)||0)">Tester</button>
+            </div>
+          </div>
+        </div>
+        <div id="testResults" style="margin-top:14px"></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /appShell -->
+
+<div id="toastZone"></div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCPGgtXoDUycykLaTSee0S0yY0tkeJpqKI",
+  authDomain: "data-com-a94a8.firebaseapp.com",
+  projectId: "data-com-a94a8",
+  storageBucket: "data-com-a94a8.appspot.com",
+  messagingSenderId: "276904640935",
+  appId: "1:276904640935:web:9cd805aeba6c34c767f682"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ── Admin password (stored in Firestore or fallback) ──
+const ADMIN_PASS_FALLBACK = 'comeo2024';
+
+// ── Log en mémoire ──
+let sessionLog = [];
+let currentKeys = [];
+let currentModels = [];
+let usageStats = { total_tokens: 0, prompt_tokens: 0, completion_tokens: 0, request_count: 0, daily: {} };
+
+// ── Groq model info ──
+const MODEL_INFO = {
+  'llama-3.3-70b-versatile':                    { ctx: '128K', speed: '🚀 Rapide' },
+  'qwen/qwen3-32b':                             { ctx: '128K', speed: '⚡ Moyen' },
+  'meta-llama/llama-4-scout-17b-16e-instruct':  { ctx: '512K', speed: '🚀 Rapide' },
+  'llama-3.1-8b-instant':                       { ctx: '128K', speed: '⚡⚡ Très rapide' },
+  'gemma2-9b-it':                               { ctx: '8K',   speed: '⚡⚡ Très rapide' },
+  'llama-3.2-90b-vision-preview':               { ctx: '128K', speed: '🐢 Lent' },
 };
 
-function hideAuthModal() {
-    const authModal = document.getElementById('authModal');
-    if (authModal) {
-        authModal.style.display = 'none';
-    }
-}
-
-window.logout = async function() {
-    if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
-        await logout();
-    }
+// ══════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════
+window.authAdmin = async function() {
+  const pass = document.getElementById('adminPass').value;
+  const err = document.getElementById('authErr');
+  err.classList.remove('show');
+  try {
+    const snap = await getDoc(doc(db, 'server_config', 'admin'));
+    const storedPass = snap.exists() ? (snap.data().password || ADMIN_PASS_FALLBACK) : ADMIN_PASS_FALLBACK;
+    if (pass !== storedPass) { err.classList.add('show'); return; }
+  } catch(e) {
+    if (pass !== ADMIN_PASS_FALLBACK) { err.classList.add('show'); return; }
+  }
+  sessionStorage.setItem('srv_auth', '1');
+  document.getElementById('authGate').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  startClock();
+  await loadAllData();
 };
 
-// Filtres avec auto-update
-function setupFilters() {
-    // Filtres de prix avec auto-application
-    const priceMinInput = document.getElementById('priceMin');
-    const priceMaxInput = document.getElementById('priceMax');
-    
-    if (priceMinInput && priceMaxInput) {
-        [priceMinInput, priceMaxInput].forEach(input => {
-            input.addEventListener('input', () => {
-                const min = parseFloat(priceMinInput.value) || null;
-                const max = parseFloat(priceMaxInput.value) || null;
-                
-                currentFilters.priceMin = min;
-                currentFilters.priceMax = max;
-                renderProducts();
-            });
-        });
-    }
+window.logout = function() {
+  sessionStorage.removeItem('srv_auth');
+  location.reload();
+};
 
-    const applyPriceFilter = document.getElementById('applyPriceFilter');
-    if (applyPriceFilter) {
-        applyPriceFilter.addEventListener('click', () => {
-            const minInput = document.getElementById('priceMin');
-            const maxInput = document.getElementById('priceMax');
-            
-            const min = minInput ? parseFloat(minInput.value) || null : null;
-            const max = maxInput ? parseFloat(maxInput.value) || null : null;
-            
-            currentFilters.priceMin = min;
-            currentFilters.priceMax = max;
-            renderProducts();
-        });
-    }
-
-    // Filtres par cases à cocher avec auto-update
-    document.querySelectorAll('.filter-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const checkbox = item.querySelector('.filter-checkbox');
-            const filterType = item.dataset.filter;
-            const filterValue = item.dataset.value;
-            
-            if (!checkbox || !filterType || !filterValue) return;
-            
-            checkbox.classList.toggle('checked');
-            
-            if (filterType === 'country') {
-                if (checkbox.classList.contains('checked')) {
-                    if (!currentFilters.country.includes(filterValue)) {
-                        currentFilters.country.push(filterValue);
-                    }
-                } else {
-                    currentFilters.country = currentFilters.country.filter(c => c !== filterValue);
-                }
-            } else if (filterType === 'rating') {
-                currentFilters.rating = checkbox.classList.contains('checked') ? 
-                    parseInt(filterValue) : null;
-                
-                // Décocher les autres ratings
-                document.querySelectorAll('.filter-item[data-filter="rating"] .filter-checkbox').forEach(cb => {
-                    if (cb !== checkbox) cb.classList.remove('checked');
-                });
-            }
-            
-            renderProducts();
-        });
-    });
-
-    // Recherche avec auto-update
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        let searchTimeout;
-        searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                currentFilters.search = e.target.value;
-                renderProducts();
-            }, 300);
-        });
-    }
-
-    // Catégorie avec auto-update
-    const searchCategory = document.getElementById('searchCategory');
-    if (searchCategory) {
-        searchCategory.addEventListener('change', (e) => {
-            currentFilters.category = e.target.value;
-            renderProducts();
-        });
-    }
-
-    // Tri avec auto-update
-    const sortSelect = document.getElementById('sortSelect');
-    if (sortSelect) {
-        sortSelect.addEventListener('change', () => {
-            renderProducts();
-        });
-    }
+// Check existing session
+if (sessionStorage.getItem('srv_auth') === '1') {
+  document.getElementById('authGate').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  startClock();
+  loadAllData();
 }
 
-// Gestion des formulaires avec indicatifs obligatoires
-function setupForms() {
-    // Commutation entre connexion et inscription
-    const showRegister = document.getElementById('showRegister');
-    if (showRegister) {
-        showRegister.addEventListener('click', (e) => {
-            e.preventDefault();
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            
-            if (loginForm) loginForm.style.display = 'none';
-            if (registerForm) registerForm.style.display = 'block';
-        });
-    }
-
-    const showLogin = document.getElementById('showLogin');
-    if (showLogin) {
-        showLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            const registerForm = document.getElementById('registerForm');
-            const loginForm = document.getElementById('loginForm');
-            
-            if (registerForm) registerForm.style.display = 'none';
-            if (loginForm) loginForm.style.display = 'block';
-        });
-    }
-
-    // Formulaire de connexion avec indicatif
-    const loginForm = document.getElementById('loginFormElement');
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const countryCodeInput = document.getElementById('loginCountryCode');
-            const phoneNumberInput = document.getElementById('loginContact');
-            const passwordInput = document.getElementById('loginPassword');
-            
-            if (!countryCodeInput || !phoneNumberInput || !passwordInput) {
-                showToast('Formulaire incomplet', 'error');
-                return;
-            }
-            
-            const countryCode = countryCodeInput.value;
-            const phoneNumber = phoneNumberInput.value.trim();
-            const password = passwordInput.value.trim();
-            
-            if (!countryCode || !phoneNumber || !password) {
-                showToast('Veuillez remplir tous les champs', 'error');
-                return;
-            }
-
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn ? submitBtn.textContent : 'Connexion';
-            
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Connexion...';
-            }
-
-            try {
-                await loginUser(countryCode, phoneNumber, password);
-                hideAuthModal();
-                updateUserInterface();
-                await loadUserData();
-                showToast('Connexion réussie !', 'success');
-                
-            } catch (error) {
-                showToast(error.message || 'Erreur de connexion', 'error');
-            } finally {
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
-                }
-            }
-        });
-    }
-
-    // Formulaire d'inscription avec indicatif obligatoire
-    const registerForm = document.getElementById('registerFormElement');
-    if (registerForm) {
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const inputs = {
-                entreprise: document.getElementById('registerEntreprise'),
-                prenom: document.getElementById('registerPrenom'),
-                nom: document.getElementById('registerNom'),
-                countryCode: document.getElementById('registerCountryCode'),
-                contact: document.getElementById('registerContact'),
-                secteur: document.getElementById('registerSecteur'),
-                password: document.getElementById('registerPassword')
-            };
-
-            // Vérifier que tous les éléments existent
-            for (const [key, element] of Object.entries(inputs)) {
-                if (!element) {
-                    showToast(`Champ ${key} manquant`, 'error');
-                    return;
-                }
-            }
-
-            const values = {
-                entreprise: inputs.entreprise.value.trim(),
-                prenom: inputs.prenom.value.trim(),
-                nom: inputs.nom.value.trim(),
-                countryCode: inputs.countryCode.value,
-                contact: inputs.contact.value.trim(),
-                secteur: inputs.secteur.value,
-                password: inputs.password.value.trim()
-            };
-
-            if (Object.values(values).some(val => !val)) {
-                showToast('Veuillez remplir tous les champs', 'error');
-                return;
-            }
-
-            if (values.password.length < 6) {
-                showToast('Le mot de passe doit contenir au moins 6 caractères', 'error');
-                return;
-            }
-
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn ? submitBtn.textContent : 'Inscription';
-            
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Inscription...';
-            }
-
-            try {
-                await registerUser(values);
-                hideAuthModal();
-                updateUserInterface();
-                await loadUserData();
-                showToast('Inscription réussie ! Bienvenue !', 'success');
-                
-            } catch (error) {
-                showToast(error.message || 'Erreur lors de l\'inscription', 'error');
-            } finally {
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
-                }
-            }
-        });
-    }
-
-    // Formulaire de publication avec indicatif obligatoire
-    const productForm = document.getElementById('productForm');
-    if (productForm) {
-        productForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!currentUser) {
-                showToast('Connectez-vous pour publier', 'error');
-                return;
-            }
-
-            const inputs = {
-                name: document.getElementById('productName'),
-                price: document.getElementById('productPrice'),
-                category: document.getElementById('productCategory'),
-                country: document.getElementById('productCountry'),
-                description: document.getElementById('productDescription'),
-                image: document.getElementById('productImage')
-            };
-
-            // Vérifier que les éléments obligatoires existent
-            const requiredInputs = ['name', 'price', 'category', 'country', 'description'];
-            for (const key of requiredInputs) {
-                if (!inputs[key]) {
-                    showToast(`Champ ${key} manquant`, 'error');
-                    return;
-                }
-            }
-
-            const productData = {
-                name: inputs.name.value.trim(),
-                price: parseFloat(inputs.price.value),
-                category: inputs.category.value,
-                country: inputs.country.value,
-                description: inputs.description.value.trim()
-            };
-
-            if (!productData.name || !productData.price || !productData.category || 
-                !productData.country || !productData.description) {
-                showToast('Veuillez remplir tous les champs obligatoires', 'error');
-                return;
-            }
-
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn ? submitBtn.textContent : 'Publier';
-            
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Publication...';
-            }
-
-            try {
-                const imageFile = inputs.image ? inputs.image.files[0] : null;
-                await publishProduct(productData, imageFile);
-                
-                // Nettoyer et fermer le formulaire
-                productForm.reset();
-                const publishModal = document.getElementById('publishModal');
-                if (publishModal) {
-                    publishModal.style.display = 'none';
-                }
-                
-                // Mettre à jour les stats utilisateur
-                await updateUserStats();
-                showToast('Produit publié avec succès !', 'success');
-                
-            } catch (error) {
-                console.error('Erreur publication:', error);
-                showToast(error.message || 'Erreur lors de la publication', 'error');
-            } finally {
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
-                }
-            }
-        });
-    }
+function startClock() {
+  const update = () => {
+    const now = new Date();
+    document.getElementById('headerTime').textContent =
+      now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  };
+  update();
+  setInterval(update, 1000);
 }
 
-// Gestion des événements globaux
-function setupEventListeners() {
-    // Modal de publication
-    const publishBtn = document.getElementById('publishBtn');
-    if (publishBtn) {
-        publishBtn.addEventListener('click', () => {
-            if (!currentUser) {
-                showToast('Connectez-vous pour publier', 'error');
-                showAuthModal();
-                return;
-            }
-            const publishModal = document.getElementById('publishModal');
-            if (publishModal) {
-                publishModal.style.display = 'flex';
-            }
-        });
-    }
+// ══════════════════════════════════════════
+// LOAD ALL
+// ══════════════════════════════════════════
+window.loadAllData = async function() {
+  await Promise.all([loadKeys(), loadModels(), loadStats()]);
+  renderStats();
+  renderDailyUsage();
+};
 
-    const closePublishModal = document.getElementById('closePublishModal');
-    if (closePublishModal) {
-        closePublishModal.addEventListener('click', () => {
-            const publishModal = document.getElementById('publishModal');
-            if (publishModal) {
-                publishModal.style.display = 'none';
-            }
-        });
-    }
-
-    // Upload d'avatar - Configuration dynamique
-    document.addEventListener('click', (e) => {
-        if (e.target && e.target.classList.contains('profile-avatar-upload')) {
-            const profileAvatarInput = document.getElementById('profileAvatarInput');
-            if (profileAvatarInput) {
-                profileAvatarInput.click();
-            }
-        }
-    });
-
-    document.addEventListener('change', (e) => {
-        if (e.target && e.target.id === 'profileAvatarInput') {
-            const file = e.target.files[0];
-            if (file) {
-                uploadAvatar(file);
-            }
-        }
-    });
-  // Fermeture des modals par clic extérieur
-            const authModal = document.getElementById('authModal');
-            if (authModal) {
-                authModal.addEventListener('click', (e) => {
-                    if (e.target.id === 'authModal') {
-                        hideAuthModal();
-                    }
-                });
-            }
-
-            const publishModal = document.getElementById('publishModal');
-            if (publishModal) {
-                publishModal.addEventListener('click', (e) => {
-                    if (e.target.id === 'publishModal') {
-                        document.getElementById('publishModal').style.display = 'none';
-                    }
-                });
-            }
-
-            const profileModal = document.getElementById('profileModal');
-            if (profileModal) {
-                profileModal.addEventListener('click', (e) => {
-                    if (e.target.id === 'profileModal') {
-                        document.getElementById('profileModal').style.display = 'none';
-                    }
-                });
-            }
-
-            const profileClose = document.getElementById('profileClose');
-            if (profileClose) {
-                profileClose.addEventListener('click', () => {
-                    document.getElementById('profileModal').style.display = 'none';
-                });
-            }
-
-            // Gestion de la présence utilisateur
-            if (currentUser) {
-                // Marquer l'utilisateur comme en ligne
-                set(ref(realtimeDb, `users/${currentUser.id}/online`), true);
-                
-                // Gérer la fermeture/déconnexion
-                window.addEventListener('beforeunload', () => {
-                    set(ref(realtimeDb, `users/${currentUser.id}/online`), false);
-                });
-            }
-        }
-
-        // Gestion de la connectivité
-        function setupConnectivityHandlers() {
-            window.addEventListener('online', () => {
-                showToast('Connexion rétablie', 'success');
-                // Recharger les données si nécessaire
-                loadProducts();
-                loadSuppliers();
-            });
-
-            window.addEventListener('offline', () => {
-                showToast('Connexion perdue - Mode hors ligne', 'info');
-            });
-        }
-
-        // Initialisation complète
-        async function init() {
-            console.log('Initialisation ALLS STORE...');
-            
-            try {
-                // Vérifier l'authentification
-                await checkAuth();
-                
-                // Configurer les composants
-                setupTabs()
-                setupForms();
-                setupFilters();
-                setupEventListeners();
-                setupConnectivityHandlers();
-                
-                // Charger les données
-                loadProducts();
-                loadSuppliers();
-                
-                // Mise à jour périodique des stats
-                setInterval(updateGlobalStats, 30000);
-                
-                console.log('ALLS STORE initialisé avec succès !');
-                
-            } catch (error) {
-                console.error('Erreur initialisation:', error);
-                showToast('Erreur lors de l\'initialisation', 'error');
-            }
-        }
-
-        // Gestion des erreurs globales
-        window.addEventListener('error', (e) => {
-            console.error('Erreur:', e.error);
-            showToast('Une erreur inattendue s\'est produite', 'error');
-        });
-
-        window.addEventListener('unhandledrejection', (e) => {
-            console.error('Promesse rejetée:', e.reason);
-        });
-
-        // Démarrage de l'application
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-        
-        // NOUVEAU CODE - Ajouter cette fonction utilitaire
-function sanitizeForFirebase(obj) {
-    const sanitized = {};
-    for (const key in obj) {
-        if (obj[key] !== undefined) {
-            if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-                sanitized[key] = sanitizeForFirebase(obj[key]);
-            } else {
-                sanitized[key] = obj[key];
-            }
-        } else {
-            sanitized[key] = null;
-        }
-    }
-    return sanitized;
+// ══════════════════════════════════════════
+// CLÉS API
+// ══════════════════════════════════════════
+async function loadKeys() {
+  try {
+    const snap = await getDoc(doc(db, 'server_config', 'groq_keys'));
+    currentKeys = snap.exists() ? (snap.data().keys || []) : [];
+  } catch(e) { currentKeys = []; }
+  renderKeys();
 }
-// Gestion des dropdowns de filtres
-window.toggleDropdown = function(dropdownId) {
-    const dropdown = document.getElementById(dropdownId);
-    const btn = document.querySelector(`[onclick="toggleDropdown('${dropdownId}')"]`);
-    
-    // Fermer tous les autres dropdowns
-    document.querySelectorAll('.filter-dropdown').forEach(d => {
-        if (d.id !== dropdownId) {
-            d.style.display = 'none';
-            const otherBtn = document.querySelector(`[onclick="toggleDropdown('${d.id}')"]`);
-            if (otherBtn) otherBtn.classList.remove('active');
-        }
+
+function renderKeys() {
+  const tbody = document.getElementById('keysBody');
+  if (!currentKeys.length) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="ei">🔑</div>Aucune clé API configurée</div></td></tr>`;
+    return;
+  }
+  const keyUsage = usageStats.key_usage || {};
+  tbody.innerHTML = currentKeys.map((k, i) => {
+    const masked = k.value ? (k.value.substring(0, 8) + '…' + k.value.slice(-4)) : '—';
+    const tokens = keyUsage[i] ? fmtNum(keyUsage[i]) : '—';
+    return `<tr>
+      <td style="font-family:var(--font-mono);color:var(--muted);width:30px">${i + 1}</td>
+      <td>
+        <span class="key-display key-masked" id="key-disp-${i}">${masked}</span>
+        <span class="key-toggle" onclick="toggleKeyVisibility(${i},'${escapeJs(k.value)}')">👁</span>
+        ${k.label ? `<span style="font-size:11px;color:var(--muted);margin-left:8px">${k.label}</span>` : ''}
+      </td>
+      <td><span class="badge active">Active</span></td>
+      <td style="font-family:var(--font-mono);font-size:12px;color:var(--gold)">${tokens}</td>
+      <td style="text-align:right">
+        <button class="btn btn-danger btn-sm" onclick="removeKey(${i})">✕ Supprimer</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.toggleKeyVisibility = function(idx, value) {
+  const el = document.getElementById(`key-disp-${idx}`);
+  if (!el) return;
+  el.classList.toggle('key-masked');
+  el.textContent = el.classList.contains('key-masked')
+    ? (value.substring(0, 8) + '…' + value.slice(-4))
+    : value;
+};
+
+window.addKey = async function() {
+  const val = document.getElementById('newKeyInput').value.trim();
+  const label = document.getElementById('newKeyLabel').value.trim();
+  if (!val) { toast('Entrez une clé API', 'warn'); return; }
+  if (!val.startsWith('gsk_')) { toast('La clé doit commencer par gsk_', 'warn'); return; }
+  currentKeys.push({ value: val, label: label || 'Clé ' + (currentKeys.length + 1), addedAt: new Date().toISOString() });
+  await saveKeys();
+  document.getElementById('newKeyInput').value = '';
+  document.getElementById('newKeyLabel').value = '';
+  renderKeys();
+  toast('✓ Clé ajoutée et sauvegardée', 'success');
+};
+
+window.removeKey = async function(idx) {
+  if (!confirm(`Supprimer la clé #${idx + 1} ?`)) return;
+  currentKeys.splice(idx, 1);
+  await saveKeys();
+  renderKeys();
+  toast('Clé supprimée', 'info');
+};
+
+async function saveKeys() {
+  await setDoc(doc(db, 'server_config', 'groq_keys'), { keys: currentKeys, updatedAt: new Date().toISOString() });
+}
+
+// ══════════════════════════════════════════
+// MODÈLES
+// ══════════════════════════════════════════
+async function loadModels() {
+  try {
+    const snap = await getDoc(doc(db, 'server_config', 'models'));
+    currentModels = snap.exists() ? (snap.data().list || []) : [];
+  } catch(e) { currentModels = []; }
+  if (!currentModels.length) {
+    currentModels = ['llama-3.3-70b-versatile', 'qwen/qwen3-32b', 'meta-llama/llama-4-scout-17b-16e-instruct'];
+  }
+  renderModels();
+}
+
+function renderModels() {
+  const tbody = document.getElementById('modelsBody');
+  if (!currentModels.length) {
+    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="ei">🤖</div>Aucun modèle configuré</div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = currentModels.map((m, i) => {
+    const info = MODEL_INFO[m] || { ctx: '—', speed: '—' };
+    return `<tr>
+      <td style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">${i + 1}</td>
+      <td><span class="${i === 0 ? 'model-pill current' : 'model-pill'}">${m}</span></td>
+      <td style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">${info.ctx}</td>
+      <td style="font-size:12px">${info.speed}</td>
+      <td style="text-align:right;display:flex;gap:4px;justify-content:flex-end">
+        ${i > 0 ? `<button class="btn btn-ghost btn-sm" onclick="moveModel(${i},-1)">↑</button>` : ''}
+        ${i < currentModels.length - 1 ? `<button class="btn btn-ghost btn-sm" onclick="moveModel(${i},1)">↓</button>` : ''}
+        <button class="btn btn-danger btn-sm" onclick="removeModel(${i})">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+window.addModel = async function() {
+  const val = document.getElementById('newModelInput').value.trim();
+  if (!val) { toast('Entrez un identifiant de modèle', 'warn'); return; }
+  if (currentModels.includes(val)) { toast('Ce modèle est déjà dans la liste', 'warn'); return; }
+  currentModels.push(val);
+  await saveModels();
+  document.getElementById('newModelInput').value = '';
+  renderModels();
+  toast('✓ Modèle ajouté', 'success');
+};
+
+window.removeModel = async function(idx) {
+  if (currentModels.length <= 1) { toast('Il faut au moins un modèle', 'warn'); return; }
+  currentModels.splice(idx, 1);
+  await saveModels();
+  renderModels();
+  toast('Modèle supprimé', 'info');
+};
+
+window.moveModel = async function(idx, dir) {
+  const target = idx + dir;
+  if (target < 0 || target >= currentModels.length) return;
+  [currentModels[idx], currentModels[target]] = [currentModels[target], currentModels[idx]];
+  await saveModels();
+  renderModels();
+};
+
+async function saveModels() {
+  await setDoc(doc(db, 'server_config', 'models'), { list: currentModels, updatedAt: new Date().toISOString() });
+}
+
+// ══════════════════════════════════════════
+// STATS D'UTILISATION
+// ══════════════════════════════════════════
+async function loadStats() {
+  try {
+    const snap = await getDoc(doc(db, 'server_config', 'usage_stats'));
+    if (snap.exists()) usageStats = { ...usageStats, ...snap.data() };
+  } catch(e) {}
+}
+
+function renderStats() {
+  const { total_tokens = 0, prompt_tokens = 0, completion_tokens = 0, request_count = 0, daily = {} } = usageStats;
+
+  document.getElementById('sTotalTokens').textContent = fmtNum(total_tokens);
+  document.getElementById('sPromptTokens').textContent = fmtNum(prompt_tokens);
+  document.getElementById('sCompTokens').textContent = fmtNum(completion_tokens);
+  document.getElementById('sRequests').textContent = fmtNum(request_count);
+
+  const today = todayKey();
+  const todayData = daily[today] || { tokens: 0 };
+  document.getElementById('sTodayTokens').textContent = fmtNum(todayData.tokens || 0);
+  document.getElementById('sTodayDate').textContent = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+
+  // Quota ring — Free tier: ~500K tokens/day estimated
+  const FREE_LIMIT = 500000;
+  const pct = Math.min(100, Math.round((todayData.tokens / FREE_LIMIT) * 100));
+  document.getElementById('quotaPct').textContent = pct + '%';
+  document.getElementById('quotaLabel').textContent = `${fmtNum(todayData.tokens)} / ~${fmtNum(FREE_LIMIT)} tokens/jour (Free)`;
+  const arc = document.getElementById('quotaArc');
+  const offset = 314 - (314 * pct / 100);
+  arc.style.strokeDashoffset = offset;
+  arc.style.stroke = pct > 80 ? '#f87171' : pct > 60 ? '#fb923c' : '#d4a853';
+
+  // Bars
+  const maxTok = Math.max(prompt_tokens + completion_tokens, 1);
+  document.getElementById('barPromptVal').textContent = fmtNum(prompt_tokens);
+  document.getElementById('barCompVal').textContent = fmtNum(completion_tokens);
+  document.getElementById('barPrompt').style.width = Math.round((prompt_tokens / maxTok) * 100) + '%';
+  document.getElementById('barComp').style.width = Math.round((completion_tokens / maxTok) * 100) + '%';
+
+  // Cost estimation — Llama 3.3 70B: $0.59/1M input + $0.79/1M output
+  const costEst = ((prompt_tokens / 1e6) * 0.59) + ((completion_tokens / 1e6) * 0.79);
+  document.getElementById('barCostVal').textContent = '$' + costEst.toFixed(4);
+  document.getElementById('barCost').style.width = Math.min(100, Math.round(costEst / 0.1 * 100)) + '%';
+}
+
+function renderDailyUsage() {
+  const { daily = {} } = usageStats;
+  const tbody = document.getElementById('dailyBody');
+  const days = Object.keys(daily).sort().reverse().slice(0, 7);
+
+  if (!days.length) {
+    tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state">Aucune donnée journalière</div></td></tr>`;
+    return;
+  }
+
+  const maxTok = Math.max(...days.map(d => daily[d].tokens || 0), 1);
+  tbody.innerHTML = days.map(d => {
+    const row = daily[d];
+    const tokens = row.tokens || 0;
+    const reqs = row.requests || 0;
+    const barW = Math.round((tokens / maxTok) * 120);
+    const dateStr = d.split('-').reverse().slice(0, 2).join('/');
+    return `<tr class="usage-day-row">
+      <td>${dateStr}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;color:var(--gold)">${fmtNum(tokens)}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">${reqs}</td>
+      <td><div style="height:10px;background:var(--surface3);border-radius:3px;overflow:hidden;width:120px">
+        <div style="height:100%;width:${barW}px;background:var(--gold);opacity:.7;border-radius:3px;transition:width .5s"></div>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+// Save usage after an API call (called from main app ideally, but we provide the function)
+window.recordUsage = async function(usage, modelUsed) {
+  if (!usage) return;
+  const { prompt_tokens = 0, completion_tokens = 0, total_tokens = 0 } = usage;
+  const today = todayKey();
+
+  usageStats.total_tokens = (usageStats.total_tokens || 0) + total_tokens;
+  usageStats.prompt_tokens = (usageStats.prompt_tokens || 0) + prompt_tokens;
+  usageStats.completion_tokens = (usageStats.completion_tokens || 0) + completion_tokens;
+  usageStats.request_count = (usageStats.request_count || 0) + 1;
+
+  if (!usageStats.daily) usageStats.daily = {};
+  if (!usageStats.daily[today]) usageStats.daily[today] = { tokens: 0, requests: 0 };
+  usageStats.daily[today].tokens += total_tokens;
+  usageStats.daily[today].requests += 1;
+
+  // Keep only 30 days
+  const allDays = Object.keys(usageStats.daily).sort();
+  if (allDays.length > 30) {
+    allDays.slice(0, allDays.length - 30).forEach(d => delete usageStats.daily[d]);
+  }
+
+  try {
+    await setDoc(doc(db, 'server_config', 'usage_stats'), usageStats, { merge: true });
+  } catch(e) {}
+
+  // Add to session log
+  addToLog({ model: modelUsed, tokens: total_tokens, prompt_tokens, completion_tokens, status: 'ok' });
+  renderStats();
+  renderDailyUsage();
+};
+
+window.resetStats = async function() {
+  if (!confirm('Réinitialiser toutes les statistiques de tokens ?')) return;
+  usageStats = { total_tokens: 0, prompt_tokens: 0, completion_tokens: 0, request_count: 0, daily: {}, key_usage: {} };
+  await setDoc(doc(db, 'server_config', 'usage_stats'), usageStats);
+  renderStats();
+  renderDailyUsage();
+  toast('Statistiques réinitialisées', 'info');
+};
+
+// ══════════════════════════════════════════
+// LOG
+// ══════════════════════════════════════════
+function addToLog(entry) {
+  const now = new Date();
+  const time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  sessionLog.unshift({ time, ...entry });
+  if (sessionLog.length > 100) sessionLog.pop();
+  renderLog();
+}
+
+function renderLog() {
+  const box = document.getElementById('logBox');
+  document.getElementById('logCount').textContent = sessionLog.length;
+  if (!sessionLog.length) {
+    box.innerHTML = '<div class="loading-inline" style="padding:8px"><div class="spinner"></div>En attente de requêtes…</div>';
+    return;
+  }
+  box.innerHTML = sessionLog.map(e => `
+    <div class="log-entry">
+      <span class="log-time">${e.time}</span>
+      <span class="log-model">${e.model || '—'}</span>
+      <span class="log-tokens">${fmtNum(e.tokens || 0)} tok</span>
+      <span class="log-status ${e.status === 'ok' ? 'ok' : 'err'}">${e.status === 'ok' ? '✓ OK' : '✗ ERR'}</span>
+      ${e.error ? `<span style="color:var(--red);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${e.error}</span>` : ''}
+    </div>`).join('');
+}
+
+window.clearLog = function() { sessionLog = []; renderLog(); };
+
+// ══════════════════════════════════════════
+// TEST CONNEXION
+// ══════════════════════════════════════════
+window.testAllKeys = async function() {
+  const container = document.getElementById('testResults');
+  if (!currentKeys.length) { container.innerHTML = '<div class="alert alert-warn"><span class="alert-icon">⚠</span>Aucune clé à tester.</div>'; return; }
+  container.innerHTML = '<div class="loading-inline"><div class="spinner"></div>Test en cours…</div>';
+  const results = await Promise.all(currentKeys.map((k, i) => testSingleKey(k.value, i, currentModels[0] || 'llama-3.3-70b-versatile')));
+  container.innerHTML = results.map((r, i) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:12px">
+      <span style="color:var(--muted);width:20px">${i + 1}</span>
+      <span class="key-display">${currentKeys[i].value.substring(0, 8)}…${currentKeys[i].value.slice(-4)}</span>
+      <span class="badge ${r.ok ? 'active' : 'error'}">${r.ok ? 'OK' : 'ERREUR'}</span>
+      ${r.ok ? `<span style="color:var(--gold)">${fmtNum(r.tokens)} tokens</span><span style="color:var(--muted)">${r.latency}ms</span>` : `<span style="color:var(--red);font-size:11px">${r.error}</span>`}
+    </div>`).join('');
+};
+
+window.testKey = async function(idx) {
+  if (!currentKeys[idx]) { toast('Index invalide', 'warn'); return; }
+  const container = document.getElementById('testResults');
+  container.innerHTML = '<div class="loading-inline"><div class="spinner"></div>Test clé #' + (idx+1) + '…</div>';
+  const r = await testSingleKey(currentKeys[idx].value, idx, currentModels[0] || 'llama-3.3-70b-versatile');
+  container.innerHTML = `<div style="font-family:var(--font-mono);font-size:13px;padding:12px;background:var(--surface3);border-radius:8px;border:1px solid ${r.ok ? '#4ade8033' : '#f8717133'}">
+    ${r.ok ? `<span style="color:var(--green)">✓ Clé #${idx+1} fonctionnelle</span> · <span style="color:var(--gold)">${fmtNum(r.tokens)} tokens</span> · <span style="color:var(--muted)">${r.latency}ms</span>` : `<span style="color:var(--red)">✗ Erreur clé #${idx+1} : ${r.error}</span>`}
+  </div>`;
+};
+
+async function testSingleKey(keyVal, idx, model) {
+  const start = Date.now();
+  try {
+    const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${keyVal}` },
+      body: JSON.stringify({
+        model,
+        max_tokens: 10,
+        messages: [{ role: 'user', content: 'Réponds juste "ok"' }]
+      })
     });
-    
-    // Toggle le dropdown actuel
-    if (dropdown.style.display === 'none' || !dropdown.style.display) {
-        dropdown.style.display = 'block';
-        btn.classList.add('active');
+    const data = await resp.json();
+    const latency = Date.now() - start;
+    if (resp.ok) {
+      const tokens = data.usage?.total_tokens || 0;
+      addToLog({ model, tokens, prompt_tokens: data.usage?.prompt_tokens || 0, completion_tokens: data.usage?.completion_tokens || 0, status: 'ok' });
+      return { ok: true, tokens, latency };
     } else {
-        dropdown.style.display = 'none';
-        btn.classList.remove('active');
+      const err = data.error?.message || 'HTTP ' + resp.status;
+      addToLog({ model, tokens: 0, status: 'err', error: err });
+      return { ok: false, error: err };
     }
-};
-
-// Fermer les dropdowns en cliquant ailleurs
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.filter-group')) {
-        document.querySelectorAll('.filter-dropdown').forEach(d => {
-            d.style.display = 'none';
-        });
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-    }
-});
-
-// Fonction pour réinitialiser tous les filtres
-window.resetAllFilters = function() {
-    // Réinitialiser les valeurs des filtres
-    currentFilters = {
-        category: '',
-        country: [],
-        priceMin: null,
-        priceMax: null,
-        rating: null,
-        search: ''
-    };
-    
-    // Vider les champs de prix
-    document.getElementById('priceMin').value = '';
-    document.getElementById('priceMax').value = '';
-    
-    // Décocher toutes les cases
-    document.querySelectorAll('.filter-checkbox.checked').forEach(checkbox => {
-        checkbox.classList.remove('checked');
-    });
-    
-    // Fermer tous les dropdowns
-    document.querySelectorAll('.filter-dropdown').forEach(dropdown => {
-        dropdown.style.display = 'none';
-    });
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Réinitialiser la recherche
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.value = '';
-    
-    const searchCategory = document.getElementById('searchCategory');
-    if (searchCategory) searchCategory.value = '';
-    
-    // Re-rendre les produits
-    renderProducts();
-    
-    showToast('Filtres réinitialisés', 'success');
-};
-// Fonction pour ouvrir l'image en plein écran
-window.openImageModal = function(imageSrc, altText = '') {
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    
-    if (modal && modalImg) {
-        modalImg.src = imageSrc;
-        modalImg.alt = altText;
-        modal.style.display = 'flex';
-    }
-};
-
-// Fonction pour fermer le modal
-window.closeImageModal = function() {
-    const modal = document.getElementById('imageModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-};
-
-// Fermer le modal en cliquant sur le fond
-document.addEventListener('click', (e) => {
-    if (e.target.id === 'imageModal') {
-        closeImageModal();
-    }
-});
-// Nouveau code à ajouter dans la section JavaScript
-
-// Gestion navigation mobile
-document.addEventListener('DOMContentLoaded', function() {
-    // Publier depuis navigation mobile
-    const publishNavBtn = document.getElementById('publishNavBtn');
-    if (publishNavBtn) {
-        publishNavBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!currentUser) {
-                showToast('Connectez-vous pour publier', 'error');
-                showAuthModal();
-            } else {
-                const publishModal = document.getElementById('publishModal');
-                if (publishModal) publishModal.style.display = 'flex';
-            }
-        });
-    }
-
-    // Recherche depuis navigation mobile
-    const searchNavBtn = document.getElementById('searchNavBtn');
-    if (searchNavBtn) {
-        searchNavBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const searchInput = document.getElementById('searchInput');
-            if (searchInput) {
-                searchInput.focus();
-                searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-    }
-
-    // Profil depuis navigation mobile
-    const profileNavBtn = document.getElementById('profileNavBtn');
-    if (profileNavBtn) {
-        profileNavBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!currentUser) {
-                showToast('Connectez-vous pour voir votre profil', 'error');
-                showAuthModal();
-            } else {
-                showProfile(currentUser.id);
-            }
-        });
-    }
-});
-
-// Mot de passe oublié
-const showForgotPassword = document.getElementById('showForgotPassword');
-if (showForgotPassword) {
-    showForgotPassword.addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('authModal').style.display = 'none';
-        document.getElementById('forgotPasswordModal').style.display = 'flex';
-    });
+  } catch(e) {
+    addToLog({ model, tokens: 0, status: 'err', error: e.message });
+    return { ok: false, error: e.message };
+  }
 }
 
-const backToLogin = document.getElementById('backToLogin');
-if (backToLogin) {
-    backToLogin.addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('forgotPasswordModal').style.display = 'none';
-        document.getElementById('authModal').style.display = 'flex';
-    });
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+function todayKey() {
+  return new Date().toISOString().split('T')[0];
 }
 
-const closeForgotPasswordModal = document.getElementById('closeForgotPasswordModal');
-if (closeForgotPasswordModal) {
-    closeForgotPasswordModal.addEventListener('click', () => {
-        document.getElementById('forgotPasswordModal').style.display = 'none';
-    });
+function fmtNum(n) {
+  if (!n && n !== 0) return '—';
+  n = Math.round(n);
+  if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+  return n.toLocaleString('fr-FR');
 }
 
-// Formulaire mot de passe oublié
-const forgotPasswordForm = document.getElementById('forgotPasswordForm');
-if (forgotPasswordForm) {
-    forgotPasswordForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const nom = document.getElementById('forgotNom').value.trim();
-        const prenom = document.getElementById('forgotPrenom').value.trim();
-        const countryCode = document.getElementById('forgotCountryCode').value;
-        const contact = document.getElementById('forgotContact').value.trim();
-        
-        if (!nom || !prenom || !countryCode || !contact) {
-            showToast('Veuillez remplir tous les champs', 'error');
-            return;
-        }
-        
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Envoi...';
-        
-        try {
-            // Sauvegarder la demande dans Firestore
-            await addDoc(collection(firestore, 'password_reset_requests'), {
-                nom: nom,
-                prenom: prenom,
-                contact: countryCode + contact,
-                timestamp: serverTimestamp(),
-                status: 'pending'
-            });
-            
-            document.getElementById('forgotPasswordModal').style.display = 'none';
-            forgotPasswordForm.reset();
-            
-            // Message aléatoire entre 24H et 72H
-            const hours = Math.random() < 0.5 ? '24H' : '72H';
-            showToast(`Demande envoyée ! Nous vous contacterons dans les ${hours}`, 'success');
-            
-        } catch (error) {
-            console.error('Erreur demande reset:', error);
-            showToast('Erreur lors de l\'envoi de la demande', 'error');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Envoyer la demande';
-        }
-    });
+function escapeJs(str) {
+  return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 }
 
-// Upload avatar depuis profil
-window.triggerAvatarUpload = function() {
-    if (currentUser) {
-        const profileAvatarInput = document.getElementById('profileAvatarInput');
-        if (profileAvatarInput) {
-            profileAvatarInput.click();
-        }
-    }
+window.toast = function(msg, type = 'info') {
+  const zone = document.getElementById('toastZone');
+  const colors = { success: '#4ade80', error: '#f87171', warn: '#fb923c', info: '#d4a853' };
+  const icons = { success: '✓', error: '✕', warn: '⚠', info: 'ℹ' };
+  const d = document.createElement('div');
+  d.className = 't-toast';
+  d.innerHTML = `<span style="color:${colors[type] || colors.info};font-weight:700">${icons[type] || 'ℹ'}</span><span>${msg}</span>`;
+  zone.appendChild(d);
+  setTimeout(() => { d.style.opacity = '0'; setTimeout(() => d.remove(), 400); }, 3200);
 };
 
-// Gestion actions propriétaire produit
-window.applyDiscount = async function(productId, percentage) {
-    if (!currentUser) return;
-    
-    try {
-        const productRef = ref(realtimeDb, `products/${productId}`);
-        const snapshot = await get(productRef);
-        
-        if (snapshot.exists()) {
-            const product = snapshot.val();
-            const newPrice = Math.round(product.price * (1 - percentage / 100));
-            
-            await update(productRef, {
-                originalPrice: product.originalPrice || product.price,
-                price: newPrice,
-                badge: 'deal'
-            });
-            
-            showToast(`Réduction de ${percentage}% appliquée`, 'success');
-        }
-    } catch (error) {
-        console.error('Erreur réduction:', error);
-        showToast('Erreur lors de l\'application de la réduction', 'error');
-    }
-};
-
-window.deleteProduct = async function(productId) {
-    if (!currentUser) return;
-    
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
-        try {
-            await remove(ref(realtimeDb, `products/${productId}`));
-            showToast('Produit supprimé', 'success');
-        } catch (error) {
-            console.error('Erreur suppression:', error);
-            showToast('Erreur lors de la suppression', 'error');
-        }
-    }
-};
-
-   </script>
-
+// ── Expose recordUsage globally so main app can call it ──
+window.comeoRecordUsage = window.recordUsage;
+</script>
 </body>
 </html>
-
-
