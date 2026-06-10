@@ -1,15 +1,13 @@
 {
   "version": 2,
+  "outputDirectory": "public",
   "functions": {
     "api/*.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "nodejs20.x"
     }
   },
   "rewrites": [
-    { "source": "/subscribe",   "destination": "/api/subscribe" },
-    { "source": "/unsubscribe", "destination": "/api/unsubscribe" },
-    { "source": "/subscribers", "destination": "/api/subscribers" },
-    { "source": "/send-all",    "destination": "/api/send-all" },
-    { "source": "/send-one",    "destination": "/api/send-one" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/((?!api/).*)", "destination": "/public/$1" }
   ]
 }
