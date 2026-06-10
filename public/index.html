@@ -1,1265 +1,412 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COMEO AI — Panneau Serveur</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notifications — Abonnement</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<style>
-:root {
-  --bg:        #08090d;
-  --surface:   #0f1117;
-  --surface2:  #161922;
-  --surface3:  #1e222e;
-  --border:    #252936;
-  --border2:   #2e3347;
-  --gold:      #d4a853;
-  --gold2:     #e8c07a;
-  --gold-dim:  #8a6820;
-  --ink:       #f0ece0;
-  --slate:     #b0acA0;
-  --muted:     #666070;
-  --red:       #f87171;
-  --red-dim:   #7f2020;
-  --green:     #4ade80;
-  --green-dim: #1a5c30;
-  --blue:      #60a5fa;
-  --blue-dim:  #1e3a6e;
-  --purple:    #a78bfa;
-  --orange:    #fb923c;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-body: 'DM Sans', sans-serif;
-  --radius:    10px;
-  --glow:      0 0 20px rgba(212,168,83,.12);
-}
+    :root {
+      --bg: #0b0f1a;
+      --surface: #141928;
+      --surface2: #1c2438;
+      --border: rgba(255,255,255,0.07);
+      --accent: #4f8ef7;
+      --accent2: #7c5cfc;
+      --green: #22c55e;
+      --red: #ef4444;
+      --text: #e8ecf4;
+      --muted: #6b7a99;
+      --radius: 16px;
+    }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 1.6;
-  min-height: 100vh;
-}
+    /* Ambient glow */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse, rgba(79,142,247,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* ── GRID NOISE BACKGROUND ── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 52px 48px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 32px 64px rgba(0,0,0,0.5);
+    }
 
-/* ── AUTH OVERLAY ── */
-#authGate {
-  position: fixed; inset: 0;
-  background: var(--bg);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 1000;
-}
-.auth-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 16px;
-  padding: 48px;
-  width: 420px;
-  box-shadow: 0 32px 80px rgba(0,0,0,.6), var(--glow);
-  position: relative;
-  overflow: hidden;
-}
-.auth-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold-dim));
-}
-.auth-logo {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: .18em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  opacity: .7;
-}
-.auth-title {
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--ink);
-  margin-bottom: 4px;
-}
-.auth-sub { color: var(--muted); font-size: 13px; margin-bottom: 32px; }
-.auth-field { margin-bottom: 16px; }
-.auth-field label { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-family: var(--font-mono); }
-.auth-field input {
-  width: 100%;
-  background: var(--surface3);
-  border: 1px solid var(--border2);
-  color: var(--ink);
-  padding: 10px 14px;
-  border-radius: var(--radius);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  outline: none;
-  transition: border-color .2s;
-}
-.auth-field input:focus { border-color: var(--gold); }
-.btn-auth {
-  width: 100%;
-  background: var(--gold);
-  color: #08090d;
-  border: none;
-  padding: 12px;
-  border-radius: var(--radius);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: .06em;
-  cursor: pointer;
-  transition: all .2s;
-  margin-top: 8px;
-}
-.btn-auth:hover { background: var(--gold2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(212,168,83,.3); }
-.auth-err { color: var(--red); font-size: 12px; margin-top: 10px; display: none; }
-.auth-err.show { display: block; }
+    .bell-wrap {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      box-shadow: 0 0 40px rgba(79,142,247,0.35);
+    }
 
-/* ── MAIN LAYOUT ── */
-#appShell { display: none; position: relative; z-index: 1; }
+    .bell-wrap svg { width: 38px; height: 38px; }
 
-/* ── HEADER ── */
-.header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0 28px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.header-logo {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: .16em;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-.header-sep { width: 1px; height: 20px; background: var(--border2); }
-.header-title { font-weight: 600; font-size: 15px; color: var(--ink); }
-.header-badge {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: .06em;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: var(--red-dim);
-  color: var(--red);
-  border: 1px solid #f8717133;
-}
-.header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-.header-user {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted);
-}
-.btn-logout {
-  background: var(--surface3);
-  border: 1px solid var(--border2);
-  color: var(--slate);
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all .15s;
-  font-family: var(--font-mono);
-}
-.btn-logout:hover { border-color: var(--red); color: var(--red); }
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
 
-/* ── CONTENT ── */
-.content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 28px 64px;
-  display: grid;
-  gap: 24px;
-}
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
 
-/* ── SECTION TITLES ── */
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.section-icon {
-  width: 34px; height: 34px;
-  background: var(--surface3);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-}
-.section-label { font-weight: 600; font-size: 15px; color: var(--ink); }
-.section-meta { color: var(--muted); font-size: 12px; }
+    /* Status badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 28px;
+      transition: all 0.3s;
+    }
 
-/* ── CARDS ── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,.25);
-}
-.card-head {
-  padding: 18px 22px 14px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.card-body { padding: 20px 22px; }
+    .status-badge.inactive {
+      background: rgba(107,122,153,0.15);
+      border: 1px solid rgba(107,122,153,0.2);
+      color: var(--muted);
+    }
 
-/* ── STATS GRID ── */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
-}
-.stat-box {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  position: relative;
-  overflow: hidden;
-  transition: border-color .2s;
-}
-.stat-box:hover { border-color: var(--border2); }
-.stat-box::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 2px;
-}
-.stat-box.gold::after { background: var(--gold); }
-.stat-box.blue::after { background: var(--blue); }
-.stat-box.green::after { background: var(--green); }
-.stat-box.purple::after { background: var(--purple); }
-.stat-box.orange::after { background: var(--orange); }
-.stat-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.stat-val { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--ink); }
-.stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-.stat-badge {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 3px;
-  margin-top: 6px;
-}
-.stat-badge.up { background: var(--green-dim); color: var(--green); }
-.stat-badge.down { background: var(--red-dim); color: var(--red); }
+    .status-badge.active {
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.25);
+      color: var(--green);
+    }
 
-/* ── TABLES ── */
-.srv-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-.srv-table th {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  padding: 10px 14px;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-.srv-table td {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-}
-.srv-table tr:last-child td { border-bottom: none; }
-.srv-table tr:hover td { background: var(--surface2); }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
 
-/* ── FORMS ── */
-.form-row { display: flex; gap: 10px; align-items: flex-end; margin-top: 16px; }
-.form-group { flex: 1; }
-.form-group label { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-.form-group input, .form-group select {
-  width: 100%;
-  background: var(--surface3);
-  border: 1px solid var(--border2);
-  color: var(--ink);
-  padding: 9px 12px;
-  border-radius: 8px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  outline: none;
-  transition: border-color .2s;
-}
-.form-group input:focus, .form-group select:focus { border-color: var(--gold); }
-.form-group select option { background: var(--surface3); }
+    .status-badge.active .status-dot {
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
 
-/* ── BUTTONS ── */
-.btn {
-  padding: 9px 18px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .04em;
-  transition: all .15s;
-  white-space: nowrap;
-}
-.btn-primary { background: var(--gold); color: #08090d; }
-.btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
-.btn-danger { background: var(--red-dim); color: var(--red); border: 1px solid #f8717133; }
-.btn-danger:hover { background: #9b1c1c; }
-.btn-ghost { background: var(--surface3); color: var(--slate); border: 1px solid var(--border2); }
-.btn-ghost:hover { border-color: var(--gold-dim); color: var(--ink); }
-.btn-sm { padding: 5px 11px; font-size: 11px; }
-.btn-success { background: var(--green-dim); color: var(--green); border: 1px solid #4ade8033; }
-.btn-success:hover { background: #166534; }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
 
-/* ── KEY DISPLAY ── */
-.key-display {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--gold);
-  background: var(--surface3);
-  border: 1px solid var(--border2);
-  padding: 4px 10px;
-  border-radius: 5px;
-  display: inline-block;
-  max-width: 260px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.key-masked { letter-spacing: .1em; }
+    /* Main button */
+    .btn-main {
+      width: 100%;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
 
-/* ── BADGE STATUS ── */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 3px 9px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-.badge.active { background: var(--green-dim); color: var(--green); border: 1px solid #4ade8033; }
-.badge.inactive { background: var(--surface3); color: var(--muted); border: 1px solid var(--border2); }
-.badge.error { background: var(--red-dim); color: var(--red); border: 1px solid #f8717133; }
-.badge::before { content: '●'; font-size: 8px; }
+    .btn-subscribe {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(79,142,247,0.3);
+    }
 
-/* ── MODEL PILL ── */
-.model-pill {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  background: var(--blue-dim);
-  color: var(--blue);
-  padding: 3px 9px;
-  border-radius: 4px;
-  display: inline-block;
-  border: 1px solid #60a5fa22;
-}
-.model-pill.current { background: var(--gold-dim); color: var(--gold); border-color: #d4a85322; }
+    .btn-subscribe:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(79,142,247,0.45);
+    }
 
-/* ── TOKEN CHART ── */
-.token-bars { margin-top: 16px; }
-.token-bar-row { margin-bottom: 12px; }
-.token-bar-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-.token-bar-label { font-size: 12px; color: var(--slate); }
-.token-bar-val { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
-.token-bar-track {
-  height: 6px;
-  background: var(--surface3);
-  border-radius: 3px;
-  overflow: hidden;
-}
-.token-bar-fill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width .6s ease;
-}
+    .btn-unsubscribe {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: var(--red);
+    }
 
-/* ── DAILY USAGE TABLE ── */
-.usage-day-row td:first-child { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
-.usage-sparkbar {
-  display: inline-block;
-  height: 12px;
-  border-radius: 2px;
-  min-width: 3px;
-  background: var(--gold);
-  opacity: .7;
-  vertical-align: middle;
-  margin-left: 6px;
-  transition: width .4s;
-}
+    .btn-unsubscribe:hover:not(:disabled) {
+      background: rgba(239,68,68,0.18);
+      transform: translateY(-2px);
+    }
 
-/* ── LOG STREAM ── */
-.log-box {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px 16px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  max-height: 240px;
-  overflow-y: auto;
-  color: var(--slate);
-}
-.log-entry { padding: 3px 0; border-bottom: 1px solid var(--border); display: flex; gap: 10px; }
-.log-entry:last-child { border-bottom: none; }
-.log-time { color: var(--muted); min-width: 52px; }
-.log-model { color: var(--blue); min-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.log-tokens { color: var(--gold); min-width: 60px; text-align: right; }
-.log-status.ok { color: var(--green); }
-.log-status.err { color: var(--red); }
+    .btn-main:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
-/* ── QUOTA RING ── */
-.quota-ring-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 0 8px;
-}
-.quota-svg { transform: rotate(-90deg); }
-.quota-ring-val {
-  font-family: var(--font-mono);
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--ink);
-  text-align: center;
-  margin-top: -4px;
-}
-.quota-ring-sub { font-size: 11px; color: var(--muted); text-align: center; }
+    /* Provider link */
+    .provider-link {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
 
-/* ── SEPARATOR ── */
-.sep { height: 1px; background: var(--border); margin: 20px 0; }
+    .provider-link a {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
 
-/* ── ALERTS ── */
-.alert {
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 13px;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.alert-warn { background: #78350f22; border: 1px solid #d9770633; color: #fed7aa; }
-.alert-info { background: var(--blue-dim); border: 1px solid #60a5fa33; color: var(--blue); }
-.alert-icon { font-size: 15px; margin-top: 1px; }
+    .provider-link a:hover { color: var(--accent); }
 
-/* ── TOAST ── */
-#toastZone {
-  position: fixed;
-  bottom: 28px; right: 28px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.t-toast {
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  padding: 10px 18px;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 260px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.4);
-  animation: slideIn .2s ease;
-  transition: opacity .4s;
-}
-@keyframes slideIn { from { transform: translateX(30px); opacity: 0; } }
+    /* Log box */
+    .log {
+      margin-top: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 0.82rem;
+      color: var(--muted);
+      max-height: 140px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      display: none;
+    }
 
-/* ── LOADER ── */
-.spinner {
-  width: 18px; height: 18px;
-  border: 2px solid var(--border2);
-  border-top-color: var(--gold);
-  border-radius: 50%;
-  animation: spin .8s linear infinite;
-  display: inline-block;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+    .log.show { display: block; }
+    .log .entry { padding: 2px 0; }
+    .log .entry.ok { color: var(--green); }
+    .log .entry.err { color: var(--red); }
+    .log .entry.info { color: var(--accent); }
 
-.loading-inline { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; padding: 20px; }
+    /* Loader spinner */
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
 
-/* ── EMPTY ── */
-.empty-state {
-  text-align: center;
-  padding: 32px;
-  color: var(--muted);
-  font-size: 13px;
-}
-.empty-state .ei { font-size: 28px; margin-bottom: 8px; }
-
-/* ── SCROLL ── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
-/* ── KEY REVEAL TOGGLE ── */
-.key-toggle { cursor: pointer; color: var(--muted); font-size: 11px; margin-left: 6px; opacity: .5; transition: opacity .15s; }
-.key-toggle:hover { opacity: 1; }
-
-/* ── GRID 2 COLS ── */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } .header { padding: 0 16px; } .content { padding: 20px 16px; } }
-
-/* ── Blink cursor ── */
-.cursor { animation: blink 1s step-end infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-</style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════ AUTH GATE -->
-<div id="authGate">
-  <div class="auth-card">
-    <div class="auth-logo">COMEO AI · SYSCOHADA Pro</div>
-    <div class="auth-title">Panneau d'Administration</div>
-    <div class="auth-sub">Accès restreint — Administrateur serveur</div>
-    <div class="auth-field">
-      <label>Mot de passe administrateur</label>
-      <input type="password" id="adminPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')authAdmin()">
-    </div>
-    <button class="btn-auth" onclick="authAdmin()">Accéder au panneau ↗</button>
-    <div class="auth-err" id="authErr">Mot de passe incorrect</div>
+<div class="card">
+  <div class="bell-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+    </svg>
+  </div>
+
+  <h1>Notifications Push</h1>
+  <p class="subtitle">Activez les notifications pour recevoir des alertes instantanées du fournisseur, même lorsque la page est fermée.</p>
+
+  <div class="status-badge inactive" id="statusBadge">
+    <span class="status-dot"></span>
+    <span id="statusText">Non abonné</span>
+  </div>
+
+  <button class="btn-main btn-subscribe" id="btnSubscribe" onclick="subscribe()">
+    <div class="spinner" id="spinner"></div>
+    <svg id="btnIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      <line x1="12" y1="2" x2="12" y2="2" stroke-width="3"/>
+    </svg>
+    <span id="btnLabel">Activer les notifications</span>
+  </button>
+
+  <div class="log" id="logBox"></div>
+
+  <div class="provider-link">
+    <a href="provider.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+      </svg>
+      Accès Fournisseur
+    </a>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════ MAIN APP -->
-<div id="appShell">
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js"></script>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-logo">COMEO AI</div>
-    <div class="header-sep"></div>
-    <div class="header-title">Panneau Serveur</div>
-    <span class="header-badge">ADMIN</span>
-    <div class="header-right">
-      <div class="header-user" id="headerTime">—</div>
-      <button class="btn-logout" onclick="logout()">Déconnexion</button>
-    </div>
-  </header>
+<script>
+  const VAPID_KEY = 'BFGUPMoD5d_87zESUIX5mMfr2e0DSTpspjhtsaSBr05LTsqoneKG2n1RQxrU8VkbalTORzL62UgnvdWVV8UDrNQ';
+  const SERVER = '';  // same origin
 
-  <!-- CONTENT -->
-  <div class="content">
+  firebase.initializeApp({
+    apiKey: "AIzaSyBZKSBcBeE_ddlqrmNAru_YZRS4tAwRRvk",
+    authDomain: "database-5583e.firebaseapp.com",
+    databaseURL: "https://database-5583e-default-rtdb.firebaseio.com",
+    projectId: "database-5583e",
+    storageBucket: "database-5583e.firebasestorage.app",
+    messagingSenderId: "299502845257",
+    appId: "1:299502845257:web:c77c7f9ebc743abb63ee98",
+    measurementId: "G-YK85043ZPR"
+  });
 
-    <!-- ── STATS ROW ── -->
-    <div class="stats-grid" id="statsGrid">
-      <div class="stat-box gold">
-        <div class="stat-label">Total Tokens</div>
-        <div class="stat-val" id="sTotalTokens">—</div>
-        <div class="stat-sub">Depuis le début</div>
-      </div>
-      <div class="stat-box blue">
-        <div class="stat-label">Tokens Prompts</div>
-        <div class="stat-val" id="sPromptTokens">—</div>
-        <div class="stat-sub">Entrées envoyées</div>
-      </div>
-      <div class="stat-box green">
-        <div class="stat-label">Tokens Générés</div>
-        <div class="stat-val" id="sCompTokens">—</div>
-        <div class="stat-sub">Sorties reçues</div>
-      </div>
-      <div class="stat-box purple">
-        <div class="stat-label">Nb Requêtes</div>
-        <div class="stat-val" id="sRequests">—</div>
-        <div class="stat-sub">Appels API total</div>
-      </div>
-      <div class="stat-box orange">
-        <div class="stat-label">Aujourd'hui</div>
-        <div class="stat-val" id="sTodayTokens">—</div>
-        <div class="stat-sub" id="sTodayDate">tokens</div>
-      </div>
-    </div>
+  const messaging = firebase.messaging();
+  let currentToken = localStorage.getItem('fcm_token');
 
-    <!-- ── ROW 1 : Clés + Quota Ring ── -->
-    <div class="grid-2">
-
-      <!-- CLÉS API GROQ -->
-      <div class="card">
-        <div class="card-head">
-          <div class="section-icon">🔑</div>
-          <div>
-            <div class="section-label">COMEO AI DEV</div>
-            <div class="section-meta">Rotation automatique entre les clés actives</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <table class="srv-table" id="keysTable">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Clé API</th>
-                <th>Statut</th>
-                <th>Tokens utilisés</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="keysBody">
-              <tr><td colspan="5"><div class="loading-inline"><div class="spinner"></div>Chargement…</div></td></tr>
-            </tbody>
-          </table>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Nouvelle clé API Groq</label>
-              <input type="password" id="newKeyInput" placeholder="gsk_…" autocomplete="off">
-            </div>
-            <div class="form-group" style="max-width:160px">
-              <label>Label (optionnel)</label>
-              <input type="text" id="newKeyLabel" placeholder="ex: Prod-1">
-            </div>
-            <button class="btn btn-primary" onclick="addKey()">+ Ajouter</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- QUOTA ESTIMATION -->
-      <div class="card">
-        <div class="card-head">
-          <div class="section-icon">📊</div>
-          <div>
-            <div class="section-label">Quota & Estimation</div>
-            <div class="section-meta">Suivi de consommation Groq (Free Tier)</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="quota-ring-wrap">
-            <svg class="quota-svg" width="120" height="120" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="50" fill="none" stroke="#1e222e" stroke-width="10"/>
-              <circle id="quotaArc" cx="60" cy="60" r="50" fill="none" stroke="#d4a853" stroke-width="10"
-                stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"
-                style="transition:stroke-dashoffset .8s ease"/>
-            </svg>
-            <div class="quota-ring-val" id="quotaPct">0%</div>
-            <div class="quota-ring-sub" id="quotaLabel">Calcul en cours…</div>
-          </div>
-          <div class="sep"></div>
-          <div class="token-bars" id="tokenBars">
-            <div class="token-bar-row">
-              <div class="token-bar-info">
-                <span class="token-bar-label">Prompts (input)</span>
-                <span class="token-bar-val" id="barPromptVal">—</span>
-              </div>
-              <div class="token-bar-track"><div class="token-bar-fill" id="barPrompt" style="width:0%;background:var(--blue)"></div></div>
-            </div>
-            <div class="token-bar-row">
-              <div class="token-bar-info">
-                <span class="token-bar-label">Génération (output)</span>
-                <span class="token-bar-val" id="barCompVal">—</span>
-              </div>
-              <div class="token-bar-track"><div class="token-bar-fill" id="barComp" style="width:0%;background:var(--green)"></div></div>
-            </div>
-            <div class="token-bar-row">
-              <div class="token-bar-info">
-                <span class="token-bar-label">Estimation coût ($/1M tok)</span>
-                <span class="token-bar-val" id="barCostVal">—</span>
-              </div>
-              <div class="token-bar-track"><div class="token-bar-fill" id="barCost" style="width:0%;background:var(--gold)"></div></div>
-            </div>
-          </div>
-          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn btn-ghost btn-sm" onclick="resetStats()">🗑 Réinitialiser les stats</button>
-            <button class="btn btn-ghost btn-sm" onclick="loadAllData()">↺ Actualiser</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── ROW 2 : Modèles + Log ── -->
-    <div class="grid-2">
-
-      <!-- MODÈLES -->
-      <div class="card">
-        <div class="card-head">
-          <div class="section-icon">🤖</div>
-          <div>
-            <div class="section-label">Modèles </div>
-            <div class="section-meta">Ordre de rotation prioritaire</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="alert alert-info">
-            <span class="alert-icon">ℹ</span>
-            <span>Le modèle en <strong>position 1</strong> est utilisé en priorité. En cas d'échec, les suivants prennent le relais automatiquement.</span>
-          </div>
-
-          <table class="srv-table" id="modelsTable">
-            <thead>
-              <tr><th>#</th><th>Modèle</th><th>Tokens max</th><th>Vitesse</th><th></th></tr>
-            </thead>
-            <tbody id="modelsBody">
-              <tr><td colspan="5"><div class="loading-inline"><div class="spinner"></div>Chargement…</div></td></tr>
-            </tbody>
-          </table>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>ID du modèle Groq</label>
-              <input type="text" id="newModelInput" placeholder="ex: llama-3.3-70b-versatile">
-            </div>
-            <button class="btn btn-primary" onclick="addModel()">+ Ajouter</button>
-          </div>
-
-          <div class="sep"></div>
-          <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);line-height:1.8">
-            Modèles recommandés :<br>
-            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">llama-3.3-70b-versatile</span>
-            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">qwen/qwen3-32b</span>
-            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">meta-llama/llama-4-scout-17b-16e-instruct</span>
-            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">llama-3.1-8b-instant</span>
-            <span class="model-pill" style="margin:2px;cursor:pointer" onclick="document.getElementById('newModelInput').value=this.textContent.trim()">gemma2-9b-it</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- LOG DES APPELS ── -->
-      <div class="card">
-        <div class="card-head">
-          <div class="section-icon">📡</div>
-          <div>
-            <div class="section-label">Journal des requêtes</div>
-            <div class="section-meta">Derniers appels API (session courante)</div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <span style="font-size:12px;color:var(--muted)">Temps réel · <span id="logCount">0</span> entrée(s)</span>
-            <button class="btn btn-ghost btn-sm" onclick="clearLog()">Vider</button>
-          </div>
-          <div class="log-box" id="logBox">
-            <div class="loading-inline" style="padding:8px"><div class="spinner"></div>En attente de requêtes…</div>
-          </div>
-
-          <div class="sep"></div>
-
-          <!-- Utilisation par jour -->
-          <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-bottom:10px;letter-spacing:.06em">TOKENS PAR JOUR (7 derniers jours)</div>
-          <table class="srv-table" id="dailyTable">
-            <thead><tr><th>Date</th><th>Tokens</th><th>Requêtes</th><th>Répartition</th></tr></thead>
-            <tbody id="dailyBody">
-              <tr><td colspan="4"><div class="loading-inline"><div class="spinner"></div></div></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── TEST DE CONNEXION ── -->
-    <div class="card">
-      <div class="card-head">
-        <div class="section-icon">🧪</div>
-        <div>
-          <div class="section-label">Test de connexion API</div>
-          <div class="section-meta">Vérifier que les clés et modèles fonctionnent</div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <button class="btn btn-success" onclick="testAllKeys()">▶ Tester toutes les clés</button>
-          <div class="form-group" style="max-width:280px">
-            <label>Tester une clé spécifique (index)</label>
-            <div style="display:flex;gap:8px">
-              <input type="number" id="testKeyIdx" placeholder="0" min="0" style="width:80px">
-              <button class="btn btn-ghost" onclick="testKey(parseInt(document.getElementById('testKeyIdx').value)||0)">Tester</button>
-            </div>
-          </div>
-        </div>
-        <div id="testResults" style="margin-top:14px"></div>
-      </div>
-    </div>
-
-  </div><!-- /content -->
-</div><!-- /appShell -->
-
-<div id="toastZone"></div>
-
-<!-- Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, deleteDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCPGgtXoDUycykLaTSee0S0yY0tkeJpqKI",
-  authDomain: "data-com-a94a8.firebaseapp.com",
-  projectId: "data-com-a94a8",
-  storageBucket: "data-com-a94a8.appspot.com",
-  messagingSenderId: "276904640935",
-  appId: "1:276904640935:web:9cd805aeba6c34c767f682"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// ── Admin password (stored in Firestore or fallback) ──
-const ADMIN_PASS_FALLBACK = 'comeo2024';
-
-// ── Log en mémoire ──
-let sessionLog = [];
-let currentKeys = [];
-let currentModels = [];
-let usageStats = { total_tokens: 0, prompt_tokens: 0, completion_tokens: 0, request_count: 0, daily: {} };
-
-// ── Groq model info ──
-const MODEL_INFO = {
-  'llama-3.3-70b-versatile':                    { ctx: '128K', speed: '🚀 Rapide' },
-  'qwen/qwen3-32b':                             { ctx: '128K', speed: '⚡ Moyen' },
-  'meta-llama/llama-4-scout-17b-16e-instruct':  { ctx: '512K', speed: '🚀 Rapide' },
-  'llama-3.1-8b-instant':                       { ctx: '128K', speed: '⚡⚡ Très rapide' },
-  'gemma2-9b-it':                               { ctx: '8K',   speed: '⚡⚡ Très rapide' },
-  'llama-3.2-90b-vision-preview':               { ctx: '128K', speed: '🐢 Lent' },
-};
-
-// ══════════════════════════════════════════
-// AUTH
-// ══════════════════════════════════════════
-window.authAdmin = async function() {
-  const pass = document.getElementById('adminPass').value;
-  const err = document.getElementById('authErr');
-  err.classList.remove('show');
-  try {
-    const snap = await getDoc(doc(db, 'server_config', 'admin'));
-    const storedPass = snap.exists() ? (snap.data().password || ADMIN_PASS_FALLBACK) : ADMIN_PASS_FALLBACK;
-    if (pass !== storedPass) { err.classList.add('show'); return; }
-  } catch(e) {
-    if (pass !== ADMIN_PASS_FALLBACK) { err.classList.add('show'); return; }
-  }
-  sessionStorage.setItem('srv_auth', '1');
-  document.getElementById('authGate').style.display = 'none';
-  document.getElementById('appShell').style.display = 'block';
-  startClock();
-  await loadAllData();
-};
-
-window.logout = function() {
-  sessionStorage.removeItem('srv_auth');
-  location.reload();
-};
-
-// Check existing session
-if (sessionStorage.getItem('srv_auth') === '1') {
-  document.getElementById('authGate').style.display = 'none';
-  document.getElementById('appShell').style.display = 'block';
-  startClock();
-  loadAllData();
-}
-
-function startClock() {
-  const update = () => {
-    const now = new Date();
-    document.getElementById('headerTime').textContent =
-      now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  };
-  update();
-  setInterval(update, 1000);
-}
-
-// ══════════════════════════════════════════
-// LOAD ALL
-// ══════════════════════════════════════════
-window.loadAllData = async function() {
-  await Promise.all([loadKeys(), loadModels(), loadStats()]);
-  renderStats();
-  renderDailyUsage();
-};
-
-// ══════════════════════════════════════════
-// CLÉS API
-// ══════════════════════════════════════════
-async function loadKeys() {
-  try {
-    const snap = await getDoc(doc(db, 'server_config', 'groq_keys'));
-    currentKeys = snap.exists() ? (snap.data().keys || []) : [];
-  } catch(e) { currentKeys = []; }
-  renderKeys();
-}
-
-function renderKeys() {
-  const tbody = document.getElementById('keysBody');
-  if (!currentKeys.length) {
-    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="ei">🔑</div>Aucune clé API configurée</div></td></tr>`;
-    return;
-  }
-  const keyUsage = usageStats.key_usage || {};
-  tbody.innerHTML = currentKeys.map((k, i) => {
-    const masked = k.value ? (k.value.substring(0, 8) + '…' + k.value.slice(-4)) : '—';
-    const tokens = keyUsage[i] ? fmtNum(keyUsage[i]) : '—';
-    return `<tr>
-      <td style="font-family:var(--font-mono);color:var(--muted);width:30px">${i + 1}</td>
-      <td>
-        <span class="key-display key-masked" id="key-disp-${i}">${masked}</span>
-        <span class="key-toggle" onclick="toggleKeyVisibility(${i},'${escapeJs(k.value)}')">👁</span>
-        ${k.label ? `<span style="font-size:11px;color:var(--muted);margin-left:8px">${k.label}</span>` : ''}
-      </td>
-      <td><span class="badge active">Active</span></td>
-      <td style="font-family:var(--font-mono);font-size:12px;color:var(--gold)">${tokens}</td>
-      <td style="text-align:right">
-        <button class="btn btn-danger btn-sm" onclick="removeKey(${i})">✕ Supprimer</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-window.toggleKeyVisibility = function(idx, value) {
-  const el = document.getElementById(`key-disp-${idx}`);
-  if (!el) return;
-  el.classList.toggle('key-masked');
-  el.textContent = el.classList.contains('key-masked')
-    ? (value.substring(0, 8) + '…' + value.slice(-4))
-    : value;
-};
-
-window.addKey = async function() {
-  const val = document.getElementById('newKeyInput').value.trim();
-  const label = document.getElementById('newKeyLabel').value.trim();
-  if (!val) { toast('Entrez une clé API', 'warn'); return; }
-  if (!val.startsWith('gsk_')) { toast('La clé doit commencer par gsk_', 'warn'); return; }
-  currentKeys.push({ value: val, label: label || 'Clé ' + (currentKeys.length + 1), addedAt: new Date().toISOString() });
-  await saveKeys();
-  document.getElementById('newKeyInput').value = '';
-  document.getElementById('newKeyLabel').value = '';
-  renderKeys();
-  toast('✓ Clé ajoutée et sauvegardée', 'success');
-};
-
-window.removeKey = async function(idx) {
-  if (!confirm(`Supprimer la clé #${idx + 1} ?`)) return;
-  currentKeys.splice(idx, 1);
-  await saveKeys();
-  renderKeys();
-  toast('Clé supprimée', 'info');
-};
-
-async function saveKeys() {
-  await setDoc(doc(db, 'server_config', 'groq_keys'), { keys: currentKeys, updatedAt: new Date().toISOString() });
-}
-
-// ══════════════════════════════════════════
-// MODÈLES
-// ══════════════════════════════════════════
-async function loadModels() {
-  try {
-    const snap = await getDoc(doc(db, 'server_config', 'models'));
-    currentModels = snap.exists() ? (snap.data().list || []) : [];
-  } catch(e) { currentModels = []; }
-  if (!currentModels.length) {
-    currentModels = ['llama-3.3-70b-versatile', 'qwen/qwen3-32b', 'meta-llama/llama-4-scout-17b-16e-instruct'];
-  }
-  renderModels();
-}
-
-function renderModels() {
-  const tbody = document.getElementById('modelsBody');
-  if (!currentModels.length) {
-    tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="ei">🤖</div>Aucun modèle configuré</div></td></tr>`;
-    return;
-  }
-  tbody.innerHTML = currentModels.map((m, i) => {
-    const info = MODEL_INFO[m] || { ctx: '—', speed: '—' };
-    return `<tr>
-      <td style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">${i + 1}</td>
-      <td><span class="${i === 0 ? 'model-pill current' : 'model-pill'}">${m}</span></td>
-      <td style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">${info.ctx}</td>
-      <td style="font-size:12px">${info.speed}</td>
-      <td style="text-align:right;display:flex;gap:4px;justify-content:flex-end">
-        ${i > 0 ? `<button class="btn btn-ghost btn-sm" onclick="moveModel(${i},-1)">↑</button>` : ''}
-        ${i < currentModels.length - 1 ? `<button class="btn btn-ghost btn-sm" onclick="moveModel(${i},1)">↓</button>` : ''}
-        <button class="btn btn-danger btn-sm" onclick="removeModel(${i})">✕</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-window.addModel = async function() {
-  const val = document.getElementById('newModelInput').value.trim();
-  if (!val) { toast('Entrez un identifiant de modèle', 'warn'); return; }
-  if (currentModels.includes(val)) { toast('Ce modèle est déjà dans la liste', 'warn'); return; }
-  currentModels.push(val);
-  await saveModels();
-  document.getElementById('newModelInput').value = '';
-  renderModels();
-  toast('✓ Modèle ajouté', 'success');
-};
-
-window.removeModel = async function(idx) {
-  if (currentModels.length <= 1) { toast('Il faut au moins un modèle', 'warn'); return; }
-  currentModels.splice(idx, 1);
-  await saveModels();
-  renderModels();
-  toast('Modèle supprimé', 'info');
-};
-
-window.moveModel = async function(idx, dir) {
-  const target = idx + dir;
-  if (target < 0 || target >= currentModels.length) return;
-  [currentModels[idx], currentModels[target]] = [currentModels[target], currentModels[idx]];
-  await saveModels();
-  renderModels();
-};
-
-async function saveModels() {
-  await setDoc(doc(db, 'server_config', 'models'), { list: currentModels, updatedAt: new Date().toISOString() });
-}
-
-// ══════════════════════════════════════════
-// STATS D'UTILISATION
-// ══════════════════════════════════════════
-async function loadStats() {
-  try {
-    const snap = await getDoc(doc(db, 'server_config', 'usage_stats'));
-    if (snap.exists()) usageStats = { ...usageStats, ...snap.data() };
-  } catch(e) {}
-}
-
-function renderStats() {
-  const { total_tokens = 0, prompt_tokens = 0, completion_tokens = 0, request_count = 0, daily = {} } = usageStats;
-
-  document.getElementById('sTotalTokens').textContent = fmtNum(total_tokens);
-  document.getElementById('sPromptTokens').textContent = fmtNum(prompt_tokens);
-  document.getElementById('sCompTokens').textContent = fmtNum(completion_tokens);
-  document.getElementById('sRequests').textContent = fmtNum(request_count);
-
-  const today = todayKey();
-  const todayData = daily[today] || { tokens: 0 };
-  document.getElementById('sTodayTokens').textContent = fmtNum(todayData.tokens || 0);
-  document.getElementById('sTodayDate').textContent = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
-
-  // Quota ring — Free tier: ~500K tokens/day estimated
-  const FREE_LIMIT = 500000;
-  const pct = Math.min(100, Math.round((todayData.tokens / FREE_LIMIT) * 100));
-  document.getElementById('quotaPct').textContent = pct + '%';
-  document.getElementById('quotaLabel').textContent = `${fmtNum(todayData.tokens)} / ~${fmtNum(FREE_LIMIT)} tokens/jour (Free)`;
-  const arc = document.getElementById('quotaArc');
-  const offset = 314 - (314 * pct / 100);
-  arc.style.strokeDashoffset = offset;
-  arc.style.stroke = pct > 80 ? '#f87171' : pct > 60 ? '#fb923c' : '#d4a853';
-
-  // Bars
-  const maxTok = Math.max(prompt_tokens + completion_tokens, 1);
-  document.getElementById('barPromptVal').textContent = fmtNum(prompt_tokens);
-  document.getElementById('barCompVal').textContent = fmtNum(completion_tokens);
-  document.getElementById('barPrompt').style.width = Math.round((prompt_tokens / maxTok) * 100) + '%';
-  document.getElementById('barComp').style.width = Math.round((completion_tokens / maxTok) * 100) + '%';
-
-  // Cost estimation — Llama 3.3 70B: $0.59/1M input + $0.79/1M output
-  const costEst = ((prompt_tokens / 1e6) * 0.59) + ((completion_tokens / 1e6) * 0.79);
-  document.getElementById('barCostVal').textContent = '$' + costEst.toFixed(4);
-  document.getElementById('barCost').style.width = Math.min(100, Math.round(costEst / 0.1 * 100)) + '%';
-}
-
-function renderDailyUsage() {
-  const { daily = {} } = usageStats;
-  const tbody = document.getElementById('dailyBody');
-  const days = Object.keys(daily).sort().reverse().slice(0, 7);
-
-  if (!days.length) {
-    tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state">Aucune donnée journalière</div></td></tr>`;
-    return;
+  // ── UI helpers ──────────────────────────────────────────────
+  function log(msg, type = 'info') {
+    const box = document.getElementById('logBox');
+    box.classList.add('show');
+    const el = document.createElement('div');
+    el.className = `entry ${type}`;
+    el.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    box.appendChild(el);
+    box.scrollTop = box.scrollHeight;
   }
 
-  const maxTok = Math.max(...days.map(d => daily[d].tokens || 0), 1);
-  tbody.innerHTML = days.map(d => {
-    const row = daily[d];
-    const tokens = row.tokens || 0;
-    const reqs = row.requests || 0;
-    const barW = Math.round((tokens / maxTok) * 120);
-    const dateStr = d.split('-').reverse().slice(0, 2).join('/');
-    return `<tr class="usage-day-row">
-      <td>${dateStr}</td>
-      <td style="font-family:var(--font-mono);font-size:12px;color:var(--gold)">${fmtNum(tokens)}</td>
-      <td style="font-family:var(--font-mono);font-size:12px;color:var(--muted)">${reqs}</td>
-      <td><div style="height:10px;background:var(--surface3);border-radius:3px;overflow:hidden;width:120px">
-        <div style="height:100%;width:${barW}px;background:var(--gold);opacity:.7;border-radius:3px;transition:width .5s"></div>
-      </div></td>
-    </tr>`;
-  }).join('');
-}
-
-// Save usage after an API call (called from main app ideally, but we provide the function)
-window.recordUsage = async function(usage, modelUsed) {
-  if (!usage) return;
-  const { prompt_tokens = 0, completion_tokens = 0, total_tokens = 0 } = usage;
-  const today = todayKey();
-
-  usageStats.total_tokens = (usageStats.total_tokens || 0) + total_tokens;
-  usageStats.prompt_tokens = (usageStats.prompt_tokens || 0) + prompt_tokens;
-  usageStats.completion_tokens = (usageStats.completion_tokens || 0) + completion_tokens;
-  usageStats.request_count = (usageStats.request_count || 0) + 1;
-
-  if (!usageStats.daily) usageStats.daily = {};
-  if (!usageStats.daily[today]) usageStats.daily[today] = { tokens: 0, requests: 0 };
-  usageStats.daily[today].tokens += total_tokens;
-  usageStats.daily[today].requests += 1;
-
-  // Keep only 30 days
-  const allDays = Object.keys(usageStats.daily).sort();
-  if (allDays.length > 30) {
-    allDays.slice(0, allDays.length - 30).forEach(d => delete usageStats.daily[d]);
+  function setLoading(on) {
+    document.getElementById('spinner').style.display = on ? 'block' : 'none';
+    document.getElementById('btnIcon').style.display = on ? 'none' : 'block';
+    document.getElementById('btnSubscribe').disabled = on;
   }
 
-  try {
-    await setDoc(doc(db, 'server_config', 'usage_stats'), usageStats, { merge: true });
-  } catch(e) {}
+  function setSubscribed(subscribed) {
+    const badge = document.getElementById('statusBadge');
+    const statusText = document.getElementById('statusText');
+    const btn = document.getElementById('btnSubscribe');
+    const btnLabel = document.getElementById('btnLabel');
+    const btnIcon = document.getElementById('btnIcon');
 
-  // Add to session log
-  addToLog({ model: modelUsed, tokens: total_tokens, prompt_tokens, completion_tokens, status: 'ok' });
-  renderStats();
-  renderDailyUsage();
-};
-
-window.resetStats = async function() {
-  if (!confirm('Réinitialiser toutes les statistiques de tokens ?')) return;
-  usageStats = { total_tokens: 0, prompt_tokens: 0, completion_tokens: 0, request_count: 0, daily: {}, key_usage: {} };
-  await setDoc(doc(db, 'server_config', 'usage_stats'), usageStats);
-  renderStats();
-  renderDailyUsage();
-  toast('Statistiques réinitialisées', 'info');
-};
-
-// ══════════════════════════════════════════
-// LOG
-// ══════════════════════════════════════════
-function addToLog(entry) {
-  const now = new Date();
-  const time = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  sessionLog.unshift({ time, ...entry });
-  if (sessionLog.length > 100) sessionLog.pop();
-  renderLog();
-}
-
-function renderLog() {
-  const box = document.getElementById('logBox');
-  document.getElementById('logCount').textContent = sessionLog.length;
-  if (!sessionLog.length) {
-    box.innerHTML = '<div class="loading-inline" style="padding:8px"><div class="spinner"></div>En attente de requêtes…</div>';
-    return;
-  }
-  box.innerHTML = sessionLog.map(e => `
-    <div class="log-entry">
-      <span class="log-time">${e.time}</span>
-      <span class="log-model">${e.model || '—'}</span>
-      <span class="log-tokens">${fmtNum(e.tokens || 0)} tok</span>
-      <span class="log-status ${e.status === 'ok' ? 'ok' : 'err'}">${e.status === 'ok' ? '✓ OK' : '✗ ERR'}</span>
-      ${e.error ? `<span style="color:var(--red);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${e.error}</span>` : ''}
-    </div>`).join('');
-}
-
-window.clearLog = function() { sessionLog = []; renderLog(); };
-
-// ══════════════════════════════════════════
-// TEST CONNEXION
-// ══════════════════════════════════════════
-window.testAllKeys = async function() {
-  const container = document.getElementById('testResults');
-  if (!currentKeys.length) { container.innerHTML = '<div class="alert alert-warn"><span class="alert-icon">⚠</span>Aucune clé à tester.</div>'; return; }
-  container.innerHTML = '<div class="loading-inline"><div class="spinner"></div>Test en cours…</div>';
-  const results = await Promise.all(currentKeys.map((k, i) => testSingleKey(k.value, i, currentModels[0] || 'llama-3.3-70b-versatile')));
-  container.innerHTML = results.map((r, i) => `
-    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:12px">
-      <span style="color:var(--muted);width:20px">${i + 1}</span>
-      <span class="key-display">${currentKeys[i].value.substring(0, 8)}…${currentKeys[i].value.slice(-4)}</span>
-      <span class="badge ${r.ok ? 'active' : 'error'}">${r.ok ? 'OK' : 'ERREUR'}</span>
-      ${r.ok ? `<span style="color:var(--gold)">${fmtNum(r.tokens)} tokens</span><span style="color:var(--muted)">${r.latency}ms</span>` : `<span style="color:var(--red);font-size:11px">${r.error}</span>`}
-    </div>`).join('');
-};
-
-window.testKey = async function(idx) {
-  if (!currentKeys[idx]) { toast('Index invalide', 'warn'); return; }
-  const container = document.getElementById('testResults');
-  container.innerHTML = '<div class="loading-inline"><div class="spinner"></div>Test clé #' + (idx+1) + '…</div>';
-  const r = await testSingleKey(currentKeys[idx].value, idx, currentModels[0] || 'llama-3.3-70b-versatile');
-  container.innerHTML = `<div style="font-family:var(--font-mono);font-size:13px;padding:12px;background:var(--surface3);border-radius:8px;border:1px solid ${r.ok ? '#4ade8033' : '#f8717133'}">
-    ${r.ok ? `<span style="color:var(--green)">✓ Clé #${idx+1} fonctionnelle</span> · <span style="color:var(--gold)">${fmtNum(r.tokens)} tokens</span> · <span style="color:var(--muted)">${r.latency}ms</span>` : `<span style="color:var(--red)">✗ Erreur clé #${idx+1} : ${r.error}</span>`}
-  </div>`;
-};
-
-async function testSingleKey(keyVal, idx, model) {
-  const start = Date.now();
-  try {
-    const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${keyVal}` },
-      body: JSON.stringify({
-        model,
-        max_tokens: 10,
-        messages: [{ role: 'user', content: 'Réponds juste "ok"' }]
-      })
-    });
-    const data = await resp.json();
-    const latency = Date.now() - start;
-    if (resp.ok) {
-      const tokens = data.usage?.total_tokens || 0;
-      addToLog({ model, tokens, prompt_tokens: data.usage?.prompt_tokens || 0, completion_tokens: data.usage?.completion_tokens || 0, status: 'ok' });
-      return { ok: true, tokens, latency };
+    if (subscribed) {
+      badge.className = 'status-badge active';
+      statusText.textContent = 'Abonné · Actif';
+      btn.className = 'btn-main btn-unsubscribe';
+      btn.onclick = unsubscribe;
+      btnLabel.textContent = 'Désactiver les notifications';
+      btnIcon.innerHTML = `<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><line x1="4" y1="4" x2="20" y2="20"/>`;
     } else {
-      const err = data.error?.message || 'HTTP ' + resp.status;
-      addToLog({ model, tokens: 0, status: 'err', error: err });
-      return { ok: false, error: err };
+      badge.className = 'status-badge inactive';
+      statusText.textContent = 'Non abonné';
+      btn.className = 'btn-main btn-subscribe';
+      btn.onclick = subscribe;
+      btnLabel.textContent = 'Activer les notifications';
+      btnIcon.innerHTML = `<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>`;
     }
-  } catch(e) {
-    addToLog({ model, tokens: 0, status: 'err', error: e.message });
-    return { ok: false, error: e.message };
   }
-}
 
-// ══════════════════════════════════════════
-// UTILS
-// ══════════════════════════════════════════
-function todayKey() {
-  return new Date().toISOString().split('T')[0];
-}
+  // ── Subscribe ───────────────────────────────────────────────
+  async function subscribe() {
+    setLoading(true);
+    try {
+      // Register service worker
+      const reg = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      log('Service worker enregistré', 'info');
 
-function fmtNum(n) {
-  if (!n && n !== 0) return '—';
-  n = Math.round(n);
-  if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
-  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
-  return n.toLocaleString('fr-FR');
-}
+      // Request permission
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') {
+        log('Permission refusée par l\'utilisateur', 'err');
+        return;
+      }
+      log('Permission accordée ✓', 'ok');
 
-function escapeJs(str) {
-  return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-}
+      // Get FCM token
+      const token = await messaging.getToken({ vapidKey: VAPID_KEY, serviceWorkerRegistration: reg });
+      if (!token) throw new Error('Impossible d\'obtenir le token FCM');
 
-window.toast = function(msg, type = 'info') {
-  const zone = document.getElementById('toastZone');
-  const colors = { success: '#4ade80', error: '#f87171', warn: '#fb923c', info: '#d4a853' };
-  const icons = { success: '✓', error: '✕', warn: '⚠', info: 'ℹ' };
-  const d = document.createElement('div');
-  d.className = 't-toast';
-  d.innerHTML = `<span style="color:${colors[type] || colors.info};font-weight:700">${icons[type] || 'ℹ'}</span><span>${msg}</span>`;
-  zone.appendChild(d);
-  setTimeout(() => { d.style.opacity = '0'; setTimeout(() => d.remove(), 400); }, 3200);
-};
+      log('Token FCM obtenu', 'ok');
+      currentToken = token;
+      localStorage.setItem('fcm_token', token);
 
-// ── Expose recordUsage globally so main app can call it ──
-window.comeoRecordUsage = window.recordUsage;
+      // Register on server
+      const res = await fetch(`${SERVER}/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, label: `Navigateur ${navigator.platform}` }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error('Erreur serveur');
+
+      log(`Abonné avec succès — ${data.count} abonné(s) total`, 'ok');
+      setSubscribed(true);
+
+    } catch (err) {
+      log(`Erreur : ${err.message}`, 'err');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // ── Unsubscribe ─────────────────────────────────────────────
+  async function unsubscribe() {
+    if (!currentToken) return;
+    setLoading(true);
+    try {
+      await messaging.deleteToken();
+      await fetch(`${SERVER}/unsubscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: currentToken }),
+      });
+      localStorage.removeItem('fcm_token');
+      currentToken = null;
+      log('Désabonnement effectué', 'ok');
+      setSubscribed(false);
+    } catch (err) {
+      log(`Erreur désabonnement : ${err.message}`, 'err');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // ── Foreground messages ─────────────────────────────────────
+  messaging.onMessage((payload) => {
+    const { title, body } = payload.notification || {};
+    log(`📨 Message reçu : "${title}" — ${body}`, 'ok');
+    if (Notification.permission === 'granted') {
+      new Notification(title, { body, icon: '/icon.png' });
+    }
+  });
+
+  // ── Init ────────────────────────────────────────────────────
+  if (currentToken && Notification.permission === 'granted') {
+    setSubscribed(true);
+  }
 </script>
+
 </body>
 </html>
